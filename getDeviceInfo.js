@@ -1,10 +1,6 @@
 var DeviceInfo = (function () {
     var MethodLibrary = (function () { // 方法库
         return {
-            /**
-             * @function 监测DOM树是否加载完毕.
-             * @param fn
-             */
             getOS: function () { //获取当前操作系统
                 var os;
                 if (navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Linux') > -1) {
