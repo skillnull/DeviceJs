@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://www.skillnull.com"><img src="https://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
+    <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="License"></a>
+</p>
+
 > #### JS获取设备信息
 
  - deviceType: 设备类型
@@ -23,8 +28,3 @@
  ```
 
  > 注：domain是生成浏览器指纹所需的，不传默认使用window.location.host; info为想要获取的信息，不传默认显示全部信息。
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/l/vue.svg" alt="License"></a>
-    <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="License"></a>
-</p>
