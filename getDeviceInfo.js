@@ -40,7 +40,7 @@ var DeviceInfo = (function () {
             getDeviceType: function () { //获取设备类型
                 var deviceType;
                 var sUserAgent = navigator.userAgent.toLowerCase();
-                var bIsIpad = sUserAgent.match(/(ipad)/i) == "ipad";
+                var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
                 var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
                 var bIsMidp = sUserAgent.match(/midp/i) == "midp";
                 var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
