@@ -63,61 +63,59 @@ var DeviceInfo = (function () {
             getNetWork: function () { // 获取网络状态
                 var netWork;
                 switch (navigator.connection.effectiveType) {
-                    case 'wifi':
-                        netWork = "wifi"; // wifi
-                        break;
-                    case '4g':
-                        netWork = "4G"; // 4g
-                        break;
-                    case '2g':
-                        netWork = "2G"; // 2g
-                        break;
-                    case  '3g':
-                        netWork = "3G"; // 3g
-                        break;
                     case  'ethernet':
-                        netWork = "以太网"; // ethernet
-                        break;
+                        netWork = "以太网" // ethernet
+                        break
+                    case 'wifi':
+                        netWork = "wifi" // wifi
+                        break
+                    case '4g':
+                        netWork = "4G" // 4g
+                        break
+                    case  '3g':
+                        netWork = "3G" // 3g
+                        break
+                    case '2g':
+                        netWork = "2G" // 2g
+                        break
                     case  'default':
-                        netWork = "未知"; // 未知
-                        break;
+                        netWork = "未知" // 未知
+                        break
                 }
-                return netWork;
+                return netWork
             },
             createFingerprint: function (domain) { // 生成浏览器指纹
-                var fingerprint;
-
-                function bin2hex(s) {
-                    var i, l, n, o = '';
-                    s += '';
+                var fingerprint
+                function bin2hex (s) {
+                    var i, l, n, o = ''
+                    s += ''
                     for (i = 0, l = s.length; i < l; i++) {
                         n = s.charCodeAt(i)
-                            .toString(16);
-                        o += n.length < 2 ? '0' + n : n;
+                            .toString(16)
+                        o += n.length < 2 ? '0' + n : n
                     }
-                    return o;
+                    return o
                 }
-
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var txt = domain || window.location.host;
-                ctx.textBaseline = "top";
-                ctx.font = "14px 'Arial'";
-                ctx.textBaseline = "tencent";
-                ctx.fillStyle = "#f60";
-                ctx.fillRect(125, 1, 62, 20);
-                ctx.fillStyle = "#069";
-                ctx.fillText(txt, 2, 15);
-                ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
-                ctx.fillText(txt, 4, 17);
-                var b64 = canvas.toDataURL().replace("data:image/png;base64,", "");
-                var bin = atob(b64);
-                var crc = bin2hex(bin.slice(-16, -12));
-                fingerprint = crc;
-                return fingerprint;
+                var canvas = document.createElement('canvas')
+                var ctx = canvas.getContext('2d')
+                var txt = domain || window.location.host
+                ctx.textBaseline = "top"
+                ctx.font = "14px 'Arial'"
+                ctx.textBaseline = "tencent"
+                ctx.fillStyle = "#f60"
+                ctx.fillRect(125, 1, 62, 20)
+                ctx.fillStyle = "#069"
+                ctx.fillText(txt, 2, 15)
+                ctx.fillStyle = "rgba(102, 204, 0, 0.7)"
+                ctx.fillText(txt, 4, 17)
+                var b64 = canvas.toDataURL().replace("data:image/png;base64,", "")
+                var bin = atob(b64)
+                var crc = bin2hex(bin.slice(-16, -12))
+                fingerprint = crc
+                return fingerprint
             }
         }
-    })();
+    })()
     var LogicLibrary = (function () { // 逻辑层
         return {
             DeviceInfoObj: function (params) {
@@ -135,25 +133,25 @@ var DeviceInfo = (function () {
                     orientation: MethodLibrary.getOrientationStatu() // 横竖屏
                 }
                 if (!params.info || params.info.length == 0) {
-                    return info;
+                    return info
                 } else {
-                    var infoTemp = {};
+                    var infoTemp = {}
                     for (var i in info) {
                         params.info.forEach(function (item) {
                             if (item.toLowerCase() == i.toLowerCase()) {
-                                item = i;
-                                infoTemp[item] = info[item];
+                                item = i
+                                infoTemp[item] = info[item]
                             }
                         })
                     }
-                    return infoTemp;
+                    return infoTemp
                 }
             }
         }
-    })();
+    })()
     return {
         getDeviceInfo: function (params) {
-            return LogicLibrary.DeviceInfoObj(params);
+            return LogicLibrary.DeviceInfoObj(params)
         }
     }
-})();
+})()
