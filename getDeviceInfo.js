@@ -28,14 +28,19 @@ var DeviceInfo = (function () {
                 return OSVision;
             },
             getOrientationStatu: function () { //获取横竖屏状态
-                var orientationStatu;
-                if (window.screen.orientation.angle == 180 || window.screen.orientation.angle == 0) { // 竖屏
-                    orientationStatu = "竖屏";
+                var orientationStatu = ''
+                window.orientation
+                var angle = ''
+                if (window.screen && screen.orientation && typeof screen.orientation.angle === "number") {
+                    angle = screen.orientation.angle
                 }
-                if (window.screen.orientation.angle == 90 || window.screen.orientation.angle == -90) { // 横屏
-                    orientationStatu = "横屏";
+                if (angle == 180 || angle == 0) { // 竖屏
+                    orientationStatu = "竖屏"
                 }
-                return orientationStatu;
+                if (angle == 90 || angle == -90) { // 横屏
+                    orientationStatu = "横屏"
+                }
+                return orientationStatu
             },
             getDeviceType: function () { //获取设备类型
                 var deviceType;
@@ -62,7 +67,7 @@ var DeviceInfo = (function () {
             },
             getNetWork: function () { // 获取网络状态
                 var netWork;
-                switch (navigator.connection.effectiveType) {
+                switch (navigator && navigator.connection && navigator.connection.effectiveType) {
                     case  'ethernet':
                         netWork = "以太网" // ethernet
                         break
