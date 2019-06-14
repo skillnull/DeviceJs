@@ -38,6 +38,7 @@ let proxy = new Proxy({}, {
         return Reflect.get(target, key)
     },
     set: (target, key, value, receiver) => {
+        value = value.replace(/\s+/g, "") // 去除空格
         var result = Reflect.set(target, key, value, receiver)
         if (result) {
             let infoResult = DeviceInfo.getDeviceInfo({
