@@ -8,14 +8,14 @@
  - deviceType: 设备类型
  - OS: 操作系统
  - OSVersion: 操作系统版本
- - userAgent: 包含以下属性中所有或一部分的字符串：appCodeName,appName,appVersion,language,platform
- - appVersion: 浏览器的版本号
  - screenHeight: 屏幕高
  - screenWidth: 屏幕宽
  - language: 当前使用的语言-国家
  - netWork: 联网类型
- - fingerprint: 浏览器指纹
  - orientation: 横竖屏
+ - browserInfo: 浏览器信息
+ - fingerprint: 浏览器指纹
+ - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
 
  > #### 调用方式：
  ```
