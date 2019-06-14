@@ -28,19 +28,14 @@ var DeviceInfo = (function () {
                 return OSVision;
             },
             getOrientationStatu: function () { //获取横竖屏状态
-                var orientationStatu = ''
-                window.orientation
-                var angle = ''
-                if (window.screen && screen.orientation && typeof screen.orientation.angle === "number") {
-                    angle = screen.orientation.angle
+                var orientationStatus = ''
+                var orientation = window.matchMedia("(orientation: portrait)")
+                if (orientation.matches) {
+                    orientationStatus = "竖屏"
+                } else {
+                    orientationStatus = "横屏"
                 }
-                if (angle == 180 || angle == 0) { // 竖屏
-                    orientationStatu = "竖屏"
-                }
-                if (angle == 90 || angle == -90) { // 横屏
-                    orientationStatu = "横屏"
-                }
-                return orientationStatu
+                return orientationStatus
             },
             getDeviceType: function () { //获取设备类型
                 var deviceType;
