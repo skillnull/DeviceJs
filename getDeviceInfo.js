@@ -60,28 +60,8 @@ var DeviceInfo = (function () {
                 }
                 return deviceType;
             },
-            getNetWork: function () { // 获取网络状态
-                var netWork;
-                switch (navigator && navigator.connection && navigator.connection.effectiveType) {
-                    case  'ethernet':
-                        netWork = "以太网" // ethernet
-                        break
-                    case 'wifi':
-                        netWork = "wifi" // wifi
-                        break
-                    case '4g':
-                        netWork = "4G" // 4g
-                        break
-                    case  '3g':
-                        netWork = "3G" // 3g
-                        break
-                    case '2g':
-                        netWork = "2G" // 2g
-                        break
-                    case  'default':
-                        netWork = "未知" // 未知
-                        break
-                }
+            getNetwork: function () { // 获取网络状态
+                var netWork = navigator && navigator.connection && navigator.connection.effectiveType
                 return netWork
             },
             createFingerprint: function (domain) { // 生成浏览器指纹
@@ -128,7 +108,7 @@ var DeviceInfo = (function () {
                     screenHeight: window.screen.height, // 屏幕高
                     screenWidth: window.screen.width, // 屏幕宽
                     language: navigator.language, // 当前使用的语言-国家
-                    netWork: MethodLibrary.getNetWork(), // 联网类型
+                    netWork: MethodLibrary.getNetwork(), // 联网类型
                     fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
                     orientation: MethodLibrary.getOrientationStatu() // 横竖屏
                 }
