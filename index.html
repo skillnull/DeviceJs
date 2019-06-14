@@ -5,74 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Get Device Info Online</title>
-    <style>
-        html, body {
-            font-weight: 300;
-            margin: 0;
-            padding: 0;
-        }
-
-        .title {
-            text-align: center;
-            font-size: 16px;
-            background: #3b8dbb;
-            color: white;
-            margin: 0;
-            padding: 1rem;
-        }
-
-        .keyTipBox {
-            margin: 5px;
-            word-break: break-all;
-        }
-
-        .getInfoBox {
-            display: flex;
-            flex: 1;
-            justify-content: flex-start;
-            align-items: center;
-            margin: 25px;
-        }
-
-        .getInfoBox textarea {
-            display: flex;
-            flex: 4;
-            height: 35px;
-            outline: none;
-            border-radius: 3px;
-            padding: 5px;
-        }
-
-        .getInfoBox button {
-            margin: 0 10px;
-            width: 60px;
-            text-align: center;
-            justify-content: center;
-            align-items: center;
-            height: 45px;
-            border-radius: 3px;
-            outline: none;
-            border: 1px solid #3c8dbc;
-            font-size: 14px;
-            cursor: pointer;
-            background-color: #3c8dbc;
-            color: #fff;
-            font-weight: 300;
-        }
-
-        .getInfoBox button:hover {
-            background-color: #387ca8;
-        }
-
-        #info_box {
-            word-break: break-all;
-        }
-
-        textarea::placeholder {
-            padding: 8px;
-            font-weight: 300;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css?201906142036">
 </head>
 <body>
 <div class="title">输入以下想要获取信息的key，多个key用逗号相隔, 为空则显示全部</div>
@@ -81,14 +14,14 @@
         <li>deviceType // 设备类型</li>
         <li>OS // 操作系统</li>
         <li>OSVersion // 操作系统版本</li>
-        <li>userAgent // 包含以下属性中所有或一部分的字符串：appCodeName,appName,appVersion,language,platform</li>
-        <li>appVersion // 浏览器的版本号</li>
         <li>screenHeight // 屏幕高</li>
         <li>screenWidth // 屏幕宽</li>
         <li>language // 当前使用的语言-国家</li>
         <li>netWork // 联网类型</li>
-        <li>fingerprint // 浏览器指纹</li>
         <li>orientation // 横竖屏</li>
+        <li>browserInfo // 浏览器信息</li>
+        <li>fingerprint // 浏览器指纹</li>
+        <li>userAgent // 包含 appCodeName,appName,appVersion,language,platform 等</li>
     </ul>
 </div>
 <div class="getInfoBox">
@@ -98,7 +31,7 @@
 <div id="info_box"></div>
 
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="getDeviceInfo.js" type="text/javascript"></script>
+<script src="getDeviceInfo.js?201906142049" type="text/javascript"></script>
 <script type="text/babel">
 let proxy = new Proxy({}, {
     get: (target, key, receiver) => {
@@ -127,11 +60,9 @@ let proxy = new Proxy({}, {
         return result
     }
 })
-
 let getInfo = () => {
     proxy.value = document.querySelector('#info_input').value
 }
-
 </script>
 </body>
 </html>
