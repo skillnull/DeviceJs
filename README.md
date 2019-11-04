@@ -15,6 +15,7 @@
  - orientation: 横竖屏
  - browserInfo: 浏览器信息
  - fingerprint: 浏览器指纹
+ - groPosition: 地理位置
  - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
 
  > #### 调用方式：
