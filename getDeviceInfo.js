@@ -197,8 +197,7 @@ var DeviceInfo = (function () {
                     var i, l, n, o = ''
                     s += ''
                     for (i = 0, l = s.length; i < l; i++) {
-                        n = s.charCodeAt(i)
-                            .toString(16)
+                        n = s.charCodeAt(i).toString(16)
                         o += n.length < 2 ? '0' + n : n
                     }
                     return o
@@ -221,7 +220,7 @@ var DeviceInfo = (function () {
                 fingerprint = crc
                 return fingerprint
             },
-            // 浏览器信息
+            // 浏览器信息`
             getBrowserInfo: function () {
                 var _this = this
                 MethodLibrary.matchInfoMap(_this)
@@ -446,13 +445,26 @@ var DeviceInfo = (function () {
                 }
 
                 return _this.browser + '（版本: ' + _this.browserVersion + '&nbsp;&nbsp;内核: ' + _this.engine + '）'
+            },
+            // 获取地理位置
+            getGeoPostion: function (callback) {
+                navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition(
+                    // 位置获取成功
+                    function (position) {
+                        callback(position)
+                    },
+                    // 位置获取失败
+                    function (error) {
+                        console.log(error)
+                    }
+                )
             }
         }
     })()
     // 逻辑层
     var LogicLibrary = (function () {
         return {
-            DeviceInfoObj: function (params) {
+            DeviceInfoObj: function (params, callback) {
                 var info = {
                     deviceType: MethodLibrary.getDeviceType(), // 设备类型
                     OS: MethodLibrary.getOS(), // 操作系统
@@ -464,29 +476,44 @@ var DeviceInfo = (function () {
                     orientation: MethodLibrary.getOrientationStatu(), // 横竖屏
                     browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
                     fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
-                    userAgent: VariableLibrary.navigator.userAgent // 包含 appCodeName,appName,appVersion,language,platform 等
+                    userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
+                    geoPosition: true
                 }
-                if (!params.info || params.info.length == 0) {
-                    return info
+
+                var resultInfo = {}
+                if (!params.info || params.info.length === 0) {
+                    resultInfo = info
                 } else {
                     var infoTemp = {}
                     for (var i in info) {
                         params.info.forEach(function (item) {
-                            if (item.toLowerCase() == i.toLowerCase()) {
+                            if (item.toLowerCase() === i.toLowerCase()) {
                                 item = i
                                 infoTemp[item] = info[item]
                             }
                         })
                     }
-                    return infoTemp
+                    resultInfo = infoTemp
                 }
+
+                if (resultInfo.geoPosition) {
+                    MethodLibrary.getGeoPostion(function (position) { // 获取地理位置
+                        resultInfo.geoPosition = '经度:' + position.coords.longitude + '  纬度:' + position.coords.latitude
+                        callback(resultInfo)
+                    })
+                } else {
+                    callback(resultInfo)
+                }
+
             }
         }
     })()
     // 对外暴露方法
     return {
-        getDeviceInfo: function (params) {
-            return LogicLibrary.DeviceInfoObj(params)
+        getDeviceInfo: function (params, callback) {
+            LogicLibrary.DeviceInfoObj(params, function (data) {
+                callback(data)
+            })
         }
     }
 })()

@@ -22,6 +22,7 @@
         <li>browserInfo // 浏览器信息</li>
         <li>fingerprint // 浏览器指纹</li>
         <li>userAgent // 包含 appCodeName,appName,appVersion,language,platform 等</li>
+        <li>geoPosition // 地理位置</li>
     </ul>
 </div>
 <div class="getInfoBox">
@@ -31,7 +32,7 @@
 <div id="info_box"></div>
 
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="getDeviceInfo.js?201906142049" type="text/javascript"></script>
+<script src="getDeviceInfo.js?201911041136" type="text/javascript"></script>
 <script type="text/babel">
 let proxy = new Proxy({}, {
     get: (target, key, receiver) => {
@@ -41,20 +42,21 @@ let proxy = new Proxy({}, {
         value = value.replace(/\s+/g, "") // 去除空格
         var result = Reflect.set(target, key, value, receiver)
         if (result) {
-            let infoResult = DeviceInfo.getDeviceInfo({
+            DeviceInfo.getDeviceInfo({
                 domain: 'http://www.skillnull.com',
                 info: value && value.split(',')
+            }, (infoResult) => {
+                let infoHtml = []
+                for (let i in infoResult) {
+                    infoHtml.push(
+                        '<li>' +
+                        '   <span>' + i + '</span>' +
+                        '   <span style="margin:0 1px;">:</span>' +
+                        '   <span style="color: red;">' + infoResult[i] + '</span>' +
+                        '</li>')
+                }
+                document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>'
             })
-            let infoHtml = []
-            for (let i in infoResult) {
-                infoHtml.push(
-                    '<li>' +
-                    '   <span>' + i + '</span>' +
-                    '   <span style="margin:0 1px;">:</span>' +
-                    '   <span style="color: red;">' + infoResult[i] + '</span>' +
-                    '</li>')
-            }
-            document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>'
         } else {
             throw new ReferenceError('something error')
         }
