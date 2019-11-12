@@ -15,6 +15,17 @@ var DeviceInfo = (function () {
     // 方法库
     var MethodLibrary = (function () {
         return {
+            // 获取当前系统时间
+            getDate: function () {
+                var date = new Date()
+                var year = date.getFullYear()
+                var month = date.getMonth()
+                var day = date.getDay()
+                var hour = date.getHours()
+                var minutes = date.getMinutes()
+                var seconds = date.getSeconds()
+                return `${year}/${month}/${day} ${hour}:${minutes}:${seconds}`
+            },
             // 获取匹配库
             getMatchMap: function (u) {
                 return {
@@ -220,7 +231,7 @@ var DeviceInfo = (function () {
                 fingerprint = crc
                 return fingerprint
             },
-            // 浏览器信息`
+            // 浏览器信息
             getBrowserInfo: function () {
                 var _this = this
                 MethodLibrary.matchInfoMap(_this)
@@ -477,7 +488,8 @@ var DeviceInfo = (function () {
                     browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
                     fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
                     userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
-                    geoPosition: true
+                    geoPosition: true, // 获取地理位置
+                    date: MethodLibrary.getDate() // 获取系统时间
                 }
 
                 var resultInfo = {}
