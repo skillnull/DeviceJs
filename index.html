@@ -24,6 +24,7 @@
         <li>userAgent // 包含 appCodeName,appName,appVersion,language,platform 等</li>
         <li>geoPosition // 地理位置</li>
         <li>date // 系统时间</li>
+        <li>UUID // 通用唯一标识 Universally Unique Identifier</li>
     </ul>
 </div>
 <div class="getInfoBox">
@@ -33,7 +34,7 @@
 <div id="info_box"></div>
 
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="getDeviceInfo.js?v=201911121131" type="text/javascript"></script>
+<script src="getDeviceInfo.js?v=201911121151" type="text/javascript"></script>
 <script type="text/babel">
 let proxy = new Proxy({}, {
     get: (target, key, receiver) => {
