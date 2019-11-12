@@ -15,6 +15,20 @@ var DeviceInfo = (function () {
     // 方法库
     var MethodLibrary = (function () {
         return {
+            // 生成UUID通用唯一标识码
+            createUUID: function () {
+                var result = []
+                var hexDigits = "0123456789abcdef"
+                for (var i = 0; i < 36; i++) {
+                    result[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+                }
+                // bits 12-15 of the time_hi_and_version field to 0010
+                result[14] = "4"
+                // bits 6-7 of the clock_seq_hi_and_reserved to 01
+                result[19] = hexDigits.substr((result[19] & 0x3) | 0x8, 1)
+                result[8] = result[13] = result[18] = result[23] = "-"
+                return result.join("")
+            },
             // 获取当前系统时间
             getDate: function () {
                 var date = new Date()
@@ -489,7 +503,8 @@ var DeviceInfo = (function () {
                     fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
                     userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
                     geoPosition: true, // 获取地理位置
-                    date: MethodLibrary.getDate() // 获取系统时间
+                    date: MethodLibrary.getDate(), // 获取系统时间
+                    UUID: MethodLibrary.createUUID() // 生成通用唯一标识
                 }
 
                 var resultInfo = {}
