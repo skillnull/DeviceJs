@@ -15,6 +15,80 @@ var DeviceInfo = (function () {
     // 方法库
     var MethodLibrary = (function () {
         return {
+            /**
+             * 创建loading
+             */
+            createLoading: function (text, showTimeCount) {
+                var count = 1
+                var timeCountStr = ''
+                if (showTimeCount) {
+                    timeCountStr =
+                        '<div id="count_box" style="padding: 5px 10px;' +
+                        '    border-radius: 50%;' +
+                        '    color: white;' +
+                        '    background-color: #28a745;' +
+                        '    font-size: 16px;' +
+                        '    font-weight: 300;' +
+                        '    width: 80px;' +
+                        '    height: 80px;' +
+                        '    display: flex;' +
+                        '    justify-content: center;' +
+                        '    flex-direction: column;' +
+                        '    align-items: center;">' +
+                        '   <div>' + count + 's</div>' +
+                        '</div>'
+                }
+                var textStr = ''
+                if (text) {
+                    textStr = '<div style="padding: 5px 10px;border-radius: 3px;color:white;background-color: #28a745;font-size: 16px;font-weight: 300;">' +
+                        text +
+                        '</div>'
+                }
+
+                var loading = document.createElement('div')
+                loading.id = 'create_loading'
+                loading.style = 'display: block;' +
+                    '    position: fixed;' +
+                    '    top: 0;' +
+                    '    left: 0;' +
+                    '    width: 100%;' +
+                    '    height: 100%;' +
+                    '    z-index: 9999999999;' +
+                    '    text-align: center;' +
+                    '    font-size: 14px;' +
+                    '    display: flex;' +
+                    '    flex: 1;' +
+                    '    justify-content: center;' +
+                    '    flex-direction: column;' +
+                    '    align-items: center;' +
+                    '    background: rgba(0, 0, 0, 0.09);'
+                loading.innerHTML =
+                    timeCountStr +
+                    '<div class="ball-pulse" style="padding: 15px;">' +
+                    '    <div></div>' +
+                    '    <div></div>' +
+                    '    <div></div>' +
+                    '</div>' +
+                    textStr
+                document.body.appendChild(loading)
+
+                if (showTimeCount) {
+                    var countBox = document.getElementById('count_box')
+                    setInterval(function () {
+                        count++
+                        if (countBox) {
+                            countBox.innerHTML = '<div>' + count + 's</div>'
+                        }
+                    }, 1000)
+                }
+            },
+            /**
+             * 删除loading
+             */
+            removeLoading: function () {
+                var loading = document.getElementById('create_loading')
+                document.body.removeChild(loading)
+            },
             // 生成UUID通用唯一标识码
             createUUID: function () {
                 var result = []
@@ -476,6 +550,7 @@ var DeviceInfo = (function () {
                 navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition(
                     // 位置获取成功
                     function (position) {
+                        MethodLibrary.removeLoading()
                         callback(position)
                     },
                     // 位置获取失败
@@ -538,6 +613,7 @@ var DeviceInfo = (function () {
     // 对外暴露方法
     return {
         getDeviceInfo: function (params, callback) {
+            MethodLibrary.createLoading()
             LogicLibrary.DeviceInfoObj(params, function (data) {
                 callback(data)
             })
