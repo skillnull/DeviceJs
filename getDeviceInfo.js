@@ -292,6 +292,7 @@ var DeviceInfo = (function () {
             // 生成浏览器指纹
             createFingerprint: function (domain) {
                 var fingerprint
+
                 function bin2hex (s) {
                     var i, l, n, o = ''
                     s += ''
@@ -301,6 +302,7 @@ var DeviceInfo = (function () {
                     }
                     return o
                 }
+
                 var canvas = document.createElement('canvas')
                 var ctx = canvas.getContext('2d')
                 var txt = domain || window.location.host
@@ -529,18 +531,25 @@ var DeviceInfo = (function () {
                         _this.browserVersion = ''
                     }
                 }
-
+                if (_this.browser == 'Chrome' && u.match(/\S+Browser/)) {
+                    _this.browser = u.match(/\S+Browser/)[0];
+                    _this.version = u.replace(/^.*Browser\/([\d.]+).*$/, '$1');
+                }
                 if (_this.browser == 'Edge') {
-                    _this.engine = 'EdgeHTML'
+                    if (_this.version > "75") {
+                        _this.engine = 'Blink'
+                    } else {
+                        _this.engine = 'EdgeHTML'
+                    }
                 }
                 if (_this.browser == 'Chrome' && parseInt(_this.browserVersion) > 27) {
                     _this.engine = 'Blink'
-                }
-                if (_this.browser == 'Opera' && parseInt(_this.browserVersion) > 12) {
-                    _this.engine = 'Blink'
-                }
-                if (_this.browser == 'Yandex') {
-                    _this.engine = 'Blink'
+                } else if (match['Chrome'] && _this.engine == 'WebKit' && parseInt(version['Chrome']()) > 27) {
+                    _this.engine = 'Blink';
+                } else if (_this.browser == 'Opera' && parseInt(_this.version) > 12) {
+                    _this.engine = 'Blink';
+                } else if (_this.browser == 'Yandex') {
+                    _this.engine = 'Blink';
                 }
 
                 return _this.browser + '（版本: ' + _this.browserVersion + '&nbsp;&nbsp;内核: ' + _this.engine + '）'
