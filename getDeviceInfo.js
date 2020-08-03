@@ -7,7 +7,7 @@ var DeviceInfo = (function () {
         // 信息map
         infoMap: {
             engine: ['WebKit', 'Trident', 'Gecko', 'Presto'],
-            browser: ['Safari', 'Chrome', 'Edge', 'IE', 'Firefox', 'Firefox Focus', 'Chromium', 'Opera', 'Vivaldi', 'Yandex', 'Arora', 'Lunascape', 'QupZilla', 'Coc Coc', 'Kindle', 'Iceweasel', 'Konqueror', 'Iceape', 'SeaMonkey', 'Epiphany', '360', '360SE', '360EE', 'UC', 'QQBrowser', 'QQ', 'Baidu', 'Maxthon', 'Sogou', 'LBBROWSER', '2345Explorer', 'TheWorld', 'XiaoMi', 'Quark', 'Qiyu', 'Wechat', 'Taobao', 'Alipay', 'Weibo', 'Douban', 'Suning', 'iQiYi'],
+            browser: ['Safari', 'Chrome', 'Edge', 'IE', 'Firefox', 'Firefox Focus', 'Chromium', 'Opera', 'Vivaldi', 'Yandex', 'Arora', 'Lunascape', 'QupZilla', 'Coc Coc', 'Kindle', 'Iceweasel', 'Konqueror', 'Iceape', 'SeaMonkey', 'Epiphany', '360', '360SE', '360EE', 'UC', 'QQBrowser', 'QQ', 'Baidu', 'Maxthon', 'Sogou', 'LBBROWSER', '2345Explorer', 'TheWorld', 'XiaoMi', 'Quark', 'Qiyu', 'Wechat', , 'WechatWork', 'Taobao', 'Alipay', 'Weibo', 'Douban', 'Suning', 'iQiYi'],
             os: ['Windows', 'Linux', 'Mac OS', 'Android', 'Ubuntu', 'FreeBSD', 'Debian', 'iOS', 'Windows Phone', 'BlackBerry', 'MeeGo', 'Symbian', 'Chrome OS', 'WebOS'],
             device: ['Mobile', 'Tablet', 'iPad']
         }
@@ -159,6 +159,7 @@ var DeviceInfo = (function () {
                     'Quark': u.indexOf('Quark') > -1,
                     'Qiyu': u.indexOf('Qiyu') > -1,
                     'Wechat': u.indexOf('MicroMessenger') > -1,
+                    'WechatWork': u.indexOf('wxwork/') > -1,
                     'Taobao': u.indexOf('AliApp(TB') > -1,
                     'Alipay': u.indexOf('AliApp(AP') > -1,
                     'Weibo': u.indexOf('Weibo') > -1,
@@ -504,6 +505,9 @@ var DeviceInfo = (function () {
                     },
                     'Wechat': function () {
                         return u.replace(/^.*MicroMessenger\/([\d.]+).*$/, '$1')
+                    },
+                    'WechatWork': function () {
+                        return u.replace(/^.*wxwork\/([\d.]+).*$/, '$1');
                     },
                     'Taobao': function () {
                         return u.replace(/^.*AliApp\(TB\/([\d.]+).*$/, '$1')
