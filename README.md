@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.skillnull.com"><img src="https://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
+  <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
 </p>
 
 > #### JS获取设备信息
@@ -30,5 +30,5 @@
  ```
  > 注：domain是生成浏览器指纹所需的，不传默认使用window.location.host; info为想要获取的信息，不传默认显示全部信息。
  
- > #### 在线地址:[https://skillnull.com/others/GetDeviceInfo/index.html](https://skillnull.com/others/GetDeviceInfo/index.html)
+ > #### 在线地址:[http://skillnull.com/others/GetDeviceInfo/index.html](http://skillnull.com/others/GetDeviceInfo/index.html)
 
