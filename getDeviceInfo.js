@@ -567,12 +567,17 @@ var DeviceInfo = (function () {
         navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition(
           // 位置获取成功
           function (position) {
-            MethodLibrary.removeLoading()
             callback(position)
           },
           // 位置获取失败
           function (error) {
             console.log(error)
+            callback({
+              coords: {
+                longitude: '获取失败',
+                latitude: '获取失败'
+              }
+            })
           }
         )
       }
@@ -632,6 +637,7 @@ var DeviceInfo = (function () {
     getDeviceInfo: function (params, callback) {
       MethodLibrary.createLoading()
       LogicLibrary.DeviceInfoObj(params, function (data) {
+        MethodLibrary.removeLoading()
         callback(data)
       })
     }
