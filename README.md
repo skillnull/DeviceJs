@@ -15,7 +15,7 @@
  - browserInfo: 浏览器信息
  - fingerprint: 浏览器指纹
  - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
- - groPosition: 地理位置
+ - geoPosition: 地理位置
  - date: 系统时间
  - UUID: 通用唯一标识 Universally Unique Identifier
 
