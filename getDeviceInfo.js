@@ -342,6 +342,7 @@ var DeviceInfo = (function () {
         var match = MethodLibrary.getMatchMap(u)
 
         var is360 = false
+
         if (_window.chrome) {
           var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
           if (chrome_version > 36 && _window.showModalDialog) {
@@ -350,12 +351,15 @@ var DeviceInfo = (function () {
             is360 = _mime("type", "application/vnd.chromium.remoting-viewer")
           }
         }
+
         if (match['Baidu'] && match['Opera']) {
           match['Baidu'] = false
         }
+
         if (match['Mobile']) {
           match['Mobile'] = !(u.indexOf('iPad') > -1)
         }
+
         if (is360) {
           if (_mime("type", "application/gameplugin")) {
             match['360SE'] = true
@@ -365,6 +369,7 @@ var DeviceInfo = (function () {
             match['360EE'] = true
           }
         }
+
         if (match['IE'] || match['Edge']) {
           var navigator_top = window.screenTop - window.screenY
           switch (navigator_top) {
@@ -532,17 +537,21 @@ var DeviceInfo = (function () {
             return u.replace(/^.*IqiyiVersion\/([\d.]+).*$/, '$1')
           }
         }
+
         _this.browserVersion = ''
+
         if (browerVersionMap[_this.browser]) {
           _this.browserVersion = browerVersionMap[_this.browser]()
           if (_this.browserVersion == u) {
             _this.browserVersion = ''
           }
         }
+
         if (_this.browser == 'Chrome' && u.match(/\S+Browser/)) {
           _this.browser = u.match(/\S+Browser/)[0];
           _this.version = u.replace(/^.*Browser\/([\d.]+).*$/, '$1');
         }
+
         if (_this.browser == 'Edge') {
           if (_this.version > "75") {
             _this.engine = 'Blink'
@@ -550,9 +559,10 @@ var DeviceInfo = (function () {
             _this.engine = 'EdgeHTML'
           }
         }
+
         if (_this.browser == 'Chrome' && parseInt(_this.browserVersion) > 27) {
           _this.engine = 'Blink'
-        } else if (match['Chrome'] && _this.engine == 'WebKit' && parseInt(version['Chrome']()) > 27) {
+        } else if (match['Chrome'] && _this.engine == 'WebKit' && parseInt(browerVersionMap['Chrome']()) > 27) {
           _this.engine = 'Blink';
         } else if (_this.browser == 'Opera' && parseInt(_this.version) > 12) {
           _this.engine = 'Blink';
