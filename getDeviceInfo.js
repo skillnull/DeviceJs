@@ -216,7 +216,7 @@ var DeviceInfo = (function () {
           'Windows': function () {
             var v = u.replace(/^.*Windows NT ([\d.]+);.*$/, '$1')
             var oldWindowsVersionMap = {
-              '10': '10 or 11',
+              '10': '10 || 11',
               '6.3': '8.1',
               '6.2': '8',
               '6.1': '7',
