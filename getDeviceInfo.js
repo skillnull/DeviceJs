@@ -216,14 +216,18 @@ var DeviceInfo = (function () {
           'Windows': function () {
             var v = u.replace(/^.*Windows NT ([\d.]+);.*$/, '$1')
             var oldWindowsVersionMap = {
-              '6.4': '10',
+              '10': '10 or 11',
               '6.3': '8.1',
               '6.2': '8',
               '6.1': '7',
               '6.0': 'Vista',
-              '5.2': 'XP',
+              '5.2': 'XP 64-Bit',
               '5.1': 'XP',
-              '5.0': '2000'
+              '5.0': '2000',
+              '4.0': 'NT 4.0',
+              '3.5.1': 'NT 3.5.1',
+              '3.5': 'NT 3.5',
+              '3.1': 'NT 3.1',
             }
             return oldWindowsVersionMap[v] || v
           },
@@ -461,12 +465,12 @@ var DeviceInfo = (function () {
             return u.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
           },
           '360SE': function () {
-            var hash = {'63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3'}
+            var hash = { '63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3' }
             var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           '360EE': function () {
-            var hash = {'69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5'};
+            var hash = { '69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5' };
             var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
@@ -493,7 +497,7 @@ var DeviceInfo = (function () {
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-            var hash = {'57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0'};
+            var hash = { '57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0' };
             var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
