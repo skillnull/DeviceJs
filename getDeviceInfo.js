@@ -166,6 +166,9 @@ var DeviceInfo = (function () {
           'Douban': u.indexOf('com.douban.frodo') > -1,
           'Suning': u.indexOf('SNEBUY-APP') > -1,
           'iQiYi': u.indexOf('IqiyiApp') > -1,
+          'DingTalk': u.indexOf('DingTalk') > -1,
+          'Vivo': u.indexOf('VivoBrowser') > -1,
+          'Huawei': u.indexOf('HuaweiBrowser') > -1 || u.indexOf('HUAWEI/') > -1 || u.indexOf('HONOR') > -1 || u.indexOf('HBPC/') > -1,
           // 系统或平台
           'Windows': u.indexOf('Windows') > -1,
           'Linux': u.indexOf('Linux') > -1 || u.indexOf('X11') > -1,
@@ -492,6 +495,15 @@ var DeviceInfo = (function () {
           'Sogou': function () {
             return u.replace(/^.*SE ([\d.X]+).*$/, '$1').replace(/^.*SogouMobileBrowser\/([\d.]+).*$/, '$1')
           },
+          'Liebao': function () {
+            var version = ''
+            if (u.indexOf('LieBaoFast') > -1) {
+              version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
+            }
+            var hash = { '57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0' };
+            var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
+            return version || hash[chrome_version] || '';
+          },
           'LBBROWSER': function () {
             var version = ''
             if (u.indexOf('LieBaoFast') > -1) {
@@ -504,11 +516,17 @@ var DeviceInfo = (function () {
           '2345Explorer': function () {
             return u.replace(/^.*2345Explorer\/([\d.]+).*$/, '$1')
           },
+          '115Browser': function () {
+            return u.replace(/^.*115Browser\/([\d.]+).*$/, '$1');
+          },
           'TheWorld': function () {
             return u.replace(/^.*TheWorld ([\d.]+).*$/, '$1')
           },
           'XiaoMi': function () {
             return u.replace(/^.*MiuiBrowser\/([\d.]+).*$/, '$1')
+          },
+          'Vivo': function () {
+            return u.replace(/^.*VivoBrowser\/([\d.]+).*$/, '$1');
           },
           'Quark': function () {
             return u.replace(/^.*Quark\/([\d.]+).*$/, '$1')
@@ -539,6 +557,12 @@ var DeviceInfo = (function () {
           },
           'iQiYi': function () {
             return u.replace(/^.*IqiyiVersion\/([\d.]+).*$/, '$1')
+          },
+          'DingTalk': function () {
+            return u.replace(/^.*DingTalk\/([\d.]+).*$/, '$1');
+          },
+          'Huawei': function () {
+            return u.replace(/^.*Version\/([\d.]+).*$/, '$1').replace(/^.*HuaweiBrowser\/([\d.]+).*$/, '$1').replace(/^.*HBPC\/([\d.]+).*$/, '$1');
           }
         }
 
