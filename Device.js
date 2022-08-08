@@ -1,4 +1,4 @@
-var DeviceInfo = (function () {
+var Device = (function () {
   var root = typeof self !== 'undefined' ? self : this
   var _window = root || {}
   // 变量库
@@ -672,7 +672,7 @@ var DeviceInfo = (function () {
   })()
   // 对外暴露方法
   return {
-    getDeviceInfo: function (params, callback) {
+    Info: function (params, callback) {
       MethodLibrary.createLoading()
       LogicLibrary.DeviceInfoObj(params, function (data) {
         MethodLibrary.removeLoading()

@@ -34,7 +34,7 @@
 <div id="info_box"></div>
 
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="getDeviceInfo.js?v=20200624" type="text/javascript"></script>
+<script src="Device.js?v=20200624" type="text/javascript"></script>
 <script type="text/babel">
 let proxy = new Proxy({}, {
   get: (target, key, receiver) => {
@@ -44,7 +44,7 @@ let proxy = new Proxy({}, {
     value = value.replace(/\s+/g, "") // 去除空格
     var result = Reflect.set(target, key, value, receiver)
     if (result) {
-      DeviceInfo.getDeviceInfo({
+      Device.Info({
         domain: 'http://www.skillnull.com',
         info: value && value.split(',')
       }, (infoResult) => {

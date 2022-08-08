@@ -21,7 +21,7 @@
 
  > #### 调用方式：
  ```
-    document.write(JSON.stringify(DeviceInfo.getDeviceInfo(
+    document.write(JSON.stringify(Device.Info(
          {
              domain: 'http://www.skillnull.com',
              info: ['deviceType', 'OS', 'language']
