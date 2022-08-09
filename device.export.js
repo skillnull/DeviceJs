@@ -661,7 +661,7 @@ const Device = (function () {
         }
 
         let resultInfo = {}
-        if (!params.info || params.info.length === 0) {
+        if (!params || !params.info || params.info.length === 0) {
           resultInfo = info
         } else {
           let infoTemp = {}
