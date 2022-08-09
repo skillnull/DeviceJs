@@ -653,7 +653,7 @@ const Device = (function () {
           netWork: MethodLibrary.getNetwork(), // 联网类型
           orientation: MethodLibrary.getOrientationStatu(), // 横竖屏
           browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
-          fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
+          fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''), // 浏览器指纹
           userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
           geoPosition: true, // 获取地理位置
           date: MethodLibrary.getDate(), // 获取系统时间
