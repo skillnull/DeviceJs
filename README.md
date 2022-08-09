@@ -30,5 +30,5 @@
  ```
  > 注：domain是生成浏览器指纹所需的，不传默认使用window.location.host; info为想要获取的信息，不传默认显示全部信息。
  
- > #### 在线地址:[https://skillnull.com/others/GetDeviceInfo/index.html](https://skillnull.com/others/GetDeviceInfo/index.html)
+ > #### 在线地址:[https://skillnull.com/others/DeviceJs/index.html](https://skillnull.com/others/DeviceJs/index.html)
 
