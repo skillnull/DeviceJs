@@ -1,21 +1,21 @@
 {
-  "name": "@device/js",
+  "name": "@skillnull/device-js",
   "version": "1.0.1",
   "description": "Get device information by javascript.",
-  "main": "device.export.js",
+  "main": "dist/device.export.js",
   "scripts": {
-    "build": "babel index.js device.js -d dist"
+    "build": "babel index.js device.js device.export.js -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skillnull/Get-Device-Info.git"
+    "url": "git+https://github.com/skillnull/DeviceJs.git"
   },
   "author": "skillnull",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/skillnull/Get-Device-Info/issues"
+    "url": "https://github.com/skillnull/DeviceJs/issues"
   },
-  "homepage": "https://github.com/skillnull/Get-Device-Info#readme",
+  "homepage": "https://github.com/skillnull/DeviceJs#readme",
   "devDependencies": {
     "@babel/cli": "^7.18.10",
     "@babel/core": "^7.18.10",
