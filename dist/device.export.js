@@ -707,7 +707,7 @@ var Device = function () {
         };
         var resultInfo = {};
 
-        if (!params.info || params.info.length === 0) {
+        if (!params || !params.info || params.info.length === 0) {
           resultInfo = info;
         } else {
           (function () {
