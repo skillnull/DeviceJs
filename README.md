@@ -23,14 +23,21 @@ import Device from '@skillnull/device-js'
 // 不传默认使用window.location.host; 
 // info为想要获取的信息，不传默认显示全部信息。
 
-Device.Info({
-  domain: 'your domain',
-  info: ['OS', 'lanuage']
-})
+Device.Info(
+  {
+    domain: 'your domain',
+    info: ['OS', 'lanuage']
+  },
+  (data) => {
+    console.log(data)
+  }
+)
 
 或者
 
-Device.Info()
+Device.Info('', (data) => {
+  console.log(data)
+})
  ```
 
 ---
@@ -51,7 +58,6 @@ Device.Info()
 - geoPosition: 地理位置
 - date: 系统时间
 - UUID: 通用唯一标识 Universally Unique Identifier
-
 
 ---
 
