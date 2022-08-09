@@ -1,8 +1,8 @@
-var Device = (function () {
-  var root = typeof self !== 'undefined' ? self : this
-  var _window = root || {}
+const Device = (function () {
+  const root = typeof self !== 'undefined' ? self : this
+  const _window = root || {}
   // 变量库
-  var VariableLibrary = {
+  const VariableLibrary = {
     navigator: typeof root.navigator != 'undefined' ? root.navigator : {},
     // 信息map
     infoMap: {
@@ -13,14 +13,14 @@ var Device = (function () {
     }
   }
   // 方法库
-  var MethodLibrary = (function () {
+  const MethodLibrary = (function () {
     return {
       /**
        * 创建loading
        */
       createLoading: function (text, showTimeCount) {
-        var count = 1
-        var timeCountStr = ''
+        let count = 1
+        let timeCountStr = ''
         if (showTimeCount) {
           timeCountStr =
             '<div id="count_box" style="padding: 5px 10px;' +
@@ -38,14 +38,14 @@ var Device = (function () {
             '   <div>' + count + 's</div>' +
             '</div>'
         }
-        var textStr = ''
+        let textStr = ''
         if (text) {
           textStr = '<div style="padding: 5px 10px;border-radius: 3px;color:white;background-color: #28a745;font-size: 16px;font-weight: 300;">' +
             text +
             '</div>'
         }
 
-        var loading = document.createElement('div')
+        let loading = document.createElement('div')
         loading.id = 'create_loading'
         loading.style = 'display: block;' +
           '    position: fixed;' +
@@ -73,7 +73,7 @@ var Device = (function () {
         document.body.appendChild(loading)
 
         if (showTimeCount) {
-          var countBox = document.getElementById('count_box')
+          let countBox = document.getElementById('count_box')
           setInterval(function () {
             count++
             if (countBox) {
@@ -86,14 +86,14 @@ var Device = (function () {
        * 删除loading
        */
       removeLoading: function () {
-        var loading = document.getElementById('create_loading')
+        let loading = document.getElementById('create_loading')
         document.body.removeChild(loading)
       },
       // 生成UUID通用唯一标识码
       createUUID: function () {
-        var result = []
-        var hexDigits = "0123456789abcdef"
-        for (var i = 0; i < 36; i++) {
+        let result = []
+        let hexDigits = "0123456789abcdef"
+        for (let i = 0; i < 36; i++) {
           result[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
         }
         // bits 12-15 of the time_hi_and_version field to 0010
@@ -105,13 +105,13 @@ var Device = (function () {
       },
       // 获取当前系统时间
       getDate: function () {
-        var date = new Date()
-        var year = date.getFullYear()
-        var month = date.getMonth()
-        var day = date.getDay()
-        var hour = date.getHours()
-        var minutes = date.getMinutes()
-        var seconds = date.getSeconds()
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth()
+        let day = date.getDay()
+        let hour = date.getHours()
+        let minutes = date.getMinutes()
+        let seconds = date.getSeconds()
         return `${year}/${month}/${day} ${hour}:${minutes}:${seconds}`
       },
       // 获取匹配库
@@ -192,11 +192,11 @@ var Device = (function () {
       },
       // 在信息map和匹配库中进行匹配
       matchInfoMap: function (_this) {
-        var u = VariableLibrary.navigator.userAgent || {}
-        var match = MethodLibrary.getMatchMap(u)
-        for (var s in VariableLibrary.infoMap) {
-          for (var i = 0; i < VariableLibrary.infoMap[s].length; i++) {
-            var value = VariableLibrary.infoMap[s][i]
+        let u = VariableLibrary.navigator.userAgent || {}
+        let match = MethodLibrary.getMatchMap(u)
+        for (let s in VariableLibrary.infoMap) {
+          for (let i = 0; i < VariableLibrary.infoMap[s].length; i++) {
+            let value = VariableLibrary.infoMap[s][i]
             if (match[value]) {
               _this[s] = value
             }
@@ -205,20 +205,20 @@ var Device = (function () {
       },
       // 获取当前操作系统
       getOS: function () {
-        var _this = this
+        let _this = this
         MethodLibrary.matchInfoMap(_this)
         return _this.os
       },
       // 获取操作系统版本
       getOSVersion: function () {
-        var _this = this
-        var u = VariableLibrary.navigator.userAgent || {}
+        let _this = this
+        let u = VariableLibrary.navigator.userAgent || {}
         _this.osVersion = ''
         // 系统版本信息
-        var osVersion = {
+        let osVersion = {
           'Windows': function () {
-            var v = u.replace(/^.*Windows NT ([\d.]+);.*$/, '$1')
-            var oldWindowsVersionMap = {
+            let v = u.replace(/^.*Windows NT ([\d.]+);.*$/, '$1')
+            let oldWindowsVersionMap = {
               '10': '10 || 11',
               '6.3': '8.1',
               '6.2': '8',
@@ -263,8 +263,8 @@ var Device = (function () {
       },
       // 获取横竖屏状态
       getOrientationStatu: function () {
-        var orientationStatus = ''
-        var orientation = window.matchMedia("(orientation: portrait)")
+        let orientationStatus = ''
+        let orientation = window.matchMedia("(orientation: portrait)")
         if (orientation.matches) {
           orientationStatus = "竖屏"
         } else {
@@ -274,22 +274,22 @@ var Device = (function () {
       },
       // 获取设备类型
       getDeviceType: function () {
-        var _this = this
+        let _this = this
         _this.device = 'PC'
         MethodLibrary.matchInfoMap(_this)
         return _this.device
       },
       // 获取网络状态
       getNetwork: function () {
-        var netWork = navigator && navigator.connection && navigator.connection.effectiveType
+        let netWork = navigator && navigator.connection && navigator.connection.effectiveType
         return netWork
       },
       // 获取当前语言
       getLanguage: function () {
-        var _this = this
+        let _this = this
         _this.language = (function () {
-          var language = (VariableLibrary.navigator.browserLanguage || VariableLibrary.navigator.language)
-          var arr = language.split('-')
+          let language = (VariableLibrary.navigator.browserLanguage || VariableLibrary.navigator.language)
+          let arr = language.split('-')
           if (arr[1]) {
             arr[1] = arr[1].toUpperCase()
           }
@@ -299,10 +299,10 @@ var Device = (function () {
       },
       // 生成浏览器指纹
       createFingerprint: function (domain) {
-        var fingerprint
+        let fingerprint
 
-        function bin2hex (s) {
-          var i, l, n, o = ''
+        function bin2hex(s) {
+          let i, l, n, o = ''
           s += ''
           for (i = 0, l = s.length; i < l; i++) {
             n = s.charCodeAt(i).toString(16)
@@ -311,9 +311,9 @@ var Device = (function () {
           return o
         }
 
-        var canvas = document.createElement('canvas')
-        var ctx = canvas.getContext('2d')
-        var txt = domain || window.location.host
+        let canvas = document.createElement('canvas')
+        let ctx = canvas.getContext('2d')
+        let txt = domain || window.location.host
         ctx.textBaseline = "top"
         ctx.font = "14px 'Arial'"
         ctx.textBaseline = "tencent"
@@ -323,22 +323,22 @@ var Device = (function () {
         ctx.fillText(txt, 2, 15)
         ctx.fillStyle = "rgba(102, 204, 0, 0.7)"
         ctx.fillText(txt, 4, 17)
-        var b64 = canvas.toDataURL().replace("data:image/png;base64,", "")
-        var bin = atob(b64)
-        var crc = bin2hex(bin.slice(-16, -12))
+        let b64 = canvas.toDataURL().replace("data:image/png;base64,", "")
+        let bin = atob(b64)
+        let crc = bin2hex(bin.slice(-16, -12))
         fingerprint = crc
         return fingerprint
       },
       // 浏览器信息
       getBrowserInfo: function () {
-        var _this = this
+        let _this = this
         MethodLibrary.matchInfoMap(_this)
 
-        var u = VariableLibrary.navigator.userAgent || {}
+        let u = VariableLibrary.navigator.userAgent || {}
 
-        var _mime = function (option, value) {
-          var mimeTypes = VariableLibrary.navigator.mimeTypes
-          for (var key in mimeTypes) {
+        let _mime = function (option, value) {
+          let mimeTypes = VariableLibrary.navigator.mimeTypes
+          for (let key in mimeTypes) {
             if (mimeTypes[key][option] == value) {
               return true
             }
@@ -346,12 +346,12 @@ var Device = (function () {
           return false
         }
 
-        var match = MethodLibrary.getMatchMap(u)
+        let match = MethodLibrary.getMatchMap(u)
 
-        var is360 = false
+        let is360 = false
 
         if (_window.chrome) {
-          var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
+          let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
           if (chrome_version > 36 && _window.showModalDialog) {
             is360 = true
           } else if (chrome_version > 45) {
@@ -378,7 +378,7 @@ var Device = (function () {
         }
 
         if (match['IE'] || match['Edge']) {
-          var navigator_top = window.screenTop - window.screenY
+          let navigator_top = window.screenTop - window.screenY
           switch (navigator_top) {
             case 71: // 无收藏栏,贴边
               break
@@ -403,7 +403,7 @@ var Device = (function () {
           }
         }
 
-        var browerVersionMap = {
+        let browerVersionMap = {
           'Safari': function () {
             return u.replace(/^.*Version\/([\d.]+).*$/, '$1')
           },
@@ -468,13 +468,13 @@ var Device = (function () {
             return u.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
           },
           '360SE': function () {
-            var hash = { '63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3' }
-            var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
+            let hash = {'63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3'}
+            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           '360EE': function () {
-            var hash = { '69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5' };
-            var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
+            let hash = {'69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5'};
+            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           'Maxthon': function () {
@@ -496,21 +496,39 @@ var Device = (function () {
             return u.replace(/^.*SE ([\d.X]+).*$/, '$1').replace(/^.*SogouMobileBrowser\/([\d.]+).*$/, '$1')
           },
           'Liebao': function () {
-            var version = ''
+            let version = ''
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-            var hash = { '57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0' };
-            var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
+            let hash = {
+              '57': '6.5',
+              '49': '6.0',
+              '46': '5.9',
+              '42': '5.3',
+              '39': '5.2',
+              '34': '5.0',
+              '29': '4.5',
+              '21': '4.0'
+            };
+            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
           'LBBROWSER': function () {
-            var version = ''
+            let version = ''
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-            var hash = { '57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0' };
-            var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
+            let hash = {
+              '57': '6.5',
+              '49': '6.0',
+              '46': '5.9',
+              '42': '5.3',
+              '39': '5.2',
+              '34': '5.0',
+              '29': '4.5',
+              '21': '4.0'
+            };
+            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
           '2345Explorer': function () {
@@ -622,10 +640,10 @@ var Device = (function () {
     }
   })()
   // 逻辑层
-  var LogicLibrary = (function () {
+  const LogicLibrary = (function () {
     return {
       DeviceInfoObj: function (params, callback) {
-        var info = {
+        let info = {
           deviceType: MethodLibrary.getDeviceType(), // 设备类型
           OS: MethodLibrary.getOS(), // 操作系统
           OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
@@ -642,12 +660,12 @@ var Device = (function () {
           UUID: MethodLibrary.createUUID() // 生成通用唯一标识
         }
 
-        var resultInfo = {}
+        let resultInfo = {}
         if (!params.info || params.info.length === 0) {
           resultInfo = info
         } else {
-          var infoTemp = {}
-          for (var i in info) {
+          let infoTemp = {}
+          for (let i in info) {
             params.info.forEach(function (item) {
               if (item.toLowerCase() === i.toLowerCase()) {
                 item = i
@@ -681,3 +699,5 @@ var Device = (function () {
     }
   }
 })()
+
+export default Device
