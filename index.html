@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Get Device Info Online</title>
-    <link rel="stylesheet" href="index.css?v=20200624">
+    <link rel="stylesheet" href="index.css?v=20220808">
 </head>
 <body>
 <div class="title">输入以下想要获取信息的key，多个key用逗号相隔, 为空则显示全部</div>
@@ -32,42 +33,7 @@
     <button onclick="getInfo()">获取</button>
 </div>
 <div id="info_box"></div>
-
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script src="Device.js?v=20200624" type="text/javascript"></script>
-<script type="text/babel">
-let proxy = new Proxy({}, {
-  get: (target, key, receiver) => {
-    return Reflect.get(target, key)
-  },
-  set: (target, key, value, receiver) => {
-    value = value.replace(/\s+/g, "") // 去除空格
-    var result = Reflect.set(target, key, value, receiver)
-    if (result) {
-      Device.Info({
-        domain: 'http://www.skillnull.com',
-        info: value && value.split(',')
-      }, (infoResult) => {
-        let infoHtml = []
-        for (let i in infoResult) {
-          infoHtml.push(
-            '<li>' +
-            '   <span>' + i + '</span>' +
-            '   <span style="margin:0 1px;">:</span>' +
-            '   <span style="color: red;">' + infoResult[i] + '</span>' +
-            '</li>')
-        }
-        document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>'
-      })
-    } else {
-      throw new ReferenceError('something error')
-    }
-    return result
-  }
-})
-let getInfo = () => {
-  proxy.value = document.querySelector('#info_input').value
-}
-</script>
+<script src="./dist/device.js"></script>
+<script src="./dist/index.js"></script>
 </body>
 </html>
