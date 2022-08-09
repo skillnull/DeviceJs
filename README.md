@@ -4,7 +4,7 @@
 
 ---
 
-> 安装
+> #### 安装
 
 ```
 yarn add @skillnull/device-js
