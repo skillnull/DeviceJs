@@ -689,7 +689,7 @@ var Device = function () {
           // 横竖屏
           browserInfo: MethodLibrary.getBrowserInfo(),
           // 浏览器信息
-          fingerprint: MethodLibrary.createFingerprint(params.domain),
+          fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''),
           // 浏览器指纹
           userAgent: VariableLibrary.navigator.userAgent,
           // 包含 appCodeName,appName,appVersion,language,platform 等

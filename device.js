@@ -301,7 +301,7 @@ const Device = (function () {
       createFingerprint: function (domain) {
         let fingerprint
 
-        function bin2hex (s) {
+        function bin2hex(s) {
           let i, l, n, o = ''
           s += ''
           for (i = 0, l = s.length; i < l; i++) {
@@ -468,12 +468,12 @@ const Device = (function () {
             return u.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
           },
           '360SE': function () {
-            let hash = { '63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3' }
+            let hash = {'63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3'}
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           '360EE': function () {
-            let hash = { '69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5' };
+            let hash = {'69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5'};
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
@@ -500,7 +500,16 @@ const Device = (function () {
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-            let hash = { '57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0' };
+            let hash = {
+              '57': '6.5',
+              '49': '6.0',
+              '46': '5.9',
+              '42': '5.3',
+              '39': '5.2',
+              '34': '5.0',
+              '29': '4.5',
+              '21': '4.0'
+            };
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
@@ -509,7 +518,16 @@ const Device = (function () {
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-            let hash = { '57': '6.5', '49': '6.0', '46': '5.9', '42': '5.3', '39': '5.2', '34': '5.0', '29': '4.5', '21': '4.0' };
+            let hash = {
+              '57': '6.5',
+              '49': '6.0',
+              '46': '5.9',
+              '42': '5.3',
+              '39': '5.2',
+              '34': '5.0',
+              '29': '4.5',
+              '21': '4.0'
+            };
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
@@ -635,7 +653,7 @@ const Device = (function () {
           netWork: MethodLibrary.getNetwork(), // 联网类型
           orientation: MethodLibrary.getOrientationStatu(), // 横竖屏
           browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
-          fingerprint: MethodLibrary.createFingerprint(params.domain), // 浏览器指纹
+          fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''), // 浏览器指纹
           userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
           geoPosition: true, // 获取地理位置
           date: MethodLibrary.getDate(), // 获取系统时间
