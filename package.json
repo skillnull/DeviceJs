@@ -4,7 +4,10 @@
   "description": "Get device information by javascript.",
   "main": "dist/device.export.js",
   "scripts": {
-    "build": "babel index.js device.js device.export.js -d dist"
+    "build": "./build.sh",
+    "delete_dist": "rm -rf dist",
+    "add_export": "echo '\nexport default Device;' >> device.js",
+    "remove_export": "build.sh"
   },
   "repository": {
     "type": "git",

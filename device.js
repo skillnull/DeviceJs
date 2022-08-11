@@ -698,4 +698,4 @@ const Device = (function () {
       })
     }
   }
-})()
+})();
