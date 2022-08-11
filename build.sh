@@ -7,13 +7,13 @@ case "$(uname)" in
   Darwin*) sedi=(-i "")
 esac
 
-rm -rf dist &&
+rm -rf dist
 
 cp device.js device.export.js
 
-echo 'export default Device;' >> device.export.js &&
+echo 'export default Device;' >> device.export.js
 
-babel index.js device.js device.export.js -d dist &&
+babel index.js device.js device.export.js -d dist
 
 #sed "${sedi[@]}" "/export default Device;/d" device.js
 

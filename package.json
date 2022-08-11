@@ -1,6 +1,6 @@
 {
   "name": "@skillnull/device-js",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Get device information by javascript.",
   "main": "dist/device.export.js",
   "scripts": {
