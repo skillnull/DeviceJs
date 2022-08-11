@@ -4,7 +4,7 @@ let proxy = new Proxy({}, {
   },
   set: (target, key, value, receiver) => {
     value = value.replace(/\s+/g, "") // 去除空格
-    var result = Reflect.set(target, key, value, receiver)
+    let result = Reflect.set(target, key, value, receiver)
     if (result) {
       Device.Info({
         domain: 'http://www.skillnull.com',
