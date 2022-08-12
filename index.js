@@ -7,9 +7,9 @@ let proxy = new Proxy({}, {
     let result = Reflect.set(target, key, value, receiver)
     if (result) {
       Device.Info({
-        domain: 'http://www.skillnull.com',
+        domain: 'https://www.skillnull.com',
         info: value && value.split(',')
-      }, (infoResult) => {
+      }).then(infoResult => {
         let infoHtml = []
         for (let i in infoResult) {
           infoHtml.push(
@@ -20,6 +20,7 @@ let proxy = new Proxy({}, {
             '</li>')
         }
         document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>'
+
       })
     } else {
       throw new ReferenceError('something error')
