@@ -58,7 +58,8 @@ Device.Info().then(data => {
 - fingerprint: 浏览器指纹
 - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
 - geoPosition: 地理位置
-- date: 系统时间
+- date: 阳历日期时间
+- week: 周几
 - UUID: 通用唯一标识 Universally Unique Identifier
 
 ---

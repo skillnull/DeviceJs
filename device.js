@@ -103,16 +103,24 @@ const Device = (function () {
         result[8] = result[13] = result[18] = result[23] = "-"
         return result.join("")
       },
-      // 获取当前系统时间
+      // 获取阳历日期时间
       getDate: function () {
         let date = new Date()
         let year = date.getFullYear()
-        let month = date.getMonth()
-        let day = date.getDay()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
         let hour = date.getHours()
         let minutes = date.getMinutes()
         let seconds = date.getSeconds()
         return `${year}/${month}/${day} ${hour}:${minutes}:${seconds}`
+      },
+      // 获取当前周几
+      getWeek: function () {
+        let show_week = new Array('周一', '周二', '周三', '周四', '周五', '周六', '周日')
+        let time = new Date()
+        let day = time.getDay()
+        let now_week = show_week[day - 1] + ' '
+        return now_week
       },
       // 获取匹配库
       getMatchMap: function (u) {
@@ -657,7 +665,8 @@ const Device = (function () {
           fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''), // 浏览器指纹
           userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
           geoPosition: true, // 获取地理位置
-          date: MethodLibrary.getDate(), // 获取系统时间
+          date: MethodLibrary.getDate(), // 获取阳历日期时间
+          week: MethodLibrary.getWeek(), // 获取周几
           UUID: MethodLibrary.createUUID() // 生成通用唯一标识
         }
 
