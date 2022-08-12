@@ -19,23 +19,25 @@ npm install @skillnull/device-js
  ```js
 import Device from '@skillnull/device-js'
 
-// 注：domain是生成浏览器指纹所需的，
-// 不传默认使用window.location.host; 
-// info为想要获取的信息，不传默认显示全部信息。
+/**
+ * @params:{
+ *  domain: <String> 生成浏览器指纹所需，不传默认使用window.location.host;
+ *  info: <Array> 想要获取的信息，不传默认显示全部信息
+ * }
+ *
+ * @return: 返回 Promise 对象
+ */
 
-Device.Info(
-  {
-    domain: 'your domain',
-    info: ['OS', 'lanuage']
-  },
-  (data) => {
-    console.log(data)
-  }
-)
+Device.Info({
+  domain: 'your domain',
+  info: ['OS', 'lanuage']
+}).then(data => {
+  console.log(data)
+})
 
-或者
+或
 
-Device.Info('', (data) => {
+Device.Info().then(data => {
   console.log(data)
 })
  ```

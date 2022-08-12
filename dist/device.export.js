@@ -653,18 +653,19 @@ var Device = function () {
         return _this.browser + '（版本: ' + _this.browserVersion + '&nbsp;&nbsp;内核: ' + _this.engine + '）';
       },
       // 获取地理位置
-      getGeoPostion: function getGeoPostion(callback) {
-        navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition( // 位置获取成功
-        function (position) {
-          callback(position);
-        }, // 位置获取失败
-        function (error) {
-          console.log(error);
-          callback({
-            coords: {
-              longitude: '获取失败',
-              latitude: '获取失败'
-            }
+      getGeoPostion: function getGeoPostion() {
+        return new Promise(function (resolve, reject) {
+          navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition( // 位置获取成功
+          function (position) {
+            resolve(position);
+          }, // 位置获取失败
+          function (error) {
+            resolve({
+              coords: {
+                longitude: '获取失败',
+                latitude: '获取失败'
+              }
+            });
           });
         });
       }
@@ -674,7 +675,7 @@ var Device = function () {
 
   var LogicLibrary = function () {
     return {
-      DeviceInfoObj: function DeviceInfoObj(params, callback) {
+      DeviceInfoObj: function DeviceInfoObj(params) {
         var info = {
           deviceType: MethodLibrary.getDeviceType(),
           // 设备类型
@@ -730,26 +731,37 @@ var Device = function () {
           })();
         }
 
-        if (resultInfo.geoPosition) {
-          MethodLibrary.getGeoPostion(function (position) {
-            // 获取地理位置
-            resultInfo.geoPosition = '经度:' + position.coords.longitude + '  纬度:' + position.coords.latitude;
-            callback(resultInfo);
-          });
-        } else {
-          callback(resultInfo);
-        }
+        return new Promise(function (resolve) {
+          if (resultInfo.geoPosition) {
+            MethodLibrary.getGeoPostion().then(function (geoPosition) {
+              resultInfo.geoPosition = '经度:' + geoPosition.coords.longitude + '  纬度:' + geoPosition.coords.latitude;
+              resolve(resultInfo);
+            });
+          } else {
+            resolve(resultInfo);
+          }
+        });
       }
     };
   }(); // 对外暴露方法
 
 
   return {
-    Info: function Info(params, callback) {
+    /**
+     * @params:{
+     *  domain: <String> 生成浏览器指纹所需，不传默认使用window.location.host;
+     *  info: <Array> 想要获取的信息，不传默认显示全部信息
+     * }
+     *
+     * @return: 返回 Promise 对象
+     */
+    Info: function Info(params) {
       MethodLibrary.createLoading();
-      LogicLibrary.DeviceInfoObj(params, function (data) {
-        MethodLibrary.removeLoading();
-        callback(data);
+      return new Promise(function (resolve) {
+        LogicLibrary.DeviceInfoObj(params).then(function (res) {
+          MethodLibrary.removeLoading();
+          resolve(res);
+        });
       });
     }
   };

@@ -11,9 +11,9 @@ var proxy = new Proxy({}, {
 
     if (result) {
       Device.Info({
-        domain: 'http://www.skillnull.com',
+        domain: 'https://www.skillnull.com',
         info: value && value.split(',')
-      }, function (infoResult) {
+      }).then(function (infoResult) {
         var infoHtml = [];
 
         for (var i in infoResult) {
