@@ -82,16 +82,24 @@ var Device = function () {
         result[8] = result[13] = result[18] = result[23] = "-";
         return result.join("");
       },
-      // 获取当前系统时间
+      // 获取阳历日期时间
       getDate: function getDate() {
         var date = new Date();
         var year = date.getFullYear();
-        var month = date.getMonth();
-        var day = date.getDay();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
         var hour = date.getHours();
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();
         return "".concat(year, "/").concat(month, "/").concat(day, " ").concat(hour, ":").concat(minutes, ":").concat(seconds);
+      },
+      // 获取当前周几
+      getWeek: function getWeek() {
+        var show_week = new Array('周一', '周二', '周三', '周四', '周五', '周六', '周日');
+        var time = new Date();
+        var day = time.getDay();
+        var now_week = show_week[day - 1] + ' ';
+        return now_week;
       },
       // 获取匹配库
       getMatchMap: function getMatchMap(u) {
@@ -702,7 +710,9 @@ var Device = function () {
           geoPosition: true,
           // 获取地理位置
           date: MethodLibrary.getDate(),
-          // 获取系统时间
+          // 获取阳历日期时间
+          week: MethodLibrary.getWeek(),
+          // 获取周几
           UUID: MethodLibrary.createUUID() // 生成通用唯一标识
 
         };
