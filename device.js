@@ -116,10 +116,10 @@ const Device = (function () {
       },
       // 获取当前周几
       getWeek: function () {
-        let show_week = new Array('周一', '周二', '周三', '周四', '周五', '周六', '周日')
+        let show_week = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六')
         let time = new Date()
         let day = time.getDay()
-        let now_week = show_week[day - 1] + ' '
+        let now_week = show_week[day]
         return now_week
       },
       // 获取匹配库
