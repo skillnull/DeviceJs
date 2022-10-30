@@ -95,10 +95,10 @@ var Device = function () {
       },
       // 获取当前周几
       getWeek: function getWeek() {
-        var show_week = new Array('周一', '周二', '周三', '周四', '周五', '周六', '周日');
+        var show_week = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
         var time = new Date();
         var day = time.getDay();
-        var now_week = show_week[day - 1] + ' ';
+        var now_week = show_week[day];
         return now_week;
       },
       // 获取匹配库
