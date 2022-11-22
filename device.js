@@ -629,21 +629,31 @@ const Device = (function () {
       // 获取地理位置
       getGeoPostion: function () {
         return new Promise((resolve, reject) => {
-          navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition(
-            // 位置获取成功
-            function (position) {
-              resolve(position)
-            },
-            // 位置获取失败
-            function (error) {
-              resolve({
-                coords: {
-                  longitude: '获取失败',
-                  latitude: '获取失败'
-                }
-              })
-            }
-          )
+          if (navigator && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              // 位置获取成功
+              function (position) {
+                resolve(position)
+              },
+              // 位置获取失败
+              function (error) {
+                resolve({
+                  coords: {
+                    longitude: '获取失败',
+                    latitude: '获取失败'
+                  }
+                })
+              },
+              {
+                // 是否开启高精度模式，开启高精度模式耗时较长
+                enableHighAccuracy: false,
+                // 超时时间，单位毫秒。默认为infinity
+                timeout: 10000
+              }
+            )
+          } else {
+            reject('当前浏览器不支持获取地理位置')
+          }
         })
       }
     }
@@ -690,6 +700,9 @@ const Device = (function () {
           if (resultInfo.geoPosition) {
             MethodLibrary.getGeoPostion().then(geoPosition => {
               resultInfo.geoPosition = '经度:' + geoPosition.coords.longitude + '  纬度:' + geoPosition.coords.latitude
+              resolve(resultInfo)
+            }).catch(err => {
+              resultInfo.geoPosition = err
               resolve(resultInfo)
             })
           } else {
