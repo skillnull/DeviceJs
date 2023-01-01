@@ -816,6 +816,7 @@ const Device = (function () {
             }
 
             let month = j
+
             let day = offset + 1
 
             return {
@@ -832,7 +833,7 @@ const Device = (function () {
           for (let i = 0; i < solarMonthLength; i++) {
             if (lunarDay > lunarLastDay) {
               // 阳历当月第一天的日期
-              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : i + 1)
+              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : new Date().getDate())
 
               // 农历
               lunarDateObj = calculateLunarFirstDay(solarDateObj)

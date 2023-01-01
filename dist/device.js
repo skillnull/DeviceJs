@@ -866,7 +866,7 @@ var Device = function () {
           for (var i = 0; i < solarMonthLength; i++) {
             if (lunarDay > lunarLastDay) {
               // 阳历当月第一天的日期
-              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : i + 1); // 农历
+              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : new Date().getDate()); // 农历
 
               lunarDateObj = calculateLunarFirstDay(solarDateObj);
               lunarYear = lunarDateObj.year; // 农历年

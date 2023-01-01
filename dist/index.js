@@ -12,7 +12,7 @@ var proxy = new Proxy({}, {
     if (result) {
       Device.Info({
         domain: 'https://www.skillnull.com',
-        // transferDateToLunar: '2023/1/15',
+        // transferDateToLunar: '2023/1/3',
         info: value && value.split(',')
       }).then(function (infoResult) {
         var infoHtml = [];
