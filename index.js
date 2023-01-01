@@ -8,6 +8,7 @@ let proxy = new Proxy({}, {
     if (result) {
       Device.Info({
         domain: 'https://www.skillnull.com',
+        // transferDateToLunar: '2023/1/15',
         info: value && value.split(',')
       }).then(infoResult => {
         let infoHtml = []

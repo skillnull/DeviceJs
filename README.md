@@ -22,7 +22,8 @@ import Device from '@skillnull/device-js'
 /**
  * @params:{
  *  domain: <String> 生成浏览器指纹所需，不传默认使用window.location.host;
- *  info: <Array> 想要获取的信息，不传默认显示全部信息
+ *  transferDateToLunar: <String> 要被转化为农历的日期，需要同时开启info中的lunarDate选项才生效
+ *  info: <Array> 想要获取的信息，不传默认开启全部信息显示
  * }
  *
  * @return: 返回 Promise 对象
@@ -30,6 +31,7 @@ import Device from '@skillnull/device-js'
 
 Device.Info({
   domain: 'your domain',
+  transferDateToLunar: '需要转化为农历的日期。例如： 2023/01/01。',
   info: ['OS', 'lanuage']
 }).then(data => {
   console.log(data)
@@ -59,6 +61,7 @@ Device.Info().then(data => {
 - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
 - geoPosition: 地理位置
 - date: 阳历日期时间
+- lunarDate: 阴历日期
 - week: 周几
 - UUID: 通用唯一标识 Universally Unique Identifier
 
