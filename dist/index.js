@@ -12,13 +12,19 @@ var proxy = new Proxy({}, {
     if (result) {
       Device.Info({
         domain: 'https://www.skillnull.com',
-        // transferDateToLunar: '2023/1/3',
+        // transferDateToLunar: '2023/1/30',
         info: value && value.split(',')
       }).then(function (infoResult) {
         var infoHtml = [];
 
         for (var i in infoResult) {
-          infoHtml.push('<li>' + '   <span>' + i + '</span>' + '   <span style="margin:0 1px;">:</span>' + '   <span style="color: red;">' + infoResult[i] + '</span>' + '</li>');
+          var _value = infoResult[i];
+
+          if (i === 'lunarDate') {
+            _value = "".concat(infoResult[i].year, " ").concat(infoResult[i].chineseZodiac, " ").concat(infoResult[i].month).concat(infoResult[i].day);
+          }
+
+          infoHtml.push('<li>' + '   <span>' + i + '</span>' + '   <span style="margin:0 1px;">:</span>' + '   <span style="color: red;">' + _value + '</span>' + '</li>');
         }
 
         document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>';

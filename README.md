@@ -32,7 +32,7 @@ import Device from '@skillnull/device-js'
 Device.Info({
   domain: 'your domain',
   transferDateToLunar: '需要转化为农历的日期。例如： 2023/01/01。',
-  info: ['OS', 'lanuage']
+  info: ['lunarDate']
 }).then(data => {
   console.log(data)
 })

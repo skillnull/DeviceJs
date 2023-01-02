@@ -8,16 +8,20 @@ let proxy = new Proxy({}, {
     if (result) {
       Device.Info({
         domain: 'https://www.skillnull.com',
-        // transferDateToLunar: '2023/1/3',
+        // transferDateToLunar: '2023/1/30',
         info: value && value.split(',')
       }).then(infoResult => {
         let infoHtml = []
         for (let i in infoResult) {
+          let value =  infoResult[i]
+          if (i === 'lunarDate'){
+            value = `${infoResult[i].year} ${infoResult[i].chineseZodiac} ${infoResult[i].month}${infoResult[i].day}`
+          }
           infoHtml.push(
             '<li>' +
             '   <span>' + i + '</span>' +
             '   <span style="margin:0 1px;">:</span>' +
-            '   <span style="color: red;">' + infoResult[i] + '</span>' +
+            '   <span style="color: red;">' + value + '</span>' +
             '</li>')
         }
         document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>'

@@ -929,11 +929,14 @@ var Device = function () {
             return ChineseDate;
           }
 
-          var result;
           var lunarYearArr = String(lunar.lunarYear).split('');
           var chineseYear = "".concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[0]]).concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[1]]).concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[2]]).concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[3]]);
-          result = "".concat(chineseYear, "\u5E74 ").concat(lunar.isLeap ? '闰' : '').concat(VariableLibrary.lunarLib.chineseMonth[lunar.lunarMonth - 1], "\u6708").concat(chineseDay(lunar.lunarDay));
-          return result;
+          return {
+            year: "".concat(chineseYear, "\u5E74"),
+            month: "".concat(lunar.isLeap ? '闰' : '').concat(VariableLibrary.lunarLib.chineseMonth[lunar.lunarMonth - 1], "\u6708"),
+            day: "".concat(chineseDay(lunar.lunarDay)),
+            chineseZodiac: lunar.chineseZodiac
+          };
         }
 
         return transferToLunar(date_str);

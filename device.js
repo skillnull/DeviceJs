@@ -56,7 +56,7 @@ const Device = (function () {
       // 中文月份
       chineseMonth: ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊'],
       // 中文年份
-      chineseYear: ['零','一','二','三','四','五','六','七','八','九'],
+      chineseYear: ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'],
       monthPlusOne: '', // 保存y年m+1月的相关信息
     }
   }
@@ -884,14 +884,16 @@ const Device = (function () {
             }
             return ChineseDate
           }
-
-          let result
-
-          let lunarYearArr =  String(lunar.lunarYear).split('')
+          
+          let lunarYearArr = String(lunar.lunarYear).split('')
           let chineseYear = `${VariableLibrary.lunarLib.chineseYear[lunarYearArr[0]]}${VariableLibrary.lunarLib.chineseYear[lunarYearArr[1]]}${VariableLibrary.lunarLib.chineseYear[lunarYearArr[2]]}${VariableLibrary.lunarLib.chineseYear[lunarYearArr[3]]}`
-          result = `${chineseYear}年 ${lunar.isLeap ? '闰' : ''}${VariableLibrary.lunarLib.chineseMonth[lunar.lunarMonth - 1]}月${chineseDay(lunar.lunarDay)}`
 
-          return result
+          return {
+            year: `${chineseYear}年`,
+            month: `${lunar.isLeap ? '闰' : ''}${VariableLibrary.lunarLib.chineseMonth[lunar.lunarMonth - 1]}月`,
+            day: `${chineseDay(lunar.lunarDay)}`,
+            chineseZodiac: lunar.chineseZodiac
+          }
         }
 
         return transferToLunar(date_str)
