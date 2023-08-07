@@ -6,7 +6,18 @@
 
 > #### 安装
 
+
+``` html
+CDN
+
+<script src="https://www.unpkg.com/@skillnull/device-js@1.1.9/dist/device.export.js"></script>
+# or
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@1.1.9/dist/device.export.js"></script>
 ```
+
+```shell
+NPM or YARN
+
 yarn add @skillnull/device-js
 # or with npm
 npm install @skillnull/device-js

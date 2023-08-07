@@ -2,10 +2,8 @@
 
 var Device = function () {
   var root = typeof self !== 'undefined' ? self : this;
-
-  var _window = root || {}; // 变量库
-
-
+  var _window = root || {};
+  // 变量库
   var VariableLibrary = {
     navigator: typeof root.navigator != 'undefined' ? root.navigator : {},
     // 信息map
@@ -32,22 +30,37 @@ var Device = function () {
            17-20：表示闰月是大月还是小月，仅当存在闰月的情况下有意义。
            表示1980年没有闰月，从1月到12月的天数依次为：30、29、29、30、29、30、29、30、30、29、30、30。
        */
-      lunarMap: [0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2, // 1900-1909
-      0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977, // 1910-1919
-      0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970, // 1920-1929
-      0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950, // 1930-1939
-      0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557, // 1940-1949
-      0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5d0, 0x14573, 0x052d0, 0x0a9a8, 0x0e950, 0x06aa0, // 1950-1959
-      0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0, // 1960-1969
-      0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b5a0, 0x195a6, // 1970-1979
-      0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570, // 1980-1989
-      0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0, // 1990-1999
-      0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5, // 2000-2009
-      0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930, // 2010-2019
-      0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530, // 2020-2029
-      0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45, // 2030-2039
+      lunarMap: [0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
+      // 1900-1909
+      0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
+      // 1910-1919
+      0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970,
+      // 1920-1929
+      0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
+      // 1930-1939
+      0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557,
+      // 1940-1949
+      0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5d0, 0x14573, 0x052d0, 0x0a9a8, 0x0e950, 0x06aa0,
+      // 1950-1959
+      0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0,
+      // 1960-1969
+      0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b5a0, 0x195a6,
+      // 1970-1979
+      0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570,
+      // 1980-1989
+      0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0,
+      // 1990-1999
+      0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5,
+      // 2000-2009
+      0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930,
+      // 2010-2019
+      0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530,
+      // 2020-2029
+      0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
+      // 2030-2039
       0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0 // 2040-2049
       ],
+
       // 阳历每个月的天数普通表
       solarMonthArr: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
       // 十二生肖
@@ -61,10 +74,9 @@ var Device = function () {
       // 中文年份
       chineseYear: ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'],
       monthPlusOne: '' // 保存y年m+1月的相关信息
-
     }
-  }; // 方法库
-
+  };
+  // 方法库
   var MethodLibrary = function () {
     return {
       /**
@@ -73,35 +85,28 @@ var Device = function () {
       createLoading: function createLoading(text, showTimeCount) {
         var count = 1;
         var timeCountStr = '';
-
         if (showTimeCount) {
           timeCountStr = '<div id="count_box" style="padding: 5px 10px;' + '    border-radius: 50%;' + '    color: white;' + '    background-color: #28a745;' + '    font-size: 16px;' + '    font-weight: 300;' + '    width: 80px;' + '    height: 80px;' + '    display: flex;' + '    justify-content: center;' + '    flex-direction: column;' + '    align-items: center;">' + '   <div>' + count + 's</div>' + '</div>';
         }
-
         var textStr = '';
-
         if (text) {
           textStr = '<div style="padding: 5px 10px;border-radius: 3px;color:white;background-color: #28a745;font-size: 16px;font-weight: 300;">' + text + '</div>';
         }
-
         var loading = document.createElement('div');
         loading.id = 'create_loading';
         loading.style = 'display: block;' + '    position: fixed;' + '    top: 0;' + '    left: 0;' + '    width: 100%;' + '    height: 100%;' + '    z-index: 9999999999;' + '    text-align: center;' + '    font-size: 14px;' + '    display: flex;' + '    flex: 1;' + '    justify-content: center;' + '    flex-direction: column;' + '    align-items: center;' + '    background: rgba(0, 0, 0, 0.09);';
         loading.innerHTML = timeCountStr + '<div class="ball-pulse" style="padding: 15px;">' + '    <div></div>' + '    <div></div>' + '    <div></div>' + '</div>' + textStr;
         document.body.appendChild(loading);
-
         if (showTimeCount) {
           var countBox = document.getElementById('count_box');
           setInterval(function () {
             count++;
-
             if (countBox) {
               countBox.innerHTML = '<div>' + count + 's</div>';
             }
           }, 1000);
         }
       },
-
       /**
        * 删除loading
        */
@@ -113,14 +118,12 @@ var Device = function () {
       createUUID: function createUUID() {
         var result = [];
         var hexDigits = "0123456789abcdef";
-
         for (var i = 0; i < 36; i++) {
           result[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-        } // bits 12-15 of the time_hi_and_version field to 0010
-
-
-        result[14] = "4"; // bits 6-7 of the clock_seq_hi_and_reserved to 01
-
+        }
+        // bits 12-15 of the time_hi_and_version field to 0010
+        result[14] = "4";
+        // bits 6-7 of the clock_seq_hi_and_reserved to 01
         result[19] = hexDigits.substr(result[19] & 0x3 | 0x8, 1);
         result[8] = result[13] = result[18] = result[23] = "-";
         return result.join("");
@@ -224,11 +227,9 @@ var Device = function () {
       matchInfoMap: function matchInfoMap(_this) {
         var u = VariableLibrary.navigator.userAgent || {};
         var match = MethodLibrary.getMatchMap(u);
-
         for (var s in VariableLibrary.infoMap) {
           for (var i = 0; i < VariableLibrary.infoMap[s].length; i++) {
             var value = VariableLibrary.infoMap[s][i];
-
             if (match[value]) {
               _this[s] = value;
             }
@@ -238,17 +239,15 @@ var Device = function () {
       // 获取当前操作系统
       getOS: function getOS() {
         var _this = this;
-
         MethodLibrary.matchInfoMap(_this);
         return _this.os;
       },
       // 获取操作系统版本
       getOSVersion: function getOSVersion() {
         var _this = this;
-
         var u = VariableLibrary.navigator.userAgent || {};
-        _this.osVersion = ''; // 系统版本信息
-
+        _this.osVersion = '';
+        // 系统版本信息
         var osVersion = {
           'Windows': function Windows() {
             var v = u.replace(/^.*Windows NT ([\d.]+);.*$/, '$1');
@@ -287,34 +286,28 @@ var Device = function () {
             return u.replace(/^.*hpwOS\/([\d.]+);.*$/, '$1');
           }
         };
-
         if (osVersion[_this.os]) {
           _this.osVersion = osVersion[_this.os]();
-
           if (_this.osVersion == u) {
             _this.osVersion = '';
           }
         }
-
         return _this.osVersion;
       },
       // 获取横竖屏状态
       getOrientationStatu: function getOrientationStatu() {
         var orientationStatus = '';
         var orientation = window.matchMedia("(orientation: portrait)");
-
         if (orientation.matches) {
           orientationStatus = "竖屏";
         } else {
           orientationStatus = "横屏";
         }
-
         return orientationStatus;
       },
       // 获取设备类型
       getDeviceType: function getDeviceType() {
         var _this = this;
-
         _this.device = 'PC';
         MethodLibrary.matchInfoMap(_this);
         return _this.device;
@@ -327,39 +320,31 @@ var Device = function () {
       // 获取当前语言
       getLanguage: function getLanguage() {
         var _this = this;
-
         _this.language = function () {
           var language = VariableLibrary.navigator.browserLanguage || VariableLibrary.navigator.language;
           var arr = language.split('-');
-
           if (arr[1]) {
             arr[1] = arr[1].toUpperCase();
           }
-
           return arr.join('_');
         }();
-
         return _this.language;
       },
       // 生成浏览器指纹
       createFingerprint: function createFingerprint(domain) {
         var fingerprint;
-
         function bin2hex(s) {
           var i,
-              l,
-              n,
-              o = '';
+            l,
+            n,
+            o = '';
           s += '';
-
           for (i = 0, l = s.length; i < l; i++) {
             n = s.charCodeAt(i).toString(16);
             o += n.length < 2 ? '0' + n : n;
           }
-
           return o;
         }
-
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
         var txt = domain || window.location.host;
@@ -381,43 +366,33 @@ var Device = function () {
       // 浏览器信息
       getBrowserInfo: function getBrowserInfo() {
         var _this = this;
-
         MethodLibrary.matchInfoMap(_this);
         var u = VariableLibrary.navigator.userAgent || {};
-
         var _mime = function _mime(option, value) {
           var mimeTypes = VariableLibrary.navigator.mimeTypes;
-
           for (var key in mimeTypes) {
             if (mimeTypes[key][option] == value) {
               return true;
             }
           }
-
           return false;
         };
-
         var match = MethodLibrary.getMatchMap(u);
         var is360 = false;
-
         if (_window.chrome) {
           var chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
-
           if (chrome_version > 36 && _window.showModalDialog) {
             is360 = true;
           } else if (chrome_version > 45) {
             is360 = _mime("type", "application/vnd.chromium.remoting-viewer");
           }
         }
-
         if (match['Baidu'] && match['Opera']) {
           match['Baidu'] = false;
         }
-
         if (match['Mobile']) {
           match['Mobile'] = !(u.indexOf('iPad') > -1);
         }
-
         if (is360) {
           if (_mime("type", "application/gameplugin")) {
             match['360SE'] = true;
@@ -427,50 +402,39 @@ var Device = function () {
             match['360EE'] = true;
           }
         }
-
         if (match['IE'] || match['Edge']) {
           var navigator_top = window.screenTop - window.screenY;
-
           switch (navigator_top) {
             case 71:
               // 无收藏栏,贴边
               break;
-
             case 74:
               // 无收藏栏,非贴边
               break;
-
             case 99:
               // 有收藏栏,贴边
               break;
-
             case 102:
               // 有收藏栏,非贴边
               match['360EE'] = true;
               break;
-
             case 75:
               // 无收藏栏,贴边
               break;
-
             case 74:
               // 无收藏栏,非贴边
               break;
-
             case 105:
               // 有收藏栏,贴边
               break;
-
             case 104:
               // 有收藏栏,非贴边
               match['360SE'] = true;
               break;
-
             default:
               break;
           }
         }
-
         var browerVersionMap = {
           'Safari': function Safari() {
             return u.replace(/^.*Version\/([\d.]+).*$/, '$1');
@@ -578,11 +542,9 @@ var Device = function () {
           },
           'Liebao': function Liebao() {
             var version = '';
-
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-
             var hash = {
               '57': '6.5',
               '49': '6.0',
@@ -598,11 +560,9 @@ var Device = function () {
           },
           'LBBROWSER': function LBBROWSER() {
             var version = '';
-
             if (u.indexOf('LieBaoFast') > -1) {
               version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
-
             var hash = {
               '57': '6.5',
               '49': '6.0',
@@ -669,20 +629,16 @@ var Device = function () {
           }
         };
         _this.browserVersion = '';
-
         if (browerVersionMap[_this.browser]) {
           _this.browserVersion = browerVersionMap[_this.browser]();
-
           if (_this.browserVersion == u) {
             _this.browserVersion = '';
           }
         }
-
         if (_this.browser == 'Chrome' && u.match(/\S+Browser/)) {
           _this.browser = u.match(/\S+Browser/)[0];
           _this.version = u.replace(/^.*Browser\/([\d.]+).*$/, '$1');
         }
-
         if (_this.browser == 'Edge') {
           if (_this.version > "75") {
             _this.engine = 'Blink';
@@ -690,7 +646,6 @@ var Device = function () {
             _this.engine = 'EdgeHTML';
           }
         }
-
         if (_this.browser == 'Chrome' && parseInt(_this.browserVersion) > 27) {
           _this.engine = 'Blink';
         } else if (match['Chrome'] && _this.engine == 'WebKit' && parseInt(browerVersionMap['Chrome']()) > 27) {
@@ -700,17 +655,18 @@ var Device = function () {
         } else if (_this.browser == 'Yandex') {
           _this.engine = 'Blink';
         }
-
         return _this.browser + '（版本: ' + _this.browserVersion + '&nbsp;&nbsp;内核: ' + _this.engine + '）';
       },
       // 获取地理位置
       getGeoPostion: function getGeoPostion() {
         return new Promise(function (resolve, reject) {
           if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition( // 位置获取成功
+            navigator.geolocation.getCurrentPosition(
+            // 位置获取成功
             function (position) {
               resolve(position);
-            }, // 位置获取失败
+            },
+            // 位置获取失败
             function (error) {
               resolve({
                 coords: {
@@ -729,14 +685,12 @@ var Device = function () {
           }
         });
       },
-
       /* 阳历转阴历
        * @date: <String> 2023/01/01
        */
       toLunarDate: function toLunarDate(date) {
         var now_date = new Date();
         var date_str = date ? date.replaceAll('-', '/') : "".concat(now_date.getFullYear(), "/").concat(now_date.getMonth() + 1, "/").concat(now_date.getDate());
-
         function transferToLunar(str) {
           var lunar;
           var solarYear = new Date(str).getFullYear();
@@ -744,80 +698,72 @@ var Device = function () {
           var solarDay = new Date(str).getDate();
           var solarDateObj;
           var lunarDateObj,
-              lunarYear,
-              lunarMonth,
-              lunarDay = 1;
+            lunarYear,
+            lunarMonth,
+            lunarDay = 1;
           var lunarLeap; // 农历是否闰月
-
           var lunarLastDay = 0; // 农历当月最后一天
-
           var firstLunarMonth = ''; // 农历第一个月
-
           var lunarDayPositionArr = new Array(3);
-          var n = 0; // 阳历当月天数
+          var n = 0;
 
+          // 阳历当月天数
           var solarMonthLength;
-
           if (solarMonth === 1) {
             solarMonthLength = solarYear % 4 === 0 && solarYear % 100 != 0 || solarYear % 400 === 0 ? 29 : 28;
           } else {
             solarMonthLength = VariableLibrary.lunarLib.solarMonthArr[solarMonth];
-          } // 判断year年的农历中那个月是闰月,不是闰月返回0
+          }
 
-
+          // 判断year年的农历中那个月是闰月,不是闰月返回0
           function whitchMonthLeap(year) {
             return VariableLibrary.lunarLib.lunarMap[year - 1900] & 0xf;
-          } // 返回农历year年润月天数
+          }
 
-
+          // 返回农历year年润月天数
           function leapMonthDays(year) {
             if (whitchMonthLeap(year)) {
               return VariableLibrary.lunarLib.lunarMap[year - 1900] & 0x10000 ? 30 : 29;
             } else {
               return 0;
             }
-          } // 返回农历y年m月的总天数
+          }
 
-
+          // 返回农历y年m月的总天数
           function monthDays(y, m) {
             return VariableLibrary.lunarLib.lunarMap[y - 1900] & 0x10000 >> m ? 30 : 29;
-          } // 算出当前月第一天的农历日期和当前农历日期下一个月农历的第一天日期
+          }
 
-
+          // 算出当前月第一天的农历日期和当前农历日期下一个月农历的第一天日期
           function calculateLunarFirstDay(objDate) {
             var j,
-                leap = 0,
-                temp = 0;
+              leap = 0,
+              temp = 0;
             var baseDate = new Date(1900, 0, 31);
             var offset = (objDate - baseDate) / 86400000;
             var dayCycle = offset + 40;
             var monthCycle = 14;
-
             for (j = 1900; j < 2050 && offset > 0; j++) {
               // 返回农历j年的总天数
               var sum = 348;
-
               for (var k = 0x8000; k > 0x8; k >>= 1) {
                 sum += VariableLibrary.lunarLib.lunarMap[j - 1900] & k ? 1 : 0;
               }
-
               temp = sum + leapMonthDays(j);
               offset -= temp;
               monthCycle += 12;
             }
-
             if (offset < 0) {
               offset += temp;
               j--;
               monthCycle -= 12;
             }
-
             var year = j;
-            var yearCycle = j - 1864; // 判断j年的农历中那个月是闰月,不是闰月返回0
+            var yearCycle = j - 1864;
 
+            // 判断j年的农历中那个月是闰月,不是闰月返回0
             leap = whitchMonthLeap(j);
             var isLeap = false;
-
             for (j = 1; j < 13 && offset > 0; j++) {
               if (leap > 0 && j === leap + 1 && isLeap === false) {
                 // 闰月
@@ -827,13 +773,10 @@ var Device = function () {
               } else {
                 temp = monthDays(year, j);
               }
-
               if (isLeap === true && j === leap + 1) isLeap = false; // 解除闰月
-
               offset -= temp;
               if (isLeap === false) monthCycle++;
             }
-
             if (offset === 0 && leap > 0 && j === leap + 1) {
               if (isLeap) {
                 isLeap = false;
@@ -843,13 +786,11 @@ var Device = function () {
                 --monthCycle;
               }
             }
-
             if (offset < 0) {
               offset += temp;
               --j;
               --monthCycle;
             }
-
             var month = j;
             var day = offset + 1;
             return {
@@ -862,27 +803,21 @@ var Device = function () {
               dayCycle: dayCycle
             };
           }
-
           for (var i = 0; i < solarMonthLength; i++) {
             if (lunarDay > lunarLastDay) {
               // 阳历当月第一天的日期
-              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : new Date().getDate()); // 农历
+              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : new Date().getDate());
 
+              // 农历
               lunarDateObj = calculateLunarFirstDay(solarDateObj);
               lunarYear = lunarDateObj.year; // 农历年
-
               lunarMonth = lunarDateObj.month; // 农历月
-
               lunarDay = lunarDateObj.day; // 农历日
-
               lunarLeap = lunarDateObj.isLeap; // 农历是否闰月
-
               lunarLastDay = lunarLeap ? leapMonthDays(lunarYear) : monthDays(lunarYear, lunarMonth);
-
               if (lunarMonth === 12) {
                 VariableLibrary.lunarLib.monthPlusOne = lunarLastDay;
               }
-
               if (n === 0) {
                 firstLunarMonth = lunarMonth;
               } else {
@@ -890,40 +825,34 @@ var Device = function () {
               }
             }
           }
-
           lunar = {
             lunarYear: lunarYear,
             lunarMonth: lunarMonth,
             lunarDay: lunarDay,
             lunarLeap: lunarLeap,
             chineseZodiac: VariableLibrary.lunarLib.AnimalsArr[(lunarYear - 4) % 12]
-          }; // 用中文显示农历的日期
+          };
 
+          // 用中文显示农历的日期
           function chineseDay(date) {
             date = Math.floor(date);
             var ChineseDate;
-
             switch (date) {
               case 10:
                 ChineseDate = '初十';
                 break;
-
               case 20:
                 ChineseDate = '二十';
                 break;
-
               case 30:
                 ChineseDate = '三十';
                 break;
-
               default:
                 ChineseDate = VariableLibrary.lunarLib.numberToHanzi_2[Math.floor(date / 10)];
                 ChineseDate += VariableLibrary.lunarLib.numberToHanzi_1[date % 10];
             }
-
             return ChineseDate;
           }
-
           var lunarYearArr = String(lunar.lunarYear).split('');
           var chineseYear = "".concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[0]]).concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[1]]).concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[2]]).concat(VariableLibrary.lunarLib.chineseYear[lunarYearArr[3]]);
           return {
@@ -933,13 +862,11 @@ var Device = function () {
             chineseZodiac: lunar.chineseZodiac
           };
         }
-
         return transferToLunar(date_str);
       }
     };
-  }(); // 逻辑层
-
-
+  }();
+  // 逻辑层
   var LogicLibrary = function () {
     return {
       DeviceInfoObj: function DeviceInfoObj(params) {
@@ -975,33 +902,26 @@ var Device = function () {
           week: MethodLibrary.getWeek(),
           // 获取周几
           UUID: MethodLibrary.createUUID() // 生成通用唯一标识
-
         };
-        var resultInfo = {};
 
+        var resultInfo = {};
         if (!params || !params.info || params.info.length === 0) {
           resultInfo = info;
         } else {
-          (function () {
-            var infoTemp = {};
-
-            var _loop = function _loop(i) {
-              params.info.forEach(function (item) {
-                if (item.toLowerCase() === i.toLowerCase()) {
-                  item = i;
-                  infoTemp[item] = info[item];
-                }
-              });
-            };
-
-            for (var i in info) {
-              _loop(i);
-            }
-
-            resultInfo = infoTemp;
-          })();
+          var infoTemp = {};
+          var _loop = function _loop(i) {
+            params.info.forEach(function (item) {
+              if (item.toLowerCase() === i.toLowerCase()) {
+                item = i;
+                infoTemp[item] = info[item];
+              }
+            });
+          };
+          for (var i in info) {
+            _loop(i);
+          }
+          resultInfo = infoTemp;
         }
-
         return new Promise(function (resolve) {
           if (resultInfo.geoPosition) {
             MethodLibrary.getGeoPostion().then(function (geoPosition) {
@@ -1017,9 +937,8 @@ var Device = function () {
         });
       }
     };
-  }(); // 对外暴露方法
-
-
+  }();
+  // 对外暴露方法
   return {
     /**
      * @params:{
