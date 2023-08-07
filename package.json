@@ -4,8 +4,7 @@
   "description": "Get device information by javascript.",
   "main": "dist/device.export.js",
   "scripts": {
-    "build": "./build.sh",
-    "publish": "npm publish"
+    "build": "./build.sh"
   },
   "repository": {
     "type": "git",
