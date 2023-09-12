@@ -867,6 +867,11 @@ var Device = function () {
           };
         }
         return transferToLunar(date_str);
+      },
+      // 获取操作系统平台
+      getPlatform: function getPlatform() {
+        var platform = VariableLibrary.navigator.userAgentData && VariableLibrary.navigator.userAgentData.platform || VariableLibrary.navigator.platform;
+        return platform;
       }
     };
   }();
@@ -881,6 +886,8 @@ var Device = function () {
           // 操作系统
           OSVersion: MethodLibrary.getOSVersion(),
           // 操作系统版本
+          platform: MethodLibrary.getPlatform(),
+          // 获取操作系统平台
           screenHeight: _window.screen.height,
           // 屏幕高
           screenWidth: _window.screen.width,
@@ -896,7 +903,7 @@ var Device = function () {
           fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''),
           // 浏览器指纹
           userAgent: VariableLibrary.navigator.userAgent,
-          // 包含 appCodeName,appName,appVersion,language,platform 等
+          // 包含 appCodeName,appName,appVersion,language 等
           geoPosition: true,
           // 获取地理位置
           date: MethodLibrary.getDate(),

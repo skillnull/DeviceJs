@@ -897,6 +897,11 @@ const Device = (function () {
         }
 
         return transferToLunar(date_str)
+      },
+      // 获取操作系统平台
+      getPlatform(){
+        const platform = VariableLibrary.navigator.userAgentData && VariableLibrary.navigator.userAgentData.platform || VariableLibrary.navigator.platform
+        return platform
       }
     }
   })()
@@ -908,6 +913,7 @@ const Device = (function () {
           deviceType: MethodLibrary.getDeviceType(), // 设备类型
           OS: MethodLibrary.getOS(), // 操作系统
           OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
+          platform: MethodLibrary.getPlatform(), // 获取操作系统平台
           screenHeight: _window.screen.height, // 屏幕高
           screenWidth: _window.screen.width, // 屏幕宽
           language: MethodLibrary.getLanguage(), // 当前使用的语言-国家
@@ -915,7 +921,7 @@ const Device = (function () {
           orientation: MethodLibrary.getOrientationStatu(), // 横竖屏
           browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
           fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''), // 浏览器指纹
-          userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language,platform 等
+          userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language 等
           geoPosition: true, // 获取地理位置
           date: MethodLibrary.getDate(), // 获取阳历日期时间
           lunarDate: MethodLibrary.toLunarDate(params && params.transferDateToLunar || ''), // 获取农历日期时间
