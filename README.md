@@ -62,6 +62,7 @@ Device.Info().then(data => {
 - deviceType: 设备类型
 - OS: 操作系统
 - OSVersion: 操作系统版本
+- platform: 操作系统平台
 - screenHeight: 屏幕高
 - screenWidth: 屏幕宽
 - language: 当前使用的语言-国家
