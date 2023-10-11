@@ -10,9 +10,9 @@
 ``` html
 CDN
 
-<script src="https://www.unpkg.com/@skillnull/device-js@1.1.9/dist/device.export.js"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@1.1.11/dist/device.export.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@1.1.9/dist/device.export.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@1.1.11/dist/device.export.js"></script>
 ```
 
 ```shell
@@ -23,7 +23,6 @@ yarn add @skillnull/device-js
 npm install @skillnull/device-js
 ```
 
----
 
 > #### 使用
 
@@ -55,7 +54,6 @@ Device.Info().then(data => {
 })
  ```
 
----
 
 > #### INFO 配置项
 
@@ -77,7 +75,6 @@ Device.Info().then(data => {
 - week: 周几
 - UUID: 通用唯一标识 Universally Unique Identifier
 
----
 
 > #### 在线地址:[https://skillnull.com/others/DeviceJs/index.html](https://skillnull.com/others/DeviceJs/index.html)
 
