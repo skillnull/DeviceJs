@@ -1,6 +1,6 @@
-<div style="text-align: center;padding: 30px 10px;width: 100%;">
+<p align="center">
   <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
-</div>
+</p>
 
 > #### 安装
 
