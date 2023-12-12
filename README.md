@@ -1,13 +1,10 @@
-<p align="center">
+<div style="text-align: center;padding: 30px 10px;">
   <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
-</p>
-
----
+</div>
 
 > #### 安装
 
-
-``` html
+```html
 CDN
 
 <script src="https://www.unpkg.com/@skillnull/device-js@1.1.11/dist/device.export.js"></script>
@@ -16,17 +13,20 @@ CDN
 ```
 
 ```shell
-NPM or YARN
+# NPM or YARN
 
 yarn add @skillnull/device-js
+
 # or with npm
+
 npm install @skillnull/device-js
 ```
 
 
+
 > #### 使用
 
- ```js
+```js
 import Device from '@skillnull/device-js'
 
 /**
@@ -47,34 +47,31 @@ Device.Info({
   console.log(data)
 })
 
-或
+// 或
 
 Device.Info().then(data => {
   console.log(data)
 })
- ```
-
+```
 
 > #### INFO 配置项
+> - deviceType: 设备类型
+> - OS: 操作系统
+> - OSVersion: 操作系统版本
+> - platform: 操作系统平台
+> - screenHeight: 屏幕高
+> - screenWidth: 屏幕宽
+> - language: 当前使用的语言-国家
+> - netWork: 联网类型
+> - orientation: 横竖屏
+> - browserInfo: 浏览器信息
+> - fingerprint: 浏览器指纹
+> - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
+> - geoPosition: 地理位置
+> - date: 阳历日期时间
+> - lunarDate: 阴历日期
+> - week: 周几
+> - UUID: 通用唯一标识 Universally Unique Identifier
 
-- deviceType: 设备类型
-- OS: 操作系统
-- OSVersion: 操作系统版本
-- platform: 操作系统平台
-- screenHeight: 屏幕高
-- screenWidth: 屏幕宽
-- language: 当前使用的语言-国家
-- netWork: 联网类型
-- orientation: 横竖屏
-- browserInfo: 浏览器信息
-- fingerprint: 浏览器指纹
-- userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
-- geoPosition: 地理位置
-- date: 阳历日期时间
-- lunarDate: 阴历日期
-- week: 周几
-- UUID: 通用唯一标识 Universally Unique Identifier
-
-
-> #### 在线地址:[https://skillnull.com/others/DeviceJs/index.html](https://skillnull.com/others/DeviceJs/index.html)
+> #### 在线地址: [https://skillnull.com/others/DeviceJs/index.html](https://skillnull.com/others/DeviceJs/index.html)
 
