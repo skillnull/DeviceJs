@@ -10,7 +10,7 @@ var Device = function () {
     infoMap: {
       engine: ['WebKit', 'Trident', 'Gecko', 'Presto'],
       browser: ['Safari', 'Chrome', 'Edge', 'IE', 'Firefox', 'Firefox Focus', 'Chromium', 'Opera', 'Vivaldi', 'Yandex', 'Arora', 'Lunascape', 'QupZilla', 'Coc Coc', 'Kindle', 'Iceweasel', 'Konqueror', 'Iceape', 'SeaMonkey', 'Epiphany', '360', '360SE', '360EE', 'UC', 'QQBrowser', 'QQ', 'Baidu', 'Maxthon', 'Sogou', 'LBBROWSER', '2345Explorer', 'TheWorld', 'XiaoMi', 'Quark', 'Qiyu', 'Wechat',, 'WechatWork', 'Taobao', 'Alipay', 'Weibo', 'Douban', 'Suning', 'iQiYi'],
-      os: ['Windows', 'Linux', 'Mac OS', 'Android', 'Ubuntu', 'FreeBSD', 'Debian', 'iOS', 'Windows Phone', 'BlackBerry', 'MeeGo', 'Symbian', 'Chrome OS', 'WebOS'],
+      os: ['Windows', 'Linux', 'Mac OS', 'Android', 'Ubuntu', 'FreeBSD', 'Debian', 'iOS', 'Windows Phone', 'BlackBerry', 'MeeGo', 'Symbian', 'Chrome OS', 'WebOS', 'HarmonyOS'],
       device: ['Mobile', 'Tablet', 'iPad']
     },
     // 农历相关
@@ -217,6 +217,7 @@ var Device = function () {
           'iOS': u.indexOf('like Mac OS X') > -1,
           'Chrome OS': u.indexOf('CrOS') > -1,
           'WebOS': u.indexOf('hpwOS') > -1,
+          'HarmonyOS': u.indexOf('HarmonyOS') > -1,
           // 设备
           'Mobile': u.indexOf('Mobi') > -1 || u.indexOf('iPh') > -1 || u.indexOf('480') > -1,
           'Tablet': u.indexOf('Tablet') > -1 || u.indexOf('Nexus 7') > -1,

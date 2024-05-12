@@ -7,9 +7,9 @@
 ```html
 CDN
 
-<script src="https://www.unpkg.com/@skillnull/device-js@1.1.11/dist/device.export.js"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@1.1.12/dist/device.export.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@1.1.11/dist/device.export.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@1.1.12/dist/device.export.js"></script>
 ```
 
 ```shell
