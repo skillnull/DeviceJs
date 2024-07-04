@@ -2,7 +2,6 @@ import { babel } from "@rollup/plugin-babel"
 import terser from "@rollup/plugin-terser"
 import resolve from "@rollup/plugin-node-resolve"
 import commonjs from "@rollup/plugin-commonjs"
-import { name } from "./package.json"
 
 /**
  * amd - 异步模块加载，适用于 RequireJS 等模块加载器
@@ -17,13 +16,13 @@ export default {
   plugins: [resolve(), babel({ babelHelpers: "runtime", exclude: /node_modules/ }), commonjs(), terser()],
   output: [
     {
-      file: `dist/${name}.es.js`,
+      file: `dist/device.es.js`,
       format: "es",
       compact: true // 是否压缩 Rollup 产生的额外代码
     },
     {
-      file: `dist/${name}.js`,
-      name: `${name}.js`,
+      file: `dist/device.js`,
+      name: `device.js`,
       format: 'umd',
       compact: true // 是否压缩 Rollup 产生的额外代码
     }
