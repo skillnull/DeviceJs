@@ -3,8 +3,13 @@
     [
       "@babel/preset-env",
       {
-        "modules": "commonjs"
+        "useBuiltIns": "usage"
       }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime"
     ]
   ]
 }
