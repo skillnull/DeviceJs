@@ -7,8 +7,68 @@ const Device = (function () {
     // 信息map
     infoMap: {
       engine: ['WebKit', 'Trident', 'Gecko', 'Presto'],
-      browser: ['Safari', 'Chrome', 'Edge', 'IE', 'Firefox', 'Firefox Focus', 'Chromium', 'Opera', 'Vivaldi', 'Yandex', 'Arora', 'Lunascape', 'QupZilla', 'Coc Coc', 'Kindle', 'Iceweasel', 'Konqueror', 'Iceape', 'SeaMonkey', 'Epiphany', '360', '360SE', '360EE', 'UC', 'QQBrowser', 'QQ', 'Baidu', 'Maxthon', 'Sogou', 'LBBROWSER', '2345Explorer', 'TheWorld', 'XiaoMi', 'Quark', 'Qiyu', 'Wechat', , 'WechatWork', 'Taobao', 'Alipay', 'Weibo', 'Douban', 'Suning', 'iQiYi'],
-      os: ['Windows', 'Linux', 'Mac OS', 'Android', 'Ubuntu', 'FreeBSD', 'Debian', 'iOS', 'Windows Phone', 'BlackBerry', 'MeeGo', 'Symbian', 'Chrome OS', 'WebOS', 'HarmonyOS'],
+      browser: [
+        'Safari',
+        'Chrome',
+        'Edge',
+        'IE',
+        'Firefox',
+        'Firefox Focus',
+        'Chromium',
+        'Opera',
+        'Vivaldi',
+        'Yandex',
+        'Arora',
+        'Lunascape',
+        'QupZilla',
+        'Coc Coc',
+        'Kindle',
+        'Iceweasel',
+        'Konqueror',
+        'Iceape',
+        'SeaMonkey',
+        'Epiphany',
+        '360',
+        '360SE',
+        '360EE',
+        'UC',
+        'QQBrowser',
+        'QQ',
+        'Baidu',
+        'Maxthon',
+        'Sogou',
+        'LBBROWSER',
+        '2345Explorer',
+        'TheWorld',
+        'XiaoMi',
+        'Quark',
+        'Qiyu',
+        'Wechat', ,
+        'WechatWork',
+        'Taobao',
+        'Alipay',
+        'Weibo',
+        'Douban',
+        'Suning',
+        'iQiYi'
+      ],
+      os: [
+        'Windows',
+        'Linux',
+        'Mac OS',
+        'Android',
+        'Ubuntu',
+        'FreeBSD',
+        'Debian',
+        'iOS',
+        'Windows Phone',
+        'BlackBerry',
+        'MeeGo',
+        'Symbian',
+        'Chrome OS',
+        'WebOS',
+        'HarmonyOS'
+      ],
       device: ['Mobile', 'Tablet', 'iPad']
     },
     // 农历相关
@@ -224,7 +284,8 @@ const Device = (function () {
           'iQiYi': u.indexOf('IqiyiApp') > -1,
           'DingTalk': u.indexOf('DingTalk') > -1,
           'Vivo': u.indexOf('VivoBrowser') > -1,
-          'Huawei': u.indexOf('HuaweiBrowser') > -1 || u.indexOf('HUAWEI/') > -1 || u.indexOf('HONOR') > -1 || u.indexOf('HBPC/') > -1,
+          'Huawei': u.indexOf('HuaweiBrowser') > -1 || u.indexOf('HUAWEI/') > -1 || u.indexOf(
+            'HONOR') > -1 || u.indexOf('HBPC/') > -1,
           // 系统或平台
           'Windows': u.indexOf('Windows') > -1,
           'Linux': u.indexOf('Linux') > -1 || u.indexOf('X11') > -1,
@@ -358,7 +419,7 @@ const Device = (function () {
       createFingerprint: function (domain) {
         let fingerprint
 
-        function bin2hex (s) {
+        function bin2hex(s) {
           let i, l, n, o = ''
           s += ''
           for (i = 0, l = s.length; i < l; i++) {
@@ -525,12 +586,12 @@ const Device = (function () {
             return u.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
           },
           '360SE': function () {
-            let hash = {'63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3'}
+            let hash = { '63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3' }
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           '360EE': function () {
-            let hash = {'69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5'};
+            let hash = { '69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5' };
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
@@ -637,7 +698,8 @@ const Device = (function () {
             return u.replace(/^.*DingTalk\/([\d.]+).*$/, '$1');
           },
           'Huawei': function () {
-            return u.replace(/^.*Version\/([\d.]+).*$/, '$1').replace(/^.*HuaweiBrowser\/([\d.]+).*$/, '$1').replace(/^.*HBPC\/([\d.]+).*$/, '$1');
+            return u.replace(/^.*Version\/([\d.]+).*$/, '$1').replace(/^.*HuaweiBrowser\/([\d.]+).*$/, '$1')
+              .replace(/^.*HBPC\/([\d.]+).*$/, '$1');
           }
         }
 
@@ -710,9 +772,11 @@ const Device = (function () {
        */
       toLunarDate: function (date) {
         let now_date = new Date()
-        let date_str = date ? date.replaceAll('-', '/') : `${now_date.getFullYear()}/${now_date.getMonth() + 1}/${now_date.getDate()}`
+        let date_str = date ? date.replaceAll('-',
+          '/'
+        ) : `${now_date.getFullYear()}/${now_date.getMonth() + 1}/${now_date.getDate()}`
 
-        function transferToLunar (str) {
+        function transferToLunar(str) {
           let lunar
 
           let solarYear = new Date(str).getFullYear()
@@ -735,12 +799,12 @@ const Device = (function () {
           }
 
           // 判断year年的农历中那个月是闰月,不是闰月返回0
-          function whitchMonthLeap (year) {
+          function whitchMonthLeap(year) {
             return (VariableLibrary.lunarLib.lunarMap[year - 1900] & 0xf)
           }
 
           // 返回农历year年润月天数
-          function leapMonthDays (year) {
+          function leapMonthDays(year) {
             if (whitchMonthLeap(year)) {
               return ((VariableLibrary.lunarLib.lunarMap[year - 1900] & 0x10000) ? 30 : 29)
             } else {
@@ -749,12 +813,12 @@ const Device = (function () {
           }
 
           // 返回农历y年m月的总天数
-          function monthDays (y, m) {
+          function monthDays(y, m) {
             return ((VariableLibrary.lunarLib.lunarMap[y - 1900] & (0x10000 >> m)) ? 30 : 29)
           }
 
           // 算出当前月第一天的农历日期和当前农历日期下一个月农历的第一天日期
-          function calculateLunarFirstDay (objDate) {
+          function calculateLunarFirstDay(objDate) {
             let j, leap = 0, temp = 0
             let baseDate = new Date(1900, 0, 31)
             let offset = (objDate - baseDate) / 86400000
@@ -866,7 +930,7 @@ const Device = (function () {
           }
 
           // 用中文显示农历的日期
-          function chineseDay (date) {
+          function chineseDay(date) {
             date = Math.floor(date)
             let ChineseDate
             switch (date) {
@@ -900,7 +964,7 @@ const Device = (function () {
         return transferToLunar(date_str)
       },
       // 获取操作系统平台
-      getPlatform(){
+      getPlatform() {
         const platform = VariableLibrary.navigator.userAgentData && VariableLibrary.navigator.userAgentData.platform || VariableLibrary.navigator.platform
         return platform
       }
@@ -983,3 +1047,5 @@ const Device = (function () {
     }
   }
 })()
+
+window.Device = Device

@@ -22,8 +22,9 @@ export default {
     },
     {
       file: `dist/device.js`,
-      name: `device.js`,
+      name: 'Device',
       format: 'umd',
+      extend: true,
       compact: true // 是否压缩 Rollup 产生的额外代码
     }
   ]

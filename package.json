@@ -1,6 +1,6 @@
 {
   "name": "@skillnull/device-js",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Get device information by javascript.",
   "main": "dist/device",
   "author": "skillnull",
@@ -12,7 +12,7 @@
     "SKILL.NULL"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.mjs --bundleConfigAsCjs"
+    "build": "rollup --config rollup.config.js --bundleConfigAsCjs"
   },
   "homepage": "https://github.com/skillnull/DeviceJs#readme",
   "repository": {
