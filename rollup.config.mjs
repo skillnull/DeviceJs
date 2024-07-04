@@ -1,5 +1,7 @@
 import { babel } from "@rollup/plugin-babel"
 import terser from "@rollup/plugin-terser"
+import resolve from "@rollup/plugin-node-resolve"
+import commonjs from "@rollup/plugin-commonjs"
 import { name } from "./package.json"
 
 /**
@@ -12,7 +14,7 @@ import { name } from "./package.json"
  */
 export default {
   input: "src/device.js",
-  plugins: [babel({ babelHelpers: "runtime", exclude: /node_modules/ }), terser()],
+  plugins: [resolve(), babel({ babelHelpers: "runtime", exclude: /node_modules/ }), commonjs(), terser()],
   output: [
     {
       file: `dist/${name}.es.js`,
