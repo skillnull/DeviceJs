@@ -1047,5 +1047,3 @@ const Device = (function () {
     }
   }
 })()
-
-window.Device = Device
