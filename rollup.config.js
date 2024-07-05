@@ -1,5 +1,7 @@
 import { babel } from "@rollup/plugin-babel"
 import terser from "@rollup/plugin-terser"
+import resolve from "@rollup/plugin-node-resolve"
+import commonjs from "@rollup/plugin-commonjs"
 
 /**
  * amd - 异步模块加载，适用于 RequireJS 等模块加载器
@@ -11,7 +13,7 @@ import terser from "@rollup/plugin-terser"
  */
 export default {
   input: "src/device.js",
-  plugins: [babel({ babelHelpers: "runtime", exclude: /node_modules/ }), terser()],
+  plugins: [resolve(), babel({ babelHelpers: "runtime", exclude: /node_modules/ }), commonjs(), terser()],
   output: [
     {
       file: `dist/device.es.js`,
@@ -20,7 +22,7 @@ export default {
     },
     {
       file: `dist/device.js`,
-      name: 'Device',
+      name: 'device',
       format: 'umd',
       compact: true
     }
