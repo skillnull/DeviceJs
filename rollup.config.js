@@ -22,7 +22,7 @@ export default {
     },
     {
       file: `dist/device.js`,
-      name: 'device',
+      name: 'Device',
       format: 'umd',
       compact: true
     }

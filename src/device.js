@@ -1047,3 +1047,5 @@ const Device = (function () {
     }
   }
 })()
+window.Device = Device
+export default Device
