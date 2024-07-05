@@ -1,7 +1,8 @@
-<div style="text-align: center;">
+<div align="center">
   <img src="http://skillnull.com/others/images/DeviceJs.svg" alt="DeviceJS">
 </div>
-<div style="text-align: center;margin: 10px 0;">
+<br>
+<div align="center" >
   <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
 </div>
 
