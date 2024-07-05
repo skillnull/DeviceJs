@@ -1,42 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Get Device Info Online</title>
-    <link rel="stylesheet" href="index.css?v=20220808">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Get Device Info Online</title>
+  <link rel="stylesheet" href="index.css?v=20220808">
 </head>
 <body>
 <div class="title">输入以下想要获取信息的key，多个key用逗号相隔, 为空则显示全部</div>
 <div class="keyTipBox">
-    <ul>
-        <li>deviceType // 设备类型</li>
-        <li>OS // 操作系统</li>
-        <li>OSVersion // 操作系统版本</li>
-        <li>platform // 操作系统平台</li>
-        <li>screenHeight // 屏幕高</li>
-        <li>screenWidth // 屏幕宽</li>
-        <li>language // 当前使用的语言-国家</li>
-        <li>netWork // 联网类型</li>
-        <li>orientation // 横竖屏</li>
-        <li>browserInfo // 浏览器信息</li>
-        <li>fingerprint // 浏览器指纹</li>
-        <li>userAgent // 包含 appCodeName,appName,appVersion,language,platform 等</li>
-        <li>geoPosition // 地理位置</li>
-        <li>date // 阳历日期时间</li>
-        <li>lunarDate // 阴历日期</li>
-        <li>week // 周几</li>
-        <li>UUID // 通用唯一标识 Universally Unique Identifier</li>
-    </ul>
+  <ul>
+    <li>deviceType // 设备类型</li>
+    <li>OS // 操作系统</li>
+    <li>OSVersion // 操作系统版本</li>
+    <li>platform // 操作系统平台</li>
+    <li>screenHeight // 屏幕高</li>
+    <li>screenWidth // 屏幕宽</li>
+    <li>language // 当前使用的语言-国家</li>
+    <li>netWork // 联网类型</li>
+    <li>orientation // 横竖屏</li>
+    <li>browserInfo // 浏览器信息</li>
+    <li>fingerprint // 浏览器指纹</li>
+    <li>userAgent // 包含 appCodeName,appName,appVersion,language,platform 等</li>
+    <li>geoPosition // 地理位置</li>
+    <li>date // 阳历日期时间</li>
+    <li>lunarDate // 阴历日期</li>
+    <li>week // 周几</li>
+    <li>UUID // 通用唯一标识 Universally Unique Identifier</li>
+  </ul>
 </div>
 <div class="getInfoBox">
-    <textarea id="info_input" placeholder="为空默认显示全部信息"></textarea>
-    <button onclick="getInfo()">获取</button>
+  <textarea id="info_input" placeholder="为空默认显示全部信息"></textarea>
+  <button onclick="getInfo()">获取</button>
 </div>
 <div id="info_box"></div>
-<script src="./device.js"></script>
+<script src="./device.js" type="module"></script>
 <script src="./index.js"></script>
 </body>
 </html>
