@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="http://skillnull.com/others/images/DeviceJs.svg" alt="DeviceJS">
+  <img src="http://skillnull.com/others/images/DeviceJs.png" width="300px" alt="DeviceJS">
 </div>
 <br>
 <div align="center" >
