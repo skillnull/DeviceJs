@@ -220,6 +220,11 @@ const Device = (function () {
         let hour = date.getHours()
         let minutes = date.getMinutes()
         let seconds = date.getSeconds()
+        month = month > 9 ? month : "0" + month
+        day = day > 9 ? day : "0" + day
+        hour = hour > 9 ? hour : "0" + hour
+        minutes = minutes > 9 ? minutes : "0" + minutes
+        seconds = seconds > 9 ? seconds : "0" + seconds
         return `${year}/${month}/${day} ${hour}:${minutes}:${seconds}`
       },
       // 获取当前周几
@@ -586,12 +591,12 @@ const Device = (function () {
             return u.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
           },
           '360SE': function () {
-            let hash = { '63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3' }
+            let hash = {'63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3'}
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           '360EE': function () {
-            let hash = { '69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5' };
+            let hash = {'69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5'};
             let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
@@ -772,9 +777,7 @@ const Device = (function () {
        */
       toLunarDate: function (date) {
         let now_date = new Date()
-        let date_str = date ? date.replaceAll('-',
-          '/'
-        ) : `${now_date.getFullYear()}/${now_date.getMonth() + 1}/${now_date.getDate()}`
+        let date_str = date ? date.replaceAll('-', '/') : `${now_date.getFullYear()}/${now_date.getMonth() + 1}/${now_date.getDate()}`
 
         function transferToLunar(str) {
           let lunar
