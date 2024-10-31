@@ -1,0 +1,125 @@
+@media (prefers-color-scheme: light) {
+  html, body {
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: #000000;
+  }
+
+  .title {
+    text-align: center;
+    color: white;
+    margin: 0;
+    width: calc(100% - 20px);
+    padding: 10px 10px 20px 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    backdrop-filter: saturate(50%) blur(4px);
+    background-image: radial-gradient(transparent 1px, #ffffff 1px);
+    background-size: 4px 4px;
+    border-bottom: 1px solid #f7f7f7;
+  }
+
+  .title > .brand {
+    height: 80px;
+    width: auto;
+  }
+
+  .title > .tips {
+    font-size: 18px;
+    color: #212121;
+  }
+
+  .title > .fork {
+    width: 40px;
+    height: 40px;
+    background-image: url("https://skillnull.com/wp-content/themes/basepress/assets/images/icon/github.png");
+    background-repeat: no-repeat;
+    background-size: calc(100% - 5px) calc(100% - 5px);
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-position: right 5px top 5px;
+    cursor: pointer;
+  }
+
+  .title > .fork > .text {
+    font-size: 12px;
+    position: absolute;
+    left: -50%;
+    top: 40%;
+    transform: rotate(45deg) translateY(-50%);
+    background: #000000bf;
+    width: 180%;
+    color: white;
+    text-shadow: 0px 0px 1px #ffffff;
+  }
+
+  .content {
+    margin-bottom: 20px;
+  }
+
+  .keyTipBox {
+    word-break: break-all;
+  }
+
+  .keyTipBox > ul > li > .comment {
+    color: #3d8dbc;
+  }
+
+  .getInfoBox {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 25px;
+  }
+
+  .getInfoBox textarea {
+    display: flex;
+    flex: 4;
+    height: 35px;
+    outline: none;
+    border-radius: 3px;
+    padding: 5px;
+    box-shadow: 0 0 0 1px #3d8dbc61 inset;
+    background: transparent;
+    border: none;
+    color: #3d8dbc;
+    font-family: auto;
+  }
+
+  .getInfoBox button {
+    margin: 0 10px;
+    width: 60px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid #3d8dbc61;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: transparent;
+    color: #3d8dbc;
+    font-weight: 400;
+  }
+
+  .getInfoBox button:hover {
+    border-color: #3d8dbc;
+  }
+
+  #info_box {
+    word-break: break-all;
+  }
+
+  textarea::placeholder {
+    padding: 8px;
+    font-weight: 300;
+    color: #01121d;
+  }
+}
