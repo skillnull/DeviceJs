@@ -6,39 +6,47 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Get Device Info Online</title>
-  <link rel="stylesheet" href="index.css?v=20220808">
-  <link rel="shortcut icon" href="http://skillnull.com/others/images/DeviceJs.ico">
-  <link rel="bookmark" href="http://skillnull.com/others/images/DeviceJs.ico">
+  <link rel="stylesheet" href="index.css?v=202410311050">
+  <link rel="shortcut icon" href="https://skillnull.com/others/images/DeviceJs.ico?v=202410311050">
+  <link rel="bookmark" href="https://skillnull.com/others/images/DeviceJs.ico?v=202410311050">
 </head>
 <body>
-<div class="title">输入以下想要获取信息的key，多个key用逗号相隔, 为空则显示全部</div>
-<div class="keyTipBox">
-  <ul>
-    <li>deviceType // 设备类型</li>
-    <li>OS // 操作系统</li>
-    <li>OSVersion // 操作系统版本</li>
-    <li>platform // 操作系统平台</li>
-    <li>screenHeight // 屏幕高</li>
-    <li>screenWidth // 屏幕宽</li>
-    <li>language // 当前使用的语言-国家</li>
-    <li>netWork // 联网类型</li>
-    <li>orientation // 横竖屏</li>
-    <li>browserInfo // 浏览器信息</li>
-    <li>fingerprint // 浏览器指纹</li>
-    <li>userAgent // 包含 appCodeName,appName,appVersion,language,platform 等</li>
-    <li>geoPosition // 地理位置</li>
-    <li>date // 阳历日期时间</li>
-    <li>lunarDate // 阴历日期</li>
-    <li>week // 周几</li>
-    <li>UUID // 通用唯一标识 Universally Unique Identifier</li>
-  </ul>
+<div class="title">
+  <img src="http://skillnull.com/others/images/DeviceJs.png?v=202410311050" alt="" class="brand">
+  <div class="tips">输入以下想要获取信息的key，多个key用逗号相隔, 为空则显示全部</div>
+  <div class="fork" onclick="fork()">
+    <div class="text">FORK</div>
+  </div>
 </div>
-<div class="getInfoBox">
-  <textarea id="info_input" placeholder="为空默认显示全部信息"></textarea>
-  <button onclick="getInfo()">获取</button>
+<div class="content">
+  <div class="keyTipBox">
+    <ul>
+      <li>deviceType <span class="comment">// 设备类型</span></li>
+      <li>OS <span class="comment">// 操作系统</span></li>
+      <li>OSVersion <span class="comment">// 操作系统版本</span></li>
+      <li>platform <span class="comment">// 操作系统平台</span></li>
+      <li>screenHeight <span class="comment">// 屏幕高</span></li>
+      <li>screenWidth <span class="comment">// 屏幕宽</span></li>
+      <li>language <span class="comment">// 当前使用的语言-国家</span></li>
+      <li>netWork <span class="comment">// 联网类型</span></li>
+      <li>orientation <span class="comment">// 横竖屏</span></li>
+      <li>browserInfo <span class="comment">// 浏览器信息</span></li>
+      <li>fingerprint <span class="comment">// 浏览器指纹</span></li>
+      <li>userAgent <span class="comment">// 包含 appCodeName,appName,appVersion,language,platform 等</span></li>
+      <li>geoPosition <span class="comment">// 地理位置</span></li>
+      <li>date <span class="comment">// 阳历日期时间</span></li>
+      <li>lunarDate <span class="comment">// 阴历日期</span></li>
+      <li>week <span class="comment">// 周几</span></li>
+      <li>UUID <span class="comment">// 通用唯一标识 Universally Unique Identifier</span></li>
+    </ul>
+  </div>
+  <div class="getInfoBox">
+    <textarea id="info_input" placeholder="为空默认显示全部信息"></textarea>
+    <button onclick="getInfo()">获取</button>
+  </div>
+  <div id="info_box"></div>
 </div>
-<div id="info_box"></div>
-<script src="./device.js" type="module"></script>
-<script src="./index.js"></script>
+<script src="./device.js?v=202410311050" type="module"></script>
+<script src="./index.js?v=202410311050"></script>
 </body>
 </html>
