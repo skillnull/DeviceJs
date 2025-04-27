@@ -3,7 +3,7 @@ const Device = (function () {
   const _window = root || {}
   // 变量库
   const VariableLibrary = {
-    navigator: typeof root.navigator != 'undefined' ? root.navigator : {},
+    navigator: typeof root?.navigator != 'undefined' ? root?.navigator : {},
     // 信息map
     infoMap: {
       engine: ['WebKit', 'Trident', 'Gecko', 'Presto'],
@@ -153,7 +153,7 @@ const Device = (function () {
             '</div>'
         }
 
-        let loading = document.createElement('div')
+        let loading = document?.createElement('div')
         loading.id = 'create_loading'
         loading.style = 'display: block;' +
           '    position: fixed;' +
@@ -178,10 +178,10 @@ const Device = (function () {
           '    <div></div>' +
           '</div>' +
           textStr
-        document.body.appendChild(loading)
+        document?.body?.appendChild(loading)
 
         if (showTimeCount) {
-          let countBox = document.getElementById('count_box')
+          let countBox = document?.getElementById('count_box')
           setInterval(function () {
             count++
             if (countBox) {
@@ -194,32 +194,32 @@ const Device = (function () {
        * 删除loading
        */
       removeLoading: function () {
-        let loading = document.getElementById('create_loading')
-        document.body.removeChild(loading)
+        let loading = document?.getElementById('create_loading')
+        document?.body?.removeChild(loading)
       },
       // 生成UUID通用唯一标识码
       createUUID: function () {
         let result = []
         let hexDigits = "0123456789abcdef"
         for (let i = 0; i < 36; i++) {
-          result[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+          result[i] = hexDigits?.substr(Math?.floor(Math?.random() * 0x10), 1)
         }
         // bits 12-15 of the time_hi_and_version field to 0010
         result[14] = "4"
         // bits 6-7 of the clock_seq_hi_and_reserved to 01
-        result[19] = hexDigits.substr((result[19] & 0x3) | 0x8, 1)
+        result[19] = hexDigits?.substr((result[19] & 0x3) | 0x8, 1)
         result[8] = result[13] = result[18] = result[23] = "-"
-        return result.join("")
+        return result?.join("")
       },
       // 获取阳历日期时间
       getDate: function () {
         let date = new Date()
-        let year = date.getFullYear()
-        let month = date.getMonth() + 1
-        let day = date.getDate()
-        let hour = date.getHours()
-        let minutes = date.getMinutes()
-        let seconds = date.getSeconds()
+        let year = date?.getFullYear()
+        let month = date?.getMonth() + 1
+        let day = date?.getDate()
+        let hour = date?.getHours()
+        let minutes = date?.getMinutes()
+        let seconds = date?.getSeconds()
         month = month > 9 ? month : "0" + month
         day = day > 9 ? day : "0" + day
         hour = hour > 9 ? hour : "0" + hour
@@ -231,7 +231,7 @@ const Device = (function () {
       getWeek: function () {
         let show_week = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六')
         let time = new Date()
-        let day = time.getDay()
+        let day = time?.getDay()
         let now_week = show_week[day]
         return now_week
       },
@@ -239,87 +239,87 @@ const Device = (function () {
       getMatchMap: function (u) {
         return {
           // 内核
-          'Trident': u.indexOf('Trident') > -1 || u.indexOf('NET CLR') > -1,
-          'Presto': u.indexOf('Presto') > -1,
-          'WebKit': u.indexOf('AppleWebKit') > -1,
-          'Gecko': u.indexOf('Gecko/') > -1,
+          'Trident': u?.indexOf('Trident') > -1 || u?.indexOf('NET CLR') > -1,
+          'Presto': u?.indexOf('Presto') > -1,
+          'WebKit': u?.indexOf('AppleWebKit') > -1,
+          'Gecko': u?.indexOf('Gecko/') > -1,
           // 浏览器
-          'Safari': u.indexOf('Safari') > -1,
-          'Chrome': u.indexOf('Chrome') > -1 || u.indexOf('CriOS') > -1,
-          'IE': u.indexOf('MSIE') > -1 || u.indexOf('Trident') > -1,
-          'Edge': u.indexOf('Edge') > -1,
-          'Firefox': u.indexOf('Firefox') > -1 || u.indexOf('FxiOS') > -1,
-          'Firefox Focus': u.indexOf('Focus') > -1,
-          'Chromium': u.indexOf('Chromium') > -1,
-          'Opera': u.indexOf('Opera') > -1 || u.indexOf('OPR') > -1,
-          'Vivaldi': u.indexOf('Vivaldi') > -1,
-          'Yandex': u.indexOf('YaBrowser') > -1,
-          'Arora': u.indexOf('Arora') > -1,
-          'Lunascape': u.indexOf('Lunascape') > -1,
-          'QupZilla': u.indexOf('QupZilla') > -1,
-          'Coc Coc': u.indexOf('coc_coc_browser') > -1,
-          'Kindle': u.indexOf('Kindle') > -1 || u.indexOf('Silk/') > -1,
-          'Iceweasel': u.indexOf('Iceweasel') > -1,
-          'Konqueror': u.indexOf('Konqueror') > -1,
-          'Iceape': u.indexOf('Iceape') > -1,
-          'SeaMonkey': u.indexOf('SeaMonkey') > -1,
-          'Epiphany': u.indexOf('Epiphany') > -1,
-          '360': u.indexOf('QihooBrowser') > -1 || u.indexOf('QHBrowser') > -1,
-          '360EE': u.indexOf('360EE') > -1,
-          '360SE': u.indexOf('360SE') > -1,
-          'UC': u.indexOf('UC') > -1 || u.indexOf(' UBrowser') > -1,
-          'QQBrowser': u.indexOf('QQBrowser') > -1,
-          'QQ': u.indexOf('QQ/') > -1,
-          'Baidu': u.indexOf('Baidu') > -1 || u.indexOf('BIDUBrowser') > -1,
-          'Maxthon': u.indexOf('Maxthon') > -1,
-          'Sogou': u.indexOf('MetaSr') > -1 || u.indexOf('Sogou') > -1,
-          'LBBROWSER': u.indexOf('LBBROWSER') > -1 || u.indexOf('LieBaoFast') > -1,
-          '2345Explorer': u.indexOf('2345Explorer') > -1,
-          'TheWorld': u.indexOf('TheWorld') > -1,
-          'XiaoMi': u.indexOf('MiuiBrowser') > -1,
-          'Quark': u.indexOf('Quark') > -1,
-          'Qiyu': u.indexOf('Qiyu') > -1,
-          'Wechat': u.indexOf('MicroMessenger') > -1,
-          'WechatWork': u.indexOf('wxwork/') > -1,
-          'Taobao': u.indexOf('AliApp(TB') > -1,
-          'Alipay': u.indexOf('AliApp(AP') > -1,
-          'Weibo': u.indexOf('Weibo') > -1,
-          'Douban': u.indexOf('com.douban.frodo') > -1,
-          'Suning': u.indexOf('SNEBUY-APP') > -1,
-          'iQiYi': u.indexOf('IqiyiApp') > -1,
-          'DingTalk': u.indexOf('DingTalk') > -1,
-          'Vivo': u.indexOf('VivoBrowser') > -1,
-          'Huawei': u.indexOf('HuaweiBrowser') > -1 || u.indexOf('HUAWEI/') > -1 || u.indexOf(
-            'HONOR') > -1 || u.indexOf('HBPC/') > -1,
+          'Safari': u?.indexOf('Safari') > -1,
+          'Chrome': u?.indexOf('Chrome') > -1 || u?.indexOf('CriOS') > -1,
+          'IE': u?.indexOf('MSIE') > -1 || u?.indexOf('Trident') > -1,
+          'Edge': u?.indexOf('Edge') > -1,
+          'Firefox': u?.indexOf('Firefox') > -1 || u?.indexOf('FxiOS') > -1,
+          'Firefox Focus': u?.indexOf('Focus') > -1,
+          'Chromium': u?.indexOf('Chromium') > -1,
+          'Opera': u?.indexOf('Opera') > -1 || u?.indexOf('OPR') > -1,
+          'Vivaldi': u?.indexOf('Vivaldi') > -1,
+          'Yandex': u?.indexOf('YaBrowser') > -1,
+          'Arora': u?.indexOf('Arora') > -1,
+          'Lunascape': u?.indexOf('Lunascape') > -1,
+          'QupZilla': u?.indexOf('QupZilla') > -1,
+          'Coc Coc': u?.indexOf('coc_coc_browser') > -1,
+          'Kindle': u?.indexOf('Kindle') > -1 || u?.indexOf('Silk/') > -1,
+          'Iceweasel': u?.indexOf('Iceweasel') > -1,
+          'Konqueror': u?.indexOf('Konqueror') > -1,
+          'Iceape': u?.indexOf('Iceape') > -1,
+          'SeaMonkey': u?.indexOf('SeaMonkey') > -1,
+          'Epiphany': u?.indexOf('Epiphany') > -1,
+          '360': u?.indexOf('QihooBrowser') > -1 || u?.indexOf('QHBrowser') > -1,
+          '360EE': u?.indexOf('360EE') > -1,
+          '360SE': u?.indexOf('360SE') > -1,
+          'UC': u?.indexOf('UC') > -1 || u?.indexOf(' UBrowser') > -1,
+          'QQBrowser': u?.indexOf('QQBrowser') > -1,
+          'QQ': u?.indexOf('QQ/') > -1,
+          'Baidu': u?.indexOf('Baidu') > -1 || u?.indexOf('BIDUBrowser') > -1,
+          'Maxthon': u?.indexOf('Maxthon') > -1,
+          'Sogou': u?.indexOf('MetaSr') > -1 || u?.indexOf('Sogou') > -1,
+          'LBBROWSER': u?.indexOf('LBBROWSER') > -1 || u?.indexOf('LieBaoFast') > -1,
+          '2345Explorer': u?.indexOf('2345Explorer') > -1,
+          'TheWorld': u?.indexOf('TheWorld') > -1,
+          'XiaoMi': u?.indexOf('MiuiBrowser') > -1,
+          'Quark': u?.indexOf('Quark') > -1,
+          'Qiyu': u?.indexOf('Qiyu') > -1,
+          'Wechat': u?.indexOf('MicroMessenger') > -1,
+          'WechatWork': u?.indexOf('wxwork/') > -1,
+          'Taobao': u?.indexOf('AliApp(TB') > -1,
+          'Alipay': u?.indexOf('AliApp(AP') > -1,
+          'Weibo': u?.indexOf('Weibo') > -1,
+          'Douban': u?.indexOf('com.douban.frodo') > -1,
+          'Suning': u?.indexOf('SNEBUY-APP') > -1,
+          'iQiYi': u?.indexOf('IqiyiApp') > -1,
+          'DingTalk': u?.indexOf('DingTalk') > -1,
+          'Vivo': u?.indexOf('VivoBrowser') > -1,
+          'Huawei': u?.indexOf('HuaweiBrowser') > -1 || u?.indexOf('HUAWEI/') > -1 || u?.indexOf(
+            'HONOR') > -1 || u?.indexOf('HBPC/') > -1,
           // 系统或平台
-          'Windows': u.indexOf('Windows') > -1,
-          'Linux': u.indexOf('Linux') > -1 || u.indexOf('X11') > -1,
-          'Mac OS': u.indexOf('Macintosh') > -1,
-          'Android': u.indexOf('Android') > -1 || u.indexOf('Adr') > -1,
-          'Ubuntu': u.indexOf('Ubuntu') > -1,
-          'FreeBSD': u.indexOf('FreeBSD') > -1,
-          'Debian': u.indexOf('Debian') > -1,
-          'Windows Phone': u.indexOf('IEMobile') > -1 || u.indexOf('Windows Phone') > -1,
-          'BlackBerry': u.indexOf('BlackBerry') > -1 || u.indexOf('RIM') > -1,
-          'MeeGo': u.indexOf('MeeGo') > -1,
-          'Symbian': u.indexOf('Symbian') > -1,
-          'iOS': u.indexOf('like Mac OS X') > -1,
-          'Chrome OS': u.indexOf('CrOS') > -1,
-          'WebOS': u.indexOf('hpwOS') > -1,
-          'HarmonyOS': u.indexOf('HarmonyOS') > -1,
+          'Windows': u?.indexOf('Windows') > -1,
+          'Linux': u?.indexOf('Linux') > -1 || u?.indexOf('X11') > -1,
+          'Mac OS': u?.indexOf('Macintosh') > -1,
+          'Android': u?.indexOf('Android') > -1 || u?.indexOf('Adr') > -1,
+          'Ubuntu': u?.indexOf('Ubuntu') > -1,
+          'FreeBSD': u?.indexOf('FreeBSD') > -1,
+          'Debian': u?.indexOf('Debian') > -1,
+          'Windows Phone': u?.indexOf('IEMobile') > -1 || u?.indexOf('Windows Phone') > -1,
+          'BlackBerry': u?.indexOf('BlackBerry') > -1 || u?.indexOf('RIM') > -1,
+          'MeeGo': u?.indexOf('MeeGo') > -1,
+          'Symbian': u?.indexOf('Symbian') > -1,
+          'iOS': u?.indexOf('like Mac OS X') > -1,
+          'Chrome OS': u?.indexOf('CrOS') > -1,
+          'WebOS': u?.indexOf('hpwOS') > -1,
+          'HarmonyOS': u?.indexOf('HarmonyOS') > -1,
           // 设备
-          'Mobile': u.indexOf('Mobi') > -1 || u.indexOf('iPh') > -1 || u.indexOf('480') > -1,
-          'Tablet': u.indexOf('Tablet') > -1 || u.indexOf('Nexus 7') > -1,
-          'iPad': u.indexOf('iPad') > -1
+          'Mobile': u?.indexOf('Mobi') > -1 || u?.indexOf('iPh') > -1 || u?.indexOf('480') > -1,
+          'Tablet': u?.indexOf('Tablet') > -1 || u?.indexOf('Nexus 7') > -1,
+          'iPad': u?.indexOf('iPad') > -1
         }
       },
       // 在信息map和匹配库中进行匹配
       matchInfoMap: function (_this) {
-        let u = VariableLibrary.navigator.userAgent || {}
-        let match = MethodLibrary.getMatchMap(u)
-        for (let s in VariableLibrary.infoMap) {
-          for (let i = 0; i < VariableLibrary.infoMap[s].length; i++) {
-            let value = VariableLibrary.infoMap[s][i]
+        let u = VariableLibrary?.navigator?.userAgent || {}
+        let match = MethodLibrary?.getMatchMap(u)
+        for (let s in VariableLibrary?.infoMap) {
+          for (let i = 0; i < VariableLibrary?.infoMap?.[s]?.length; i++) {
+            let value = VariableLibrary?.infoMap?.[s]?.[i]
             if (match[value]) {
               _this[s] = value
             }
@@ -329,18 +329,18 @@ const Device = (function () {
       // 获取当前操作系统
       getOS: function () {
         let _this = this
-        MethodLibrary.matchInfoMap(_this)
+        MethodLibrary?.matchInfoMap(_this)
         return _this.os
       },
       // 获取操作系统版本
       getOSVersion: function () {
         let _this = this
-        let u = VariableLibrary.navigator.userAgent || {}
+        let u = VariableLibrary?.navigator?.userAgent || {}
         _this.osVersion = ''
         // 系统版本信息
         let osVersion = {
           'Windows': function () {
-            let v = u.replace(/^.*Windows NT ([\d.]+);.*$/, '$1')
+            let v = u?.replace(/^.*Windows NT ([\d.]+);.*$/, '$1')
             let oldWindowsVersionMap = {
               '10': '10 || 11',
               '6.3': '8.1',
@@ -358,26 +358,26 @@ const Device = (function () {
             return oldWindowsVersionMap[v] || v
           },
           'Android': function () {
-            return u.replace(/^.*Android ([\d.]+);.*$/, '$1')
+            return u?.replace(/^.*Android ([\d.]+);.*$/, '$1')
           },
           'iOS': function () {
-            return u.replace(/^.*OS ([\d_]+) like.*$/, '$1').replace(/_/g, '.')
+            return u?.replace(/^.*OS ([\d_]+) like.*$/, '$1')?.replace(/_/g, '.')
           },
           'Debian': function () {
-            return u.replace(/^.*Debian\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Debian\/([\d.]+).*$/, '$1')
           },
           'Windows Phone': function () {
-            return u.replace(/^.*Windows Phone( OS)? ([\d.]+);.*$/, '$2')
+            return u?.replace(/^.*Windows Phone( OS)? ([\d.]+);.*$/, '$2')
           },
           'Mac OS': function () {
-            return u.replace(/^.*Mac OS X ([\d_]+).*$/, '$1').replace(/_/g, '.')
+            return u?.replace(/^.*Mac OS X ([\d_]+).*$/, '$1')?.replace(/_/g, '.')
           },
           'WebOS': function () {
-            return u.replace(/^.*hpwOS\/([\d.]+);.*$/, '$1')
+            return u?.replace(/^.*hpwOS\/([\d.]+);.*$/, '$1')
           }
         }
         if (osVersion[_this.os]) {
-          _this.osVersion = osVersion[_this.os]()
+          _this.osVersion = osVersion?.[_this.os]?.()
           if (_this.osVersion == u) {
             _this.osVersion = ''
           }
@@ -387,8 +387,8 @@ const Device = (function () {
       // 获取横竖屏状态
       getOrientationStatu: function () {
         let orientationStatus = ''
-        let orientation = window.matchMedia("(orientation: portrait)")
-        if (orientation.matches) {
+        let orientation = window?.matchMedia("(orientation: portrait)")
+        if (orientation?.matches) {
           orientationStatus = "竖屏"
         } else {
           orientationStatus = "横屏"
@@ -399,24 +399,24 @@ const Device = (function () {
       getDeviceType: function () {
         let _this = this
         _this.device = 'PC'
-        MethodLibrary.matchInfoMap(_this)
+        MethodLibrary?.matchInfoMap(_this)
         return _this.device
       },
       // 获取网络状态
       getNetwork: function () {
-        let netWork = navigator && navigator.connection && navigator.connection.effectiveType
+        let netWork = navigator?.connection?.effectiveType
         return netWork
       },
       // 获取当前语言
       getLanguage: function () {
         let _this = this
         _this.language = (function () {
-          let language = (VariableLibrary.navigator.browserLanguage || VariableLibrary.navigator.language)
-          let arr = language.split('-')
+          let language = (VariableLibrary?.navigator?.browserLanguage || VariableLibrary?.navigator?.language)
+          let arr = language?.split('-')
           if (arr[1]) {
-            arr[1] = arr[1].toUpperCase()
+            arr[1] = arr?.[1]?.toUpperCase()
           }
-          return arr.join('_')
+          return arr?.join('_')
         })()
         return _this.language
       },
@@ -428,15 +428,15 @@ const Device = (function () {
           let i, l, n, o = ''
           s += ''
           for (i = 0, l = s.length; i < l; i++) {
-            n = s.charCodeAt(i).toString(16)
+            n = s.charCodeAt(i)?.toString(16)
             o += n.length < 2 ? '0' + n : n
           }
           return o
         }
 
-        let canvas = document.createElement('canvas')
-        let ctx = canvas.getContext('2d')
-        let txt = domain || window.location.host
+        let canvas = document?.createElement('canvas')
+        let ctx = canvas?.getContext('2d')
+        let txt = domain || window?.location?.host
         ctx.textBaseline = "top"
         ctx.font = "14px 'Arial'"
         ctx.textBaseline = "tencent"
@@ -446,21 +446,21 @@ const Device = (function () {
         ctx.fillText(txt, 2, 15)
         ctx.fillStyle = "rgba(102, 204, 0, 0.7)"
         ctx.fillText(txt, 4, 17)
-        let b64 = canvas.toDataURL().replace("data:image/png;base64,", "")
+        let b64 = canvas?.toDataURL()?.replace("data:image/png;base64,", "")
         let bin = atob(b64)
-        let crc = bin2hex(bin.slice(-16, -12))
+        let crc = bin2hex(bin?.slice(-16, -12))
         fingerprint = crc
         return fingerprint
       },
       // 浏览器信息
       getBrowserInfo: function () {
         let _this = this
-        MethodLibrary.matchInfoMap(_this)
+        MethodLibrary?.matchInfoMap(_this)
 
-        let u = VariableLibrary.navigator.userAgent || {}
+        let u = VariableLibrary?.navigator?.userAgent || {}
 
         let _mime = function (option, value) {
-          let mimeTypes = VariableLibrary.navigator.mimeTypes
+          let mimeTypes = VariableLibrary?.navigator?.mimeTypes
           for (let key in mimeTypes) {
             if (mimeTypes[key][option] == value) {
               return true
@@ -469,12 +469,12 @@ const Device = (function () {
           return false
         }
 
-        let match = MethodLibrary.getMatchMap(u)
+        let match = MethodLibrary?.getMatchMap(u)
 
         let is360 = false
 
         if (_window.chrome) {
-          let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
+          let chrome_version = u?.replace(/^.*Chrome\/([\d]+).*$/, '$1')
           if (chrome_version > 36 && _window.showModalDialog) {
             is360 = true
           } else if (chrome_version > 45) {
@@ -487,13 +487,13 @@ const Device = (function () {
         }
 
         if (match['Mobile']) {
-          match['Mobile'] = !(u.indexOf('iPad') > -1)
+          match['Mobile'] = !(u?.indexOf('iPad') > -1)
         }
 
         if (is360) {
           if (_mime("type", "application/gameplugin")) {
             match['360SE'] = true
-          } else if (VariableLibrary.navigator && typeof VariableLibrary.navigator['connection']['saveData'] == 'undefined') {
+          } else if (VariableLibrary?.navigator && typeof VariableLibrary?.navigator['connection']['saveData'] == 'undefined') {
             match['360SE'] = true
           } else {
             match['360EE'] = true
@@ -501,7 +501,7 @@ const Device = (function () {
         }
 
         if (match['IE'] || match['Edge']) {
-          let navigator_top = window.screenTop - window.screenY
+          let navigator_top = window?.screenTop - window?.screenY
           switch (navigator_top) {
             case 71: // 无收藏栏,贴边
               break
@@ -528,100 +528,100 @@ const Device = (function () {
 
         let browerVersionMap = {
           'Safari': function () {
-            return u.replace(/^.*Version\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Version\/([\d.]+).*$/, '$1')
           },
           'Chrome': function () {
-            return u.replace(/^.*Chrome\/([\d.]+).*$/, '$1').replace(/^.*CriOS\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Chrome\/([\d.]+).*$/, '$1')?.replace(/^.*CriOS\/([\d.]+).*$/, '$1')
           },
           'IE': function () {
-            return u.replace(/^.*MSIE ([\d.]+).*$/, '$1').replace(/^.*rv:([\d.]+).*$/, '$1')
+            return u?.replace(/^.*MSIE ([\d.]+).*$/, '$1')?.replace(/^.*rv:([\d.]+).*$/, '$1')
           },
           'Edge': function () {
-            return u.replace(/^.*Edge\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Edge\/([\d.]+).*$/, '$1')
           },
           'Firefox': function () {
-            return u.replace(/^.*Firefox\/([\d.]+).*$/, '$1').replace(/^.*FxiOS\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Firefox\/([\d.]+).*$/, '$1')?.replace(/^.*FxiOS\/([\d.]+).*$/, '$1')
           },
           'Firefox Focus': function () {
-            return u.replace(/^.*Focus\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Focus\/([\d.]+).*$/, '$1')
           },
           'Chromium': function () {
-            return u.replace(/^.*Chromium\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Chromium\/([\d.]+).*$/, '$1')
           },
           'Opera': function () {
-            return u.replace(/^.*Opera\/([\d.]+).*$/, '$1').replace(/^.*OPR\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Opera\/([\d.]+).*$/, '$1')?.replace(/^.*OPR\/([\d.]+).*$/, '$1')
           },
           'Vivaldi': function () {
-            return u.replace(/^.*Vivaldi\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Vivaldi\/([\d.]+).*$/, '$1')
           },
           'Yandex': function () {
-            return u.replace(/^.*YaBrowser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*YaBrowser\/([\d.]+).*$/, '$1')
           },
           'Arora': function () {
-            return u.replace(/^.*Arora\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Arora\/([\d.]+).*$/, '$1')
           },
           'Lunascape': function () {
-            return u.replace(/^.*Lunascape[\/\s]([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Lunascape[\/\s]([\d.]+).*$/, '$1')
           },
           'QupZilla': function () {
-            return u.replace(/^.*QupZilla[\/\s]([\d.]+).*$/, '$1')
+            return u?.replace(/^.*QupZilla[\/\s]([\d.]+).*$/, '$1')
           },
           'Coc Coc': function () {
-            return u.replace(/^.*coc_coc_browser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*coc_coc_browser\/([\d.]+).*$/, '$1')
           },
           'Kindle': function () {
-            return u.replace(/^.*Version\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Version\/([\d.]+).*$/, '$1')
           },
           'Iceweasel': function () {
-            return u.replace(/^.*Iceweasel\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Iceweasel\/([\d.]+).*$/, '$1')
           },
           'Konqueror': function () {
-            return u.replace(/^.*Konqueror\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Konqueror\/([\d.]+).*$/, '$1')
           },
           'Iceape': function () {
-            return u.replace(/^.*Iceape\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Iceape\/([\d.]+).*$/, '$1')
           },
           'SeaMonkey': function () {
-            return u.replace(/^.*SeaMonkey\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*SeaMonkey\/([\d.]+).*$/, '$1')
           },
           'Epiphany': function () {
-            return u.replace(/^.*Epiphany\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Epiphany\/([\d.]+).*$/, '$1')
           },
           '360': function () {
-            return u.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*QihooBrowser\/([\d.]+).*$/, '$1')
           },
           '360SE': function () {
             let hash = {'63': '10.0', '55': '9.1', '45': '8.1', '42': '8.0', '31': '7.0', '21': '6.3'}
-            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
+            let chrome_version = u?.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           '360EE': function () {
             let hash = {'69': '11.0', '63': '9.5', '55': '9.0', '50': '8.7', '30': '7.5'};
-            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1')
+            let chrome_version = u?.replace(/^.*Chrome\/([\d]+).*$/, '$1')
             return hash[chrome_version] || ''
           },
           'Maxthon': function () {
-            return u.replace(/^.*Maxthon\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Maxthon\/([\d.]+).*$/, '$1')
           },
           'QQBrowser': function () {
-            return u.replace(/^.*QQBrowser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*QQBrowser\/([\d.]+).*$/, '$1')
           },
           'QQ': function () {
-            return u.replace(/^.*QQ\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*QQ\/([\d.]+).*$/, '$1')
           },
           'Baidu': function () {
-            return u.replace(/^.*BIDUBrowser[\s\/]([\d.]+).*$/, '$1')
+            return u?.replace(/^.*BIDUBrowser[\s\/]([\d.]+).*$/, '$1')
           },
           'UC': function () {
-            return u.replace(/^.*UC?Browser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*UC?Browser\/([\d.]+).*$/, '$1')
           },
           'Sogou': function () {
-            return u.replace(/^.*SE ([\d.X]+).*$/, '$1').replace(/^.*SogouMobileBrowser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*SE ([\d.X]+).*$/, '$1')?.replace(/^.*SogouMobileBrowser\/([\d.]+).*$/, '$1')
           },
           'Liebao': function () {
             let version = ''
-            if (u.indexOf('LieBaoFast') > -1) {
-              version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
+            if (u?.indexOf('LieBaoFast') > -1) {
+              version = u?.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
             let hash = {
               '57': '6.5',
@@ -633,13 +633,13 @@ const Device = (function () {
               '29': '4.5',
               '21': '4.0'
             };
-            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
+            let chrome_version = u?.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
           'LBBROWSER': function () {
             let version = ''
-            if (u.indexOf('LieBaoFast') > -1) {
-              version = u.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
+            if (u?.indexOf('LieBaoFast') > -1) {
+              version = u?.replace(/^.*LieBaoFast\/([\d.]+).*$/, '$1');
             }
             let hash = {
               '57': '6.5',
@@ -651,75 +651,75 @@ const Device = (function () {
               '29': '4.5',
               '21': '4.0'
             };
-            let chrome_version = u.replace(/^.*Chrome\/([\d]+).*$/, '$1');
+            let chrome_version = u?.replace(/^.*Chrome\/([\d]+).*$/, '$1');
             return version || hash[chrome_version] || '';
           },
           '2345Explorer': function () {
-            return u.replace(/^.*2345Explorer\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*2345Explorer\/([\d.]+).*$/, '$1')
           },
           '115Browser': function () {
-            return u.replace(/^.*115Browser\/([\d.]+).*$/, '$1');
+            return u?.replace(/^.*115Browser\/([\d.]+).*$/, '$1');
           },
           'TheWorld': function () {
-            return u.replace(/^.*TheWorld ([\d.]+).*$/, '$1')
+            return u?.replace(/^.*TheWorld ([\d.]+).*$/, '$1')
           },
           'XiaoMi': function () {
-            return u.replace(/^.*MiuiBrowser\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*MiuiBrowser\/([\d.]+).*$/, '$1')
           },
           'Vivo': function () {
-            return u.replace(/^.*VivoBrowser\/([\d.]+).*$/, '$1');
+            return u?.replace(/^.*VivoBrowser\/([\d.]+).*$/, '$1');
           },
           'Quark': function () {
-            return u.replace(/^.*Quark\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Quark\/([\d.]+).*$/, '$1')
           },
           'Qiyu': function () {
-            return u.replace(/^.*Qiyu\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*Qiyu\/([\d.]+).*$/, '$1')
           },
           'Wechat': function () {
-            return u.replace(/^.*MicroMessenger\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*MicroMessenger\/([\d.]+).*$/, '$1')
           },
           'WechatWork': function () {
-            return u.replace(/^.*wxwork\/([\d.]+).*$/, '$1');
+            return u?.replace(/^.*wxwork\/([\d.]+).*$/, '$1');
           },
           'Taobao': function () {
-            return u.replace(/^.*AliApp\(TB\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*AliApp\(TB\/([\d.]+).*$/, '$1')
           },
           'Alipay': function () {
-            return u.replace(/^.*AliApp\(AP\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*AliApp\(AP\/([\d.]+).*$/, '$1')
           },
           'Weibo': function () {
-            return u.replace(/^.*weibo__([\d.]+).*$/, '$1')
+            return u?.replace(/^.*weibo__([\d.]+).*$/, '$1')
           },
           'Douban': function () {
-            return u.replace(/^.*com.douban.frodo\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*com.douban.frodo\/([\d.]+).*$/, '$1')
           },
           'Suning': function () {
-            return u.replace(/^.*SNEBUY-APP([\d.]+).*$/, '$1')
+            return u?.replace(/^.*SNEBUY-APP([\d.]+).*$/, '$1')
           },
           'iQiYi': function () {
-            return u.replace(/^.*IqiyiVersion\/([\d.]+).*$/, '$1')
+            return u?.replace(/^.*IqiyiVersion\/([\d.]+).*$/, '$1')
           },
           'DingTalk': function () {
-            return u.replace(/^.*DingTalk\/([\d.]+).*$/, '$1');
+            return u?.replace(/^.*DingTalk\/([\d.]+).*$/, '$1');
           },
           'Huawei': function () {
-            return u.replace(/^.*Version\/([\d.]+).*$/, '$1').replace(/^.*HuaweiBrowser\/([\d.]+).*$/, '$1')
-              .replace(/^.*HBPC\/([\d.]+).*$/, '$1');
+            return u?.replace(/^.*Version\/([\d.]+).*$/, '$1')?.replace(/^.*HuaweiBrowser\/([\d.]+).*$/, '$1')
+              ?.replace(/^.*HBPC\/([\d.]+).*$/, '$1');
           }
         }
 
         _this.browserVersion = ''
 
         if (browerVersionMap[_this.browser]) {
-          _this.browserVersion = browerVersionMap[_this.browser]()
+          _this.browserVersion = browerVersionMap?.[_this.browser]?.()
           if (_this.browserVersion == u) {
             _this.browserVersion = ''
           }
         }
 
-        if (_this.browser == 'Chrome' && u.match(/\S+Browser/)) {
-          _this.browser = u.match(/\S+Browser/)[0];
-          _this.version = u.replace(/^.*Browser\/([\d.]+).*$/, '$1');
+        if (_this.browser == 'Chrome' && u?.match(/\S+Browser/)) {
+          _this.browser = u?.match(/\S+Browser/)[0];
+          _this.version = u?.replace(/^.*Browser\/([\d.]+).*$/, '$1');
         }
 
         if (_this.browser == 'Edge') {
@@ -745,8 +745,8 @@ const Device = (function () {
       // 获取地理位置
       getGeoPostion: function () {
         return new Promise((resolve, reject) => {
-          if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
+          if (navigator?.geolocation) {
+            navigator?.geolocation?.getCurrentPosition(
               // 位置获取成功
               function (position) {
                 resolve(position)
@@ -777,14 +777,14 @@ const Device = (function () {
        */
       toLunarDate: function (date) {
         let now_date = new Date()
-        let date_str = date ? date.replaceAll('-', '/') : `${now_date.getFullYear()}/${now_date.getMonth() + 1}/${now_date.getDate()}`
+        let date_str = date ? date?.replaceAll('-', '/') : `${now_date?.getFullYear()}/${now_date?.getMonth() + 1}/${now_date?.getDate()}`
 
         function transferToLunar(str) {
           let lunar
 
-          let solarYear = new Date(str).getFullYear()
-          let solarMonth = new Date(str).getMonth()
-          let solarDay = new Date(str).getDate()
+          let solarYear = new Date(str)?.getFullYear()
+          let solarMonth = new Date(str)?.getMonth()
+          let solarDay = new Date(str)?.getDate()
           let solarDateObj
           let lunarDateObj, lunarYear, lunarMonth, lunarDay = 1
           let lunarLeap // 农历是否闰月
@@ -798,18 +798,18 @@ const Device = (function () {
           if (solarMonth === 1) {
             solarMonthLength = (((solarYear % 4 === 0) && (solarYear % 100 != 0) || (solarYear % 400 === 0)) ? 29 : 28)
           } else {
-            solarMonthLength = (VariableLibrary.lunarLib.solarMonthArr[solarMonth])
+            solarMonthLength = (VariableLibrary?.lunarLib?.solarMonthArr[solarMonth])
           }
 
           // 判断year年的农历中那个月是闰月,不是闰月返回0
           function whitchMonthLeap(year) {
-            return (VariableLibrary.lunarLib.lunarMap[year - 1900] & 0xf)
+            return (VariableLibrary?.lunarLib?.lunarMap?.[year - 1900] & 0xf)
           }
 
           // 返回农历year年润月天数
           function leapMonthDays(year) {
             if (whitchMonthLeap(year)) {
-              return ((VariableLibrary.lunarLib.lunarMap[year - 1900] & 0x10000) ? 30 : 29)
+              return ((VariableLibrary?.lunarLib?.lunarMap?.[year - 1900] & 0x10000) ? 30 : 29)
             } else {
               return (0)
             }
@@ -817,7 +817,7 @@ const Device = (function () {
 
           // 返回农历y年m月的总天数
           function monthDays(y, m) {
-            return ((VariableLibrary.lunarLib.lunarMap[y - 1900] & (0x10000 >> m)) ? 30 : 29)
+            return ((VariableLibrary?.lunarLib?.lunarMap?.[y - 1900] & (0x10000 >> m)) ? 30 : 29)
           }
 
           // 算出当前月第一天的农历日期和当前农历日期下一个月农历的第一天日期
@@ -832,7 +832,7 @@ const Device = (function () {
               // 返回农历j年的总天数
               let sum = 348
               for (let k = 0x8000; k > 0x8; k >>= 1) {
-                sum += (VariableLibrary.lunarLib.lunarMap[j - 1900] & k) ? 1 : 0
+                sum += (VariableLibrary?.lunarLib?.lunarMap[j - 1900] & k) ? 1 : 0
               }
 
               temp = (sum + leapMonthDays(j))
@@ -901,7 +901,7 @@ const Device = (function () {
           for (let i = 0; i < solarMonthLength; i++) {
             if (lunarDay > lunarLastDay) {
               // 阳历当月第一天的日期
-              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : new Date().getDate())
+              solarDateObj = new Date(solarYear, solarMonth, date ? solarDay : new Date()?.getDate())
 
               // 农历
               lunarDateObj = calculateLunarFirstDay(solarDateObj)
@@ -929,12 +929,12 @@ const Device = (function () {
             lunarMonth,
             lunarDay,
             lunarLeap,
-            chineseZodiac: VariableLibrary.lunarLib.AnimalsArr[(lunarYear - 4) % 12]
+            chineseZodiac: VariableLibrary?.lunarLib?.AnimalsArr[(lunarYear - 4) % 12]
           }
 
           // 用中文显示农历的日期
           function chineseDay(date) {
-            date = Math.floor(date)
+            date = Math?.floor(date)
             let ChineseDate
             switch (date) {
               case 10:
@@ -947,20 +947,20 @@ const Device = (function () {
                 ChineseDate = '三十';
                 break;
               default:
-                ChineseDate = VariableLibrary.lunarLib.numberToHanzi_2[Math.floor(date / 10)];
+                ChineseDate = VariableLibrary.lunarLib.numberToHanzi_2[Math?.floor(date / 10)];
                 ChineseDate += VariableLibrary.lunarLib.numberToHanzi_1[date % 10];
             }
             return ChineseDate
           }
 
-          let lunarYearArr = String(lunar.lunarYear).split('')
-          let chineseYear = `${VariableLibrary.lunarLib.chineseYear[lunarYearArr[0]]}${VariableLibrary.lunarLib.chineseYear[lunarYearArr[1]]}${VariableLibrary.lunarLib.chineseYear[lunarYearArr[2]]}${VariableLibrary.lunarLib.chineseYear[lunarYearArr[3]]}`
+          let lunarYearArr = String(lunar.lunarYear)?.split('')
+          let chineseYear = `${VariableLibrary?.lunarLib?.chineseYear[lunarYearArr[0]]}${VariableLibrary?.lunarLib?.chineseYear[lunarYearArr[1]]}${VariableLibrary?.lunarLib?.chineseYear[lunarYearArr[2]]}${VariableLibrary?.lunarLib?.chineseYear[lunarYearArr[3]]}`
 
           return {
             year: `${chineseYear}年`,
-            month: `${lunar.isLeap ? '闰' : ''}${VariableLibrary.lunarLib.chineseMonth[lunar.lunarMonth - 1]}月`,
+            month: `${lunar.isLeap ? '闰' : ''}${VariableLibrary?.lunarLib?.chineseMonth[lunar.lunarMonth - 1]}月`,
             day: `${chineseDay(lunar.lunarDay)}`,
-            chineseZodiac: lunar.chineseZodiac
+            chineseZodiac: lunar?.chineseZodiac
           }
         }
 
@@ -968,7 +968,7 @@ const Device = (function () {
       },
       // 获取操作系统平台
       getPlatform() {
-        const platform = VariableLibrary.navigator.userAgentData && VariableLibrary.navigator.userAgentData.platform || VariableLibrary.navigator.platform
+        const platform = VariableLibrary?.navigator?.userAgentData?.platform || VariableLibrary?.navigator?.platform
         return platform
       }
     }
@@ -978,35 +978,35 @@ const Device = (function () {
     return {
       DeviceInfoObj: function (params) {
         let info = {
-          deviceType: MethodLibrary.getDeviceType(), // 设备类型
-          OS: MethodLibrary.getOS(), // 操作系统
-          OSVersion: MethodLibrary.getOSVersion(), // 操作系统版本
-          platform: MethodLibrary.getPlatform(), // 获取操作系统平台
-          screenHeight: _window.screen.height, // 屏幕高
-          screenWidth: _window.screen.width, // 屏幕宽
-          language: MethodLibrary.getLanguage(), // 当前使用的语言-国家
-          netWork: MethodLibrary.getNetwork(), // 联网类型
-          orientation: MethodLibrary.getOrientationStatu(), // 横竖屏
-          browserInfo: MethodLibrary.getBrowserInfo(), // 浏览器信息
-          fingerprint: MethodLibrary.createFingerprint(params && params.domain || ''), // 浏览器指纹
-          userAgent: VariableLibrary.navigator.userAgent, // 包含 appCodeName,appName,appVersion,language 等
+          deviceType: MethodLibrary?.getDeviceType(), // 设备类型
+          OS: MethodLibrary?.getOS(), // 操作系统
+          OSVersion: MethodLibrary?.getOSVersion(), // 操作系统版本
+          platform: MethodLibrary?.getPlatform(), // 获取操作系统平台
+          screenHeight: _window?.screen?.height, // 屏幕高
+          screenWidth: _window?.screen?.width, // 屏幕宽
+          language: MethodLibrary?.getLanguage(), // 当前使用的语言-国家
+          netWork: MethodLibrary?.getNetwork(), // 联网类型
+          orientation: MethodLibrary?.getOrientationStatu(), // 横竖屏
+          browserInfo: MethodLibrary?.getBrowserInfo(), // 浏览器信息
+          fingerprint: MethodLibrary?.createFingerprint(params && params.domain || ''), // 浏览器指纹
+          userAgent: VariableLibrary?.navigator?.userAgent, // 包含 appCodeName,appName,appVersion,language 等
           geoPosition: true, // 获取地理位置
-          date: MethodLibrary.getDate(), // 获取阳历日期时间
-          lunarDate: MethodLibrary.toLunarDate(params && params.transferDateToLunar || ''), // 获取农历日期时间
-          week: MethodLibrary.getWeek(), // 获取周几
-          UUID: MethodLibrary.createUUID(), // 生成通用唯一标识
+          date: MethodLibrary?.getDate(), // 获取阳历日期时间
+          lunarDate: MethodLibrary?.toLunarDate(params && params.transferDateToLunar || ''), // 获取农历日期时间
+          week: MethodLibrary?.getWeek(), // 获取周几
+          UUID: MethodLibrary?.createUUID(), // 生成通用唯一标识
         }
 
         let resultInfo = {}
-        if (!params || !params.info || params.info.length === 0) {
+        if (!params || !params.info || params?.info?.length === 0) {
           resultInfo = info
         } else {
           let infoTemp = {}
           for (let i in info) {
-            params.info.forEach(function (item) {
-              if (item.toLowerCase() === i.toLowerCase()) {
+            params?.info?.forEach(function (item) {
+              if (item?.toLowerCase() === i?.toLowerCase()) {
                 item = i
-                infoTemp[item] = info[item]
+                infoTemp[item] = info?.[item]
               }
             })
           }
@@ -1014,11 +1014,11 @@ const Device = (function () {
         }
 
         return new Promise(resolve => {
-          if (resultInfo.geoPosition) {
-            MethodLibrary.getGeoPostion().then(geoPosition => {
-              resultInfo.geoPosition = '经度:' + geoPosition.coords.longitude + '  纬度:' + geoPosition.coords.latitude
+          if (resultInfo?.geoPosition) {
+            MethodLibrary?.getGeoPostion?.()?.then(geoPosition => {
+              resultInfo.geoPosition = '经度:' + geoPosition?.coords?.longitude + '  纬度:' + geoPosition?.coords?.latitude
               resolve(resultInfo)
-            }).catch(err => {
+            })?.catch(err => {
               resultInfo.geoPosition = err
               resolve(resultInfo)
             })
@@ -1040,10 +1040,10 @@ const Device = (function () {
      * @return: 返回 Promise 对象
      */
     Info: function (params) {
-      MethodLibrary.createLoading()
+      MethodLibrary?.createLoading()
       return new Promise(resolve => {
-        LogicLibrary.DeviceInfoObj(params).then(res => {
-          MethodLibrary.removeLoading()
+        LogicLibrary?.DeviceInfoObj(params)?.then(res => {
+          MethodLibrary?.removeLoading()
           resolve(res)
         })
       })
