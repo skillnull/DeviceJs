@@ -10,15 +10,15 @@
 
 ```html
 使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@2.1.7/dist/device.js"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@2.1.9/dist/device.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.1.8/dist/device.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.1.9/dist/device.js"></script>
 
 
 使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@2.1.8/dist/device.es.js" type="module"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@2.1.9/dist/device.es.js" type="module"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.1.8/dist/device.es.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.1.9/dist/device.es.js" type="module"></script>
 ```
 
 > #### 安装
