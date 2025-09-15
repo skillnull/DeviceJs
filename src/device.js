@@ -405,7 +405,14 @@ const Device = (function () {
       // 获取网络状态
       getNetwork: function () {
         let netWork = navigator?.connection?.effectiveType
-        return netWork
+        let isOnline = navigator?.onLine
+        let res = ""
+        if (isOnline) {
+          res = netWork ? netWork : "网络状态获取失败"
+        } else {
+          res = "离线"
+        }
+        return res
       },
       // 获取当前语言
       getLanguage: function () {

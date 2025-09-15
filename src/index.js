@@ -17,11 +17,11 @@ let proxy = new Proxy({}, {
             value = `${infoResult[i].year} ${infoResult[i].chineseZodiac} ${infoResult[i].month}${infoResult[i].day}`
           }
           infoHtml.push(
-            '<li>' +
-            '   <span>' + i + '</span>' +
-            '   <span style="margin:0 1px;">:</span>' +
-            '   <span style="color: #3d8dbc;">' + value + '</span>' +
-            '</li>')
+            `<li>
+                <span>${i}</span>
+                <span style="margin:0 1px;">:</span>
+                <span style="color: ${value?.includes?.('失败') ? 'orangered' : '#3d8dbc'}">${value}</span>
+             </li>`)
         }
         document.querySelector('#info_box').innerHTML = '<ul style="margin: 5px;">' + infoHtml.join('') + '</ul>'
 

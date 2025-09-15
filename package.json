@@ -1,6 +1,6 @@
 {
   "name": "@skillnull/device-js",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Get device information by javascript.",
   "main": "dist/device",
   "author": "skillnull",
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.1.0",
+    "@rollup/rollup-darwin-arm64": "^4.50.2",
     "jsdom": "^26.0.0",
     "rollup-plugin-polyfill-node": "^0.13.0"
   }
