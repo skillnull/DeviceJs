@@ -749,34 +749,30 @@ const Device = (function () {
 
         return _this.browser + '（版本: ' + _this.browserVersion + '&nbsp;&nbsp;内核: ' + _this.engine + '）'
       },
-      // 获取地理位置
+      // 获取地理位置：先请求一次，失败则再请求一次
       getGeoPostion: function () {
-        return new Promise((resolve, reject) => {
-          if (navigator?.geolocation) {
-            navigator?.geolocation?.getCurrentPosition(
-              // 位置获取成功
-              function (position) {
-                resolve(position)
-              },
-              // 位置获取失败
-              function (error) {
-                resolve({
-                  coords: {
-                    longitude: '获取失败',
-                    latitude: '获取失败'
-                  }
-                })
-              },
-              {
-                // 是否开启高精度模式，开启高精度模式耗时较长
-                enableHighAccuracy: false,
-                // 超时时间，单位毫秒。默认为infinity
-                timeout: 10000
-              }
+        var failResult = {
+          coords: { longitude: '获取失败', latitude: '获取失败' }
+        }
+        var options = { enableHighAccuracy: false, timeout: 10000 }
+        function requestPosition() {
+          return new Promise(function (resolve) {
+            if (!navigator?.geolocation) {
+              resolve(null)
+              return
+            }
+            navigator.geolocation.getCurrentPosition(
+              function (position) { resolve(position) },
+              function () { resolve(null) },
+              options
             )
-          } else {
-            reject('当前浏览器不支持获取地理位置')
-          }
+          })
+        }
+        return requestPosition().then(function (result) {
+          if (result) return result
+          return requestPosition()
+        }).then(function (result) {
+          return result || failResult
         })
       },
       /* 阳历转阴历
@@ -980,59 +976,42 @@ const Device = (function () {
       }
     }
   })()
-  // 逻辑层
+  // 逻辑层：按需计算字段
   const LogicLibrary = (function () {
+    const fields = {
+      deviceType: () => MethodLibrary?.getDeviceType(),
+      OS: () => MethodLibrary?.getOS(),
+      OSVersion: () => MethodLibrary?.getOSVersion(),
+      platform: () => MethodLibrary?.getPlatform(),
+      screenHeight: () => _window?.screen?.height,
+      screenWidth: () => _window?.screen?.width,
+      language: () => MethodLibrary?.getLanguage(),
+      netWork: () => MethodLibrary?.getNetwork(),
+      orientation: () => MethodLibrary?.getOrientationStatu(),
+      browserInfo: () => MethodLibrary?.getBrowserInfo(),
+      fingerprint: (p) => MethodLibrary?.createFingerprint(p?.domain || ''),
+      userAgent: () => VariableLibrary?.navigator?.userAgent,
+      geoPosition: () => true,
+      date: () => MethodLibrary?.getDate(),
+      lunarDate: (params) => MethodLibrary?.toLunarDate(params?.transferDateToLunar || ''),
+      week: () => MethodLibrary?.getWeek(),
+      UUID: () => MethodLibrary?.createUUID()
+    }
+    const keys = Object.keys(fields)
     return {
-      DeviceInfoObj: function (params) {
-        let info = {
-          deviceType: MethodLibrary?.getDeviceType(), // 设备类型
-          OS: MethodLibrary?.getOS(), // 操作系统
-          OSVersion: MethodLibrary?.getOSVersion(), // 操作系统版本
-          platform: MethodLibrary?.getPlatform(), // 获取操作系统平台
-          screenHeight: _window?.screen?.height, // 屏幕高
-          screenWidth: _window?.screen?.width, // 屏幕宽
-          language: MethodLibrary?.getLanguage(), // 当前使用的语言-国家
-          netWork: MethodLibrary?.getNetwork(), // 联网类型
-          orientation: MethodLibrary?.getOrientationStatu(), // 横竖屏
-          browserInfo: MethodLibrary?.getBrowserInfo(), // 浏览器信息
-          fingerprint: MethodLibrary?.createFingerprint(params && params.domain || ''), // 浏览器指纹
-          userAgent: VariableLibrary?.navigator?.userAgent, // 包含 appCodeName,appName,appVersion,language 等
-          geoPosition: true, // 获取地理位置
-          date: MethodLibrary?.getDate(), // 获取阳历日期时间
-          lunarDate: MethodLibrary?.toLunarDate(params && params.transferDateToLunar || ''), // 获取农历日期时间
-          week: MethodLibrary?.getWeek(), // 获取周几
-          UUID: MethodLibrary?.createUUID(), // 生成通用唯一标识
-        }
-
-        let resultInfo = {}
-        if (!params || !params.info || params?.info?.length === 0) {
-          resultInfo = info
-        } else {
-          let infoTemp = {}
-          for (let i in info) {
-            params?.info?.forEach(function (item) {
-              if (item?.toLowerCase() === i?.toLowerCase()) {
-                item = i
-                infoTemp[item] = info?.[item]
-              }
-            })
-          }
-          resultInfo = infoTemp
-        }
-
-        return new Promise(resolve => {
-          if (resultInfo?.geoPosition) {
-            MethodLibrary?.getGeoPostion?.()?.then(geoPosition => {
-              resultInfo.geoPosition = '经度:' + geoPosition?.coords?.longitude + '  纬度:' + geoPosition?.coords?.latitude
-              resolve(resultInfo)
-            })?.catch(err => {
-              resultInfo.geoPosition = err
-              resolve(resultInfo)
-            })
-          } else {
-            resolve(resultInfo)
-          }
-        })
+      DeviceInfoObj (params) {
+        const need = !params?.info?.length
+          ? keys
+          : keys?.filter(k => params?.info?.some(i => (i || '').toLowerCase() === k?.toLowerCase()))
+        const result = {}
+        need.forEach(k => { result[k] = fields[k](params) })
+        if (!('geoPosition' in result)) return Promise.resolve(result)
+        return MethodLibrary?.getGeoPostion?.()
+          .then(geo => {
+            result.geoPosition = `经度:${geo?.coords?.longitude}  纬度:${geo?.coords?.latitude}`
+            return result
+          })
+          .catch(err => { result.geoPosition = err; return result })
       }
     }
   })()

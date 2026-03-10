@@ -2,3 +2,8 @@
 @import "./loading.css";
 @import "./theme_light.css";
 @import "./theme_dark.css";
+
+/* 与 meta color-scheme 一致，确保 UA 按系统偏好应用默认样式和媒体查询 */
+:root {
+  color-scheme: light dark;
+}

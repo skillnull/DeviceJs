@@ -11,6 +11,28 @@
   display: none !important;
 }
 
+/* 默认浅色滚动条（no-preference / light 时） */
+::-webkit-scrollbar-track {
+  background-color: white !important;
+  border-radius: 2px !important;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: white !important;
+  border-radius: 2px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: black !important;
+  border-radius: 2px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: black !important;
+  width: 2px !important;
+}
+
+/* 深色模式覆盖 */
 @media (prefers-color-scheme: dark) {
   ::-webkit-scrollbar-track {
     background-color: #000000 !important;
@@ -29,28 +51,6 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background: #3d8dbc61 !important;
-    width: 2px !important;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  ::-webkit-scrollbar-track {
-    background-color: white !important;
-    border-radius: 2px !important;
-  }
-
-  ::-webkit-scrollbar-track-piece {
-    background-color: white !important;
-    border-radius: 2px !important;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: black !important;
-    border-radius: 2px !important;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: black !important;
     width: 2px !important;
   }
 }
