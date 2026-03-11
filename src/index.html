@@ -11,13 +11,13 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#333333">
   <meta name="description" content="SKILLNULL DeviceJs device-js DEVICEJS skillnull 一键获取设备信息">
   <title>Get Device Info Online</title>
-  <link rel="stylesheet" href="./css/index.css?v=20260310">
-  <link rel="shortcut icon" href="https://skillnull.com/others/images/DeviceJs.ico?v=20260310">
-  <link rel="bookmark" href="https://skillnull.com/others/images/DeviceJs.ico?v=20260310">
+  <link rel="stylesheet" href="./css/index.css?v=20260311">
+  <link rel="shortcut icon" href="https://skillnull.com/others/images/DeviceJs.ico?v=20260311">
+  <link rel="bookmark" href="https://skillnull.com/others/images/DeviceJs.ico?v=20260311">
 </head>
 <body>
 <div class="title">
-  <img src="http://skillnull.com/others/images/DeviceJs.png?v=20260310" alt="" class="brand">
+  <img src="http://skillnull.com/others/images/DeviceJs.png?v=20260311" alt="" class="brand">
   <div class="tips">输入以下想要获取信息的key，多个key用逗号相隔, 为空则显示全部</div>
   <div class="fork" onclick="fork()">
     <div class="text">FORK</div>
@@ -27,6 +27,8 @@
   <div class="keyTipBox">
     <ul>
       <li>deviceType <span class="comment">// 设备类型</span></li>
+      <li>isEmulator <span class="comment">// 是否模拟器</span></li>
+      <li>deviceModel <span class="comment">// 设备型号（iPhone 需 UA 含机型码；Pixel 以 UA Build 为准）</span></li>
       <li>OS <span class="comment">// 操作系统</span></li>
       <li>OSVersion <span class="comment">// 操作系统版本</span></li>
       <li>platform <span class="comment">// 操作系统平台</span></li>
@@ -51,7 +53,7 @@
   </div>
   <div id="info_box"></div>
 </div>
-<script src="./device.js?v=20260310" type="module"></script>
-<script src="./index.js?v=20260310"></script>
+<script src="./device.js?v=20260311" type="module"></script>
+<script src="./index.js?v=20260311"></script>
 </body>
 </html>

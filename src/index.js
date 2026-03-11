@@ -8,7 +8,7 @@ let proxy = new Proxy({}, {
     if (result) {
       Device.Info({
         domain: 'https://www.skillnull.com',
-        info: value && value.split(',')
+        info: value ? value.split(',').map(s => s.trim()).filter(Boolean) : []
       }).then(infoResult => {
         let infoHtml = []
         for (let i in infoResult) {
