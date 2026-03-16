@@ -10,15 +10,15 @@
 
 ```html
 使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@2.2.1/dist/device.js"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@2.2.2/dist/device.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.2.1/dist/device.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.2.2/dist/device.js"></script>
 
 
 使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@2.2.1/dist/device.es.js" type="module"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@2.2.2/dist/device.es.js" type="module"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.2.1/dist/device.es.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.2.2/dist/device.es.js" type="module"></script>
 ```
 
 > #### 安装
@@ -66,6 +66,8 @@ Device.Info().then(data => {
 
 > #### INFO 配置项
 > - deviceType: 设备类型
+> - isEmulator: 是否模拟器
+> - deviceModel: 设备型号（iPhone 需 UA 含机型码；Pixel 以 UA Build 为准）
 > - OS: 操作系统
 > - OSVersion: 操作系统版本
 > - platform: 操作系统平台
