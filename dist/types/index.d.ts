@@ -1,4 +1,4 @@
-export type DeviceInfoKey = 'deviceType' | 'isEmulator' | 'deviceModel' | 'OS' | 'OSVersion' | 'platform' | 'screenHeight' | 'screenWidth' | 'language' | 'netWork' | 'orientation' | 'browserInfo' | 'fingerprint' | 'userAgent' | 'geoPosition' | 'date' | 'lunarDate' | 'week' | 'UUID';
+export type DeviceInfoKey = 'deviceType' | 'isEmulator' | 'deviceModel' | 'OS' | 'OSVersion' | 'platform' | 'screenHeight' | 'screenWidth' | 'viewportHeight' | 'viewportWidth' | 'devicePixelRatio' | 'hardwareConcurrency' | 'touchSupport' | 'cookieEnabled' | 'colorScheme' | 'timezone' | 'language' | 'netWork' | 'orientation' | 'browserInfo' | 'fingerprint' | 'userAgent' | 'geoPosition' | 'date' | 'lunarDate' | 'week' | 'UUID';
 export interface DeviceInfoOptions {
     domain?: string;
     transferDateToLunar?: string;
@@ -19,6 +19,14 @@ export interface DeviceInfo {
     platform?: string;
     screenHeight?: number;
     screenWidth?: number;
+    viewportHeight?: number;
+    viewportWidth?: number;
+    devicePixelRatio?: number;
+    hardwareConcurrency?: number;
+    touchSupport?: boolean;
+    cookieEnabled?: boolean;
+    colorScheme?: string;
+    timezone?: string;
     language?: string;
     netWork?: string;
     orientation?: string;

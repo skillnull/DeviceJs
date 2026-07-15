@@ -43,7 +43,7 @@ export function createBrowserMethods (VariableLibrary: VariableLibrary, _window:
         if (is360) {
           if (_mime("type", "application/gameplugin")) {
             match['360SE'] = true
-          } else if (VariableLibrary?.navigator && typeof VariableLibrary?.navigator['connection']['saveData'] == 'undefined') {
+          } else if (VariableLibrary?.navigator && typeof VariableLibrary?.navigator?.['connection']?.['saveData'] == 'undefined') {
             match['360SE'] = true
           } else {
             match['360EE'] = true

@@ -5,8 +5,18 @@ import { createLogicLibrary } from './logic/device-info'
 
 export type * from './types'
 
+const globalScope = globalThis as any
+
+if (typeof globalScope.window === "undefined" || globalScope.window === null) {
+  const jsdom = require("jsdom")
+  const {JSDOM} = jsdom
+  const DOM = new JSDOM(``)
+  globalScope.window = DOM?.window
+  globalScope.document = DOM?.window?.document
+}
+
 const Device: DeviceApi = (function () {
-  const root = typeof self !== 'undefined' ? self : this
+  const root = typeof self !== 'undefined' ? self : globalScope.window
   const _window = root || {}
   const VariableLibrary = createVariableLibrary(root)
   const MethodLibrary = createMethodLibrary(VariableLibrary, _window)
@@ -32,16 +42,6 @@ const Device: DeviceApi = (function () {
     }
   }
 })()
-
-const globalScope = globalThis as any
-
-if (typeof globalScope.window === "undefined" || globalScope.window === null) {
-  const jsdom = require("jsdom")
-  const {JSDOM} = jsdom
-  const DOM = new JSDOM(``)
-  globalScope.window = DOM?.window
-  globalScope.document = DOM?.window?.document
-}
 
 globalScope.window.Device = Device
 

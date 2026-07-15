@@ -1,10 +1,25 @@
 {
   "name": "@skillnull/device-js",
-  "version": "2.2.3",
+  "version": "3.0.0",
   "description": "Get device information by javascript.",
   "main": "./dist/device.js",
   "module": "./dist/device.es.js",
   "types": "./dist/device.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/device.d.ts",
+      "require": "./dist/device.js",
+      "default": "./dist/device.js"
+    },
+    "./dist/device.js": "./dist/device.js",
+    "./dist/device.es.js": "./dist/device.es.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "author": "skillnull",
   "keywords": [
     "DeviceJS",
@@ -31,23 +46,24 @@
     "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",
     "@babel/plugin-transform-runtime": "^7.24.7",
-    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.24.7",
     "@babel/runtime": "^7.24.7",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/node": "^24.0.0",
     "rollup": "^4.18.0",
+    "rollup-plugin-polyfill-node": "^0.13.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/rollup-darwin-arm64": "^4.50.2",
-    "jsdom": "^26.0.0",
-    "rollup-plugin-polyfill-node": "^0.13.0"
+    "jsdom": "^26.1.0"
+  },
+  "overrides": {
+    "ws": "^8.21.0"
   }
 }

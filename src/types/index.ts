@@ -7,6 +7,14 @@ export type DeviceInfoKey =
   | 'platform'
   | 'screenHeight'
   | 'screenWidth'
+  | 'viewportHeight'
+  | 'viewportWidth'
+  | 'devicePixelRatio'
+  | 'hardwareConcurrency'
+  | 'touchSupport'
+  | 'cookieEnabled'
+  | 'colorScheme'
+  | 'timezone'
   | 'language'
   | 'netWork'
   | 'orientation'
@@ -41,6 +49,14 @@ export interface DeviceInfo {
   platform?: string
   screenHeight?: number
   screenWidth?: number
+  viewportHeight?: number
+  viewportWidth?: number
+  devicePixelRatio?: number
+  hardwareConcurrency?: number
+  touchSupport?: boolean
+  cookieEnabled?: boolean
+  colorScheme?: string
+  timezone?: string
   language?: string
   netWork?: string
   orientation?: string

@@ -10,15 +10,15 @@
 
 ```html
 使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@2.2.3/dist/device.js"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@3.0.0/dist/device.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.2.3/dist/device.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.0/dist/device.js"></script>
 
 
 使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@2.2.3/dist/device.es.js" type="module"></script>
+<script src="https://www.unpkg.com/@skillnull/device-js@3.0.0/dist/device.es.js" type="module"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@2.2.3/dist/device.es.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.0/dist/device.es.js" type="module"></script>
 ```
 
 > #### 安装
@@ -27,9 +27,6 @@
 # NPM or YARN
 
 yarn add @skillnull/device-js
-
-# or with npm
-
 npm install @skillnull/device-js
 ```
 
@@ -86,6 +83,14 @@ const data: DeviceInfo = await Device.Info(options)
 > - platform: 操作系统平台
 > - screenHeight: 屏幕高
 > - screenWidth: 屏幕宽
+> - viewportHeight: 视口高
+> - viewportWidth: 视口宽
+> - devicePixelRatio: 设备像素比
+> - hardwareConcurrency: 逻辑处理器核心数
+> - touchSupport: 是否支持触摸
+> - cookieEnabled: Cookie 是否可用
+> - colorScheme: 当前主题色彩模式
+> - timezone: 当前时区
 > - language: 当前使用的语言-国家
 > - netWork: 联网类型
 > - orientation: 横竖屏
