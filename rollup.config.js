@@ -4,6 +4,7 @@ import commonjs from "@rollup/plugin-commonjs"
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
+import typescript from '@rollup/plugin-typescript'
 
 const globals = {
   "dayjs": "dayjs",
@@ -21,7 +22,7 @@ const globals = {
  * system - SystemJS 模块加载器的原生格式（别名：systemjs）
  */
 export default {
-  input: "src/device.js",
+  input: "src/device.ts",
   plugins: [
     json(),
     nodeResolve({
@@ -31,6 +32,14 @@ export default {
     }),
     commonjs(),
     nodePolyfills(),
+    typescript({
+      tsconfig: './tsconfig.json',
+      compilerOptions: {
+        declaration: false,
+        declarationDir: undefined,
+        emitDeclarationOnly: false
+      }
+    }),
     babel({babelHelpers: "runtime", exclude: /node_modules/}),
     terser()
   ],

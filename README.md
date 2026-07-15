@@ -64,6 +64,19 @@ Device.Info().then(data => {
 })
 ```
 
+包内同时提供 UMD、ESM JavaScript 产物和 TypeScript 类型声明。JavaScript 与 TypeScript
+项目均从同一个入口导入；类型声明由 `src/device.ts` 在构建时自动生成。
+
+```ts
+import Device, { type DeviceInfo, type DeviceInfoOptions } from '@skillnull/device-js'
+
+const options: DeviceInfoOptions = {
+  info: ['deviceType', 'OS', 'browserInfo']
+}
+
+const data: DeviceInfo = await Device.Info(options)
+```
+
 > #### INFO 配置项
 > - deviceType: 设备类型
 > - isEmulator: 是否模拟器
@@ -86,4 +99,3 @@ Device.Info().then(data => {
 > - UUID: 通用唯一标识 Universally Unique Identifier
 
 > #### 在线地址: [https://skillnull.com/others/DeviceJs/index.html](https://skillnull.com/others/DeviceJs/index.html)
-

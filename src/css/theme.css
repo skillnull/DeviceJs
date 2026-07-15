@@ -1,15 +1,48 @@
-/* 默认浅色主题（无 media），保证 no-preference 或 light 时都有样式 */
-html, body {
+:root {
+  color-scheme: light dark;
+  --page-bg: #ffffff;
+  --page-text: #000000;
+  --title-dot-bg: #ffffff;
+  --title-border: #f7f7f7;
+  --title-tips: #212121;
+  --brand-filter: none;
+  --fork-filter: none;
+  --fork-ribbon-bg: #000000bf;
+  --fork-ribbon-text: #ffffff;
+  --fork-ribbon-shadow: #ffffff;
+  --accent: #3d8dbc;
+  --accent-soft: #3d8dbc61;
+  --placeholder: #01121d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page-bg: #141414;
+    --page-text: #cfd3dc;
+    --title-dot-bg: #141414;
+    --title-border: #333333;
+    --title-tips: #c6c6c6;
+    --brand-filter: invert(100%) sepia(100%) saturate(10%) hue-rotate(221deg) brightness(100%) contrast(50%);
+    --fork-filter: var(--brand-filter);
+    --fork-ribbon-bg: #ffffff;
+    --fork-ribbon-text: #000000;
+    --fork-ribbon-shadow: #000000;
+    --placeholder: var(--accent-soft);
+  }
+}
+
+html,
+body {
   font-weight: 300;
   margin: 0;
   padding: 0;
-  background: white;
-  color: #000000;
+  background: var(--page-bg);
+  color: var(--page-text);
 }
 
 .title {
   text-align: center;
-  color: white;
+  color: #ffffff;
   margin: 0;
   width: calc(100% - 20px);
   padding: 10px 10px 20px 10px;
@@ -18,19 +51,20 @@ html, body {
   left: 0;
   overflow: hidden;
   backdrop-filter: saturate(50%) blur(4px);
-  background-image: radial-gradient(transparent 1px, #ffffff 1px);
+  background-image: radial-gradient(transparent 1px, var(--title-dot-bg) 1px);
   background-size: 4px 4px;
-  border-bottom: 1px solid #f7f7f7;
+  border-bottom: 1px solid var(--title-border);
 }
 
 .title > .brand {
   height: 80px;
   width: auto;
+  filter: var(--brand-filter);
 }
 
 .title > .tips {
   font-size: 18px;
-  color: #212121;
+  color: var(--title-tips);
 }
 
 .title > .fork {
@@ -44,6 +78,7 @@ html, body {
   top: 0;
   background-position: right 5px top 5px;
   cursor: pointer;
+  filter: var(--fork-filter);
 }
 
 .title > .fork > .text {
@@ -52,10 +87,10 @@ html, body {
   left: -50%;
   top: 40%;
   transform: rotate(45deg) translateY(-50%);
-  background: #000000bf;
+  background: var(--fork-ribbon-bg);
   width: 180%;
-  color: white;
-  text-shadow: 0px 0px 1px #ffffff;
+  color: var(--fork-ribbon-text);
+  text-shadow: 0 0 1px var(--fork-ribbon-shadow);
 }
 
 .content {
@@ -67,7 +102,7 @@ html, body {
 }
 
 .keyTipBox > ul > li > .comment {
-  color: #3d8dbc;
+  color: var(--accent);
 }
 
 .getInfoBox {
@@ -85,10 +120,10 @@ html, body {
   outline: none;
   border-radius: 3px;
   padding: 5px;
-  box-shadow: 0 0 0 1px #3d8dbc61 inset;
+  box-shadow: 0 0 0 1px var(--accent-soft) inset;
   background: transparent;
   border: none;
-  color: #3d8dbc;
+  color: var(--accent);
   font-family: auto;
 }
 
@@ -101,16 +136,16 @@ html, body {
   height: 45px;
   border-radius: 3px;
   outline: none;
-  border: 1px solid #3d8dbc61;
+  border: 1px solid var(--accent-soft);
   font-size: 14px;
   cursor: pointer;
   background-color: transparent;
-  color: #3d8dbc;
+  color: var(--accent);
   font-weight: 400;
 }
 
 .getInfoBox button:hover {
-  border-color: #3d8dbc;
+  border-color: var(--accent);
 }
 
 #info_box {
@@ -120,5 +155,5 @@ html, body {
 textarea::placeholder {
   padding: 8px;
   font-weight: 300;
-  color: #01121d;
+  color: var(--placeholder);
 }
