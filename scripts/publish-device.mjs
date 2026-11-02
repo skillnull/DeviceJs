@@ -12,6 +12,10 @@ const RELEASE = Object.freeze({
 const SEMVER_PATTERN = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-(alpha|beta|rc)\.([1-9]\d*))?$/u
 const WORKFLOW_POLL_INTERVAL_MILLISECONDS = 15_000
 const WORKFLOW_TIMEOUT_MILLISECONDS = 15 * 60_000
+const PUSH_MAX_ATTEMPTS = 3
+const PUSH_RETRY_INTERVAL_MILLISECONDS = 2_000
+const NPM_VERIFY_MAX_ATTEMPTS = 6
+const NPM_VERIFY_INTERVAL_MILLISECONDS = 2_000
 
 const runCommand = (command, argumentsList, options = {}) =>
   execFileSync(command, argumentsList, {
@@ -50,6 +54,19 @@ export const resolveCandidateVersion = ({ currentTagCommit, currentVersion, vers
   }
   return getNextVersion(currentVersion)
 }
+
+export const isResumableRelease = ({ branchAhead, currentVersion, headMessage, versionPublished }) =>
+  branchAhead && !versionPublished && headMessage === `chore(release): v${currentVersion}`
+
+export const selectQualityWorkflowRun = (workflowRuns, headCommit, headBranch) =>
+  workflowRuns
+    .filter((workflowRun) =>
+      workflowRun?.name === 'Quality' &&
+      workflowRun.head_sha === headCommit &&
+      workflowRun.head_branch === headBranch &&
+      workflowRun.event === 'push'
+    )
+    .sort((leftRun, rightRun) => Number(rightRun.id) - Number(leftRun.id))[0]
 
 export const updatePackageVersion = (content, version, updateLockfile = false) => {
   if (!validateVersion(version)) throw new Error(`Invalid version ${version}.`)
@@ -177,6 +194,65 @@ const readLocalTagCommit = (repositoryRoot, tagName) => {
   return result.stdout.trim()
 }
 
+const readRemoteBranchCommit = (repositoryRoot, branchName) => {
+  const result = spawnSync('git', ['ls-remote', '--heads', 'origin', `refs/heads/${branchName}`], {
+    cwd: repositoryRoot,
+    encoding: 'utf8'
+  })
+  if (result.status !== 0) throw new Error(`Unable to read remote branch ${branchName}.`)
+  return result.stdout.trim().split(/\s+/u, 1)[0] || ''
+}
+
+const isCommitAncestor = (repositoryRoot, ancestorCommit, descendantCommit) =>
+  spawnSync('git', ['merge-base', '--is-ancestor', ancestorCommit, descendantCommit], {
+    cwd: repositoryRoot
+  }).status === 0
+
+const pushReferenceWithRetry = async ({
+  argumentsList,
+  expectedCommit,
+  readRemoteCommit,
+  referenceName,
+  repositoryRoot
+}) => {
+  let lastPushError
+  for (let attempt = 1; attempt <= PUSH_MAX_ATTEMPTS; attempt++) {
+    try {
+      runCommand('git', ['push', 'origin', ...argumentsList], { cwd: repositoryRoot })
+    } catch (error) {
+      lastPushError = error
+    }
+    try {
+      if (readRemoteCommit() === expectedCommit) return
+    } catch (error) {
+      lastPushError = error
+    }
+    if (attempt < PUSH_MAX_ATTEMPTS) {
+      await new Promise((resolveWait) => setTimeout(resolveWait, PUSH_RETRY_INTERVAL_MILLISECONDS))
+    }
+  }
+  const pushMessage = lastPushError instanceof Error ? lastPushError.message : 'remote verification failed'
+  throw new Error(`Unable to synchronize ${referenceName} after ${PUSH_MAX_ATTEMPTS} attempts: ${pushMessage}`)
+}
+
+const pushBranchWithRetry = (repositoryRoot, branchName, expectedCommit) =>
+  pushReferenceWithRetry({
+    argumentsList: [branchName],
+    expectedCommit,
+    readRemoteCommit: () => readRemoteBranchCommit(repositoryRoot, branchName),
+    referenceName: `branch ${branchName}`,
+    repositoryRoot
+  })
+
+const pushTagWithRetry = (repositoryRoot, tagName, expectedCommit) =>
+  pushReferenceWithRetry({
+    argumentsList: [tagName],
+    expectedCommit,
+    readRemoteCommit: () => readRemoteTagCommit(repositoryRoot, tagName),
+    referenceName: `tag ${tagName}`,
+    repositoryRoot
+  })
+
 const isVersionPublished = (repositoryRoot, version) => {
   const result = spawnSync('npm', ['view', `${RELEASE.packageName}@${version}`, 'version', '--json'], {
     cwd: repositoryRoot,
@@ -186,6 +262,16 @@ const isVersionPublished = (repositoryRoot, version) => {
   const errorOutput = `${result.stdout}\n${result.stderr}`
   if (errorOutput.includes('E404')) return false
   throw new Error('Unable to verify the npm package version.')
+}
+
+const waitForPublishedVersion = async (repositoryRoot, version) => {
+  for (let attempt = 1; attempt <= NPM_VERIFY_MAX_ATTEMPTS; attempt++) {
+    if (isVersionPublished(repositoryRoot, version)) return true
+    if (attempt < NPM_VERIFY_MAX_ATTEMPTS) {
+      await new Promise((resolveWait) => setTimeout(resolveWait, NPM_VERIFY_INTERVAL_MILLISECONDS))
+    }
+  }
+  return false
 }
 
 const waitForQualityWorkflow = async (headCommit, headBranch) => {
@@ -208,18 +294,14 @@ const waitForQualityWorkflow = async (headCommit, headBranch) => {
     if (!response.ok) throw new Error(`Unable to read GitHub Quality status (HTTP ${response.status}).`)
     const responseBody = await response.json()
     const workflowRuns = Array.isArray(responseBody?.workflow_runs) ? responseBody.workflow_runs : []
-    const workflowRun = workflowRuns
-      .filter((candidateRun) =>
-        candidateRun?.name === 'Quality' &&
-        candidateRun.head_sha === headCommit &&
-        candidateRun.head_branch === headBranch &&
-        candidateRun.event === 'push'
-      )
-      .sort((leftRun, rightRun) => Number(rightRun.id) - Number(leftRun.id))[0]
+    const workflowRun = selectQualityWorkflowRun(workflowRuns, headCommit, headBranch)
 
     if (workflowRun?.status === 'completed') {
       if (workflowRun.conclusion === 'success') return
-      throw new Error(`GitHub Quality failed: ${workflowRun.html_url || headBranch}`)
+      throw new Error(
+        `GitHub Quality failed for ${headBranch} (${workflowRun.conclusion || 'unknown'}): ` +
+        `${workflowRun.html_url || headBranch}`
+      )
     }
     await new Promise((resolveWait) => setTimeout(resolveWait, WORKFLOW_POLL_INTERVAL_MILLISECONDS))
   }
@@ -235,8 +317,18 @@ const assertReleaseContext = (repositoryRoot) => {
   runCommand('git', ['fetch', '--no-tags', 'origin', RELEASE.branch], { cwd: repositoryRoot })
   const headCommit = readCommand('git', ['rev-parse', 'HEAD'], { cwd: repositoryRoot })
   const remoteCommit = readCommand('git', ['rev-parse', `origin/${RELEASE.branch}`], { cwd: repositoryRoot })
-  if (headCommit !== remoteCommit) throw new Error(`Local ${RELEASE.branch} must match origin/${RELEASE.branch}.`)
-  return headCommit
+  if (headCommit === remoteCommit) return { headCommit, resumable: false }
+
+  const packageMetadata = JSON.parse(readFileSync(resolve(repositoryRoot, 'package.json'), 'utf8'))
+  const headMessage = readCommand('git', ['log', '-1', '--pretty=%s'], { cwd: repositoryRoot })
+  const resumable = isResumableRelease({
+    branchAhead: isCommitAncestor(repositoryRoot, remoteCommit, headCommit),
+    currentVersion: packageMetadata.version,
+    headMessage,
+    versionPublished: isVersionPublished(repositoryRoot, packageMetadata.version)
+  })
+  if (!resumable) throw new Error(`Local ${RELEASE.branch} must match origin/${RELEASE.branch}.`)
+  return { headCommit, resumable: true }
 }
 
 const prepareCandidateVersion = (repositoryRoot, currentVersion) => {
@@ -266,14 +358,19 @@ const publish = async (argumentsList) => {
   }
 
   const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-  assertReleaseContext(repositoryRoot)
+  const releaseContext = assertReleaseContext(repositoryRoot)
   const releaseFiles = getReleaseFiles(repositoryRoot)
   const snapshots = captureFiles(releaseFiles)
   const packageMetadata = JSON.parse(snapshots.get(releaseFiles.package))
   const synchronizedProblems = readVersionSyncProblems(releaseFiles)
   if (synchronizedProblems.length > 0) throw new Error(synchronizedProblems.join('\n'))
   let candidateVersion = requestedVersion || prepareCandidateVersion(repositoryRoot, packageMetadata.version)
+  let packagePublished = false
   let releaseCommitPrepared = false
+
+  if (!dryRun && !releaseContext.resumable) {
+    await waitForQualityWorkflow(releaseContext.headCommit, RELEASE.branch)
+  }
 
   if (!dryRun && !requestedVersion) {
     if (process.stdin.isTTY !== true || process.stdout.isTTY !== true) {
@@ -313,9 +410,9 @@ const publish = async (argumentsList) => {
       runCommand('git', ['add', ...Object.values(releaseFiles)], { cwd: repositoryRoot })
       runCommand('git', ['commit', '-m', `chore(release): v${candidateVersion}`], { cwd: repositoryRoot })
       releaseCommit = readCommand('git', ['rev-parse', 'HEAD'], { cwd: repositoryRoot })
-      releaseCommitPrepared = true
-      runCommand('git', ['push', 'origin', RELEASE.branch], { cwd: repositoryRoot })
     }
+    releaseCommitPrepared = true
+    await pushBranchWithRetry(repositoryRoot, RELEASE.branch, releaseCommit)
     await waitForQualityWorkflow(releaseCommit, RELEASE.branch)
 
     const releaseTag = `v${candidateVersion}`
@@ -331,17 +428,19 @@ const publish = async (argumentsList) => {
       runCommand('git', ['tag', '-a', releaseTag, '-m', releaseTag], { cwd: repositoryRoot })
     }
     if (!remoteTagCommit) {
-      runCommand('git', ['push', 'origin', releaseTag], { cwd: repositoryRoot })
+      await pushTagWithRetry(repositoryRoot, releaseTag, releaseCommit)
     }
     await waitForQualityWorkflow(releaseCommit, releaseTag)
 
     const distributionTag = getDistributionTag(candidateVersion)
     try {
       runCommand('npm', ['publish', '--access', 'public', '--tag', distributionTag], { cwd: repositoryRoot })
+      packagePublished = true
     } catch (error) {
       if (!isVersionPublished(repositoryRoot, candidateVersion)) throw error
+      packagePublished = true
     }
-    if (!isVersionPublished(repositoryRoot, candidateVersion)) {
+    if (!await waitForPublishedVersion(repositoryRoot, candidateVersion)) {
       throw new Error('npm did not report the published version after publication.')
     }
     if (readRemoteTagCommit(repositoryRoot, releaseTag) !== releaseCommit) {
@@ -350,6 +449,17 @@ const publish = async (argumentsList) => {
     return { distributionTag, dryRun: false, version: candidateVersion }
   } catch (error) {
     if (!releaseCommitPrepared) restoreFiles(snapshots)
+    if (!packagePublished && releaseCommitPrepared) {
+      const errorMessage = error instanceof Error ? error.message : 'Package publication failed.'
+      throw new Error(
+        `${errorMessage}\nThe release commit and any created tag were retained for a safe retry. ` +
+        'npm was not published.'
+      )
+    }
+    if (packagePublished) {
+      const errorMessage = error instanceof Error ? error.message : 'Release synchronization failed.'
+      throw new Error(`${errorMessage}\nnpm is already published; do not publish this version again.`)
+    }
     throw error
   } finally {
     if (dryRun) restoreFiles(snapshots)
