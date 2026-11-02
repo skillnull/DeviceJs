@@ -52,16 +52,16 @@ const data: DeviceInfo = await Device.Info(options)
 UMD：
 
 ```html
-<script src="https://unpkg.com/@skillnull/device-js@3.0.2/dist/device.js"></script>
+<script src="https://unpkg.com/@skillnull/device-js@3.0.3/dist/device.js"></script>
 <!-- or -->
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.2/dist/device.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.3/dist/device.js"></script>
 ```
 
 ESM：
 
 ```html
 <script type="module">
-  import Device from 'https://unpkg.com/@skillnull/device-js@3.0.2/dist/device.es.js'
+  import Device from 'https://unpkg.com/@skillnull/device-js@3.0.3/dist/device.es.js'
 
   const data = await Device.Info()
 </script>
