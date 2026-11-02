@@ -37,7 +37,7 @@
     "clean": "rm -rf dist",
     "test": "npm run build && node --test test/*.test.cjs scripts/*.test.mjs",
     "check": "npm test && npm pack --dry-run",
-    "publish": "node scripts/publish-device.mjs"
+    "publish": "sh scripts/publish-device.sh"
   },
   "homepage": "https://github.com/skillnull/DeviceJs",
   "repository": {

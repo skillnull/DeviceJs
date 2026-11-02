@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 
 import {
   getDistributionTag,
+  getDemoAssetVersionProblems,
   getNextVersion,
   getNpmPublishArguments,
   getUnexpectedChangedPaths,
@@ -15,6 +16,7 @@ import {
   resolveCandidateVersion,
   selectQualityWorkflowRun,
   updatePackageVersion,
+  updateDemoAssetVersions,
   updateReadmeVersion,
   validateVersion
 } from './publish-device.mjs'
@@ -24,7 +26,16 @@ test('exposes the one-command publishing entry', () => {
     readFileSync(fileURLToPath(new URL('../package.json', import.meta.url)), 'utf8')
   )
 
-  assert.equal(packageMetadata.scripts.publish, 'node scripts/publish-device.mjs')
+  assert.equal(packageMetadata.scripts.publish, 'sh scripts/publish-device.sh')
+})
+
+test('keeps the release shell entry syntactically valid', () => {
+  const syntaxResult = spawnSync('sh', ['-n', 'scripts/publish-device.sh'], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+    encoding: 'utf8'
+  })
+
+  assert.equal(syntaxResult.status, 0, syntaxResult.stderr)
 })
 
 test('can be imported from standard input without starting a release', () => {
@@ -139,6 +150,22 @@ test('synchronizes every versioned CDN reference in a README', () => {
 
   assert.doesNotMatch(updatedReadme, /1\.2\.3/u)
   assert.equal(updatedReadme.match(/@skillnull\/device-js@1\.2\.4/gu)?.length, 2)
+})
+
+test('synchronizes every resource reference version in the demo entry', () => {
+  const demoHtml = [
+    '<link rel="stylesheet" href="./css/index.css?v=20260715">',
+    '<script src="./dist/device.es.js?v=2026102"></script>',
+    '<script src="./index.js?v=old"></script>'
+  ].join('\n')
+  const updatedHtml = updateDemoAssetVersions(demoHtml, '3.0.4')
+
+  assert.equal(updatedHtml.match(/\?v=3\.0\.4/gu)?.length, 3)
+  assert.deepEqual(getDemoAssetVersionProblems(updatedHtml, '3.0.4'), [])
+  assert.deepEqual(
+    getDemoAssetVersionProblems(demoHtml, '3.0.4'),
+    ['src/index.html contains asset version 20260715 instead of 3.0.4.']
+  )
 })
 
 test('detects mismatched package, lockfile, and documentation versions', () => {

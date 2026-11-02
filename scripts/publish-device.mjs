@@ -98,6 +98,25 @@ export const updateReadmeVersion = (content, version) => {
   return content.replace(packageReferencePattern, `$1${version}`)
 }
 
+export const updateDemoAssetVersions = (content, version) => {
+  if (!validateVersion(version)) throw new Error(`Invalid version ${version}.`)
+  const assetVersionPattern = /(\?v=)[^"'&<>\s]+/gu
+  const assetReferences = content.match(assetVersionPattern)
+  if (!assetReferences?.length) {
+    throw new Error('src/index.html does not contain versioned asset references.')
+  }
+  return content.replace(assetVersionPattern, `$1${version}`)
+}
+
+export const getDemoAssetVersionProblems = (content, version) => {
+  const assetVersions = [...content.matchAll(/\?v=([^"'&<>\s]+)/gu)].map((match) => match[1])
+  if (assetVersions.length === 0) return ['src/index.html does not contain versioned asset references.']
+  const mismatchedVersion = assetVersions.find((assetVersion) => assetVersion !== version)
+  return mismatchedVersion
+    ? [`src/index.html contains asset version ${mismatchedVersion} instead of ${version}.`]
+    : []
+}
+
 export const getVersionSyncProblems = ({ lockMetadata, packageMetadata, readmes }) => {
   const problems = []
   const expectedVersion = packageMetadata.version
@@ -132,6 +151,7 @@ export const getUnexpectedChangedPaths = (status, allowedPaths) => {
 }
 
 const getReleaseFiles = (repositoryRoot) => ({
+  demoIndex: resolve(repositoryRoot, 'src/index.html'),
   lockfile: resolve(repositoryRoot, 'package-lock.json'),
   package: resolve(repositoryRoot, 'package.json'),
   readmeChinese: resolve(repositoryRoot, 'README.md'),
@@ -146,6 +166,10 @@ const restoreFiles = (snapshots) => {
 }
 
 const synchronizeReleaseFiles = (releaseFiles, snapshots, version) => {
+  writeFileSync(
+    releaseFiles.demoIndex,
+    updateDemoAssetVersions(snapshots.get(releaseFiles.demoIndex), version)
+  )
   writeFileSync(releaseFiles.package, updatePackageVersion(snapshots.get(releaseFiles.package), version))
   writeFileSync(
     releaseFiles.lockfile,
@@ -357,9 +381,10 @@ const publish = async (argumentsList) => {
   const nodeMajorVersion = Number(process.versions.node.split('.')[0])
   if (nodeMajorVersion < 20) throw new Error('Publishing requires Node.js 20 or newer.')
   const dryRun = argumentsList.includes('--dry-run')
+  const prepareOnly = argumentsList.includes('--prepare-only')
   const versionArgumentIndex = argumentsList.indexOf('--version')
   const requestedVersion = versionArgumentIndex >= 0 ? argumentsList[versionArgumentIndex + 1] : ''
-  const knownArguments = new Set(['--dry-run', '--version', requestedVersion])
+  const knownArguments = new Set(['--dry-run', '--prepare-only', '--version', requestedVersion])
   const unknownArguments = argumentsList.filter((argument) => !knownArguments.has(argument))
   if (unknownArguments.length > 0) throw new Error(`Unsupported arguments: ${unknownArguments.join(', ')}`)
   if (versionArgumentIndex >= 0 && !validateVersion(requestedVersion)) {
@@ -398,6 +423,12 @@ const publish = async (argumentsList) => {
   try {
     synchronizeReleaseFiles(releaseFiles, snapshots, candidateVersion)
     const candidateProblems = readVersionSyncProblems(releaseFiles)
+    candidateProblems.push(
+      ...getDemoAssetVersionProblems(
+        readFileSync(releaseFiles.demoIndex, 'utf8'),
+        candidateVersion
+      )
+    )
     if (candidateProblems.length > 0) throw new Error(candidateProblems.join('\n'))
     runCommand('npm', ['run', 'check'], { cwd: repositoryRoot })
     assertOnlyReleaseFilesChanged(repositoryRoot, releaseFiles)
@@ -421,6 +452,14 @@ const publish = async (argumentsList) => {
       releaseCommit = readCommand('git', ['rev-parse', 'HEAD'], { cwd: repositoryRoot })
     }
     releaseCommitPrepared = true
+    if (prepareOnly) {
+      return {
+        distributionTag: getDistributionTag(candidateVersion),
+        dryRun: false,
+        prepared: true,
+        version: candidateVersion
+      }
+    }
     await pushBranchWithRetry(repositoryRoot, RELEASE.branch, releaseCommit)
     await waitForQualityWorkflow(releaseCommit, RELEASE.branch)
 
@@ -475,6 +514,19 @@ const publish = async (argumentsList) => {
   }
 }
 
+const verifyRelease = async (version, releaseCommit, releaseTag) => {
+  if (!validateVersion(version)) throw new Error(`Invalid release version ${version}.`)
+  if (!/^[0-9a-f]{40}$/u.test(releaseCommit)) throw new Error('Invalid release commit.')
+  if (releaseTag !== `v${version}`) throw new Error(`Invalid release tag ${releaseTag}.`)
+  const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+  if (!await waitForPublishedVersion(repositoryRoot, version)) {
+    throw new Error('npm did not report the published version after publication.')
+  }
+  if (readRemoteTagCommit(repositoryRoot, releaseTag) !== releaseCommit) {
+    throw new Error('The remote Git tag is not synchronized with the published commit.')
+  }
+}
+
 const entryPath = process.argv[1]
 const isDirectExecution = (() => {
   if (!entryPath || entryPath === '-') return false
@@ -487,10 +539,28 @@ const isDirectExecution = (() => {
 
 if (isDirectExecution) {
   try {
-    const result = await publish(process.argv.slice(2))
+    const argumentsList = process.argv.slice(2)
+    if (argumentsList[0] === '--wait-quality') {
+      const [, headCommit, headBranch] = argumentsList
+      if (!/^[0-9a-f]{40}$/u.test(headCommit || '') || !headBranch) {
+        throw new Error('Invalid Quality workflow target.')
+      }
+      await waitForQualityWorkflow(headCommit, headBranch)
+      process.stdout.write(`QUALITY PASSED: ${headBranch} (${headCommit})\n`)
+      process.exit(0)
+    }
+    if (argumentsList[0] === '--verify-release') {
+      const [, version, releaseCommit, releaseTag] = argumentsList
+      await verifyRelease(version, releaseCommit, releaseTag)
+      process.stdout.write(`RELEASE VERIFIED: ${RELEASE.packageName}@${version}\n`)
+      process.exit(0)
+    }
+    const result = await publish(argumentsList)
     const message = result.dryRun
       ? `DRY RUN PASSED: ${RELEASE.packageName}@${result.version}`
-      : `PUBLISHED: ${RELEASE.packageName}@${result.version} (${result.distributionTag})`
+      : result.prepared
+        ? `RELEASE PREPARED: ${RELEASE.packageName}@${result.version}`
+        : `PUBLISHED: ${RELEASE.packageName}@${result.version} (${result.distributionTag})`
     process.stdout.write(`${message}\n`)
   } catch (error) {
     process.stderr.write(`PUBLISH BLOCKED: ${error instanceof Error ? error.message : 'Unknown error'}\n`)
