@@ -9,8 +9,10 @@ import {
   getNextVersion,
   getUnexpectedChangedPaths,
   getVersionSyncProblems,
+  isResumableRelease,
   normalizeCommandOutput,
   resolveCandidateVersion,
+  selectQualityWorkflowRun,
   updatePackageVersion,
   updateReadmeVersion,
   validateVersion
@@ -73,6 +75,37 @@ test('selects the next version after a synchronized published release', () => {
     }),
     /remote tag v1\.2\.3 is missing/u
   )
+})
+
+test('recognizes a local release commit that can be resumed after push failure', () => {
+  assert.equal(isResumableRelease({
+    branchAhead: true,
+    currentVersion: '1.2.4',
+    headMessage: 'chore(release): v1.2.4',
+    versionPublished: false
+  }), true)
+  assert.equal(isResumableRelease({
+    branchAhead: true,
+    currentVersion: '1.2.4',
+    headMessage: 'feat: unrelated change',
+    versionPublished: false
+  }), false)
+  assert.equal(isResumableRelease({
+    branchAhead: true,
+    currentVersion: '1.2.4',
+    headMessage: 'chore(release): v1.2.4',
+    versionPublished: true
+  }), false)
+})
+
+test('selects the newest matching Quality workflow run', () => {
+  const selectedRun = selectQualityWorkflowRun([
+    { id: 1, name: 'Quality', head_sha: 'abc', head_branch: 'master', event: 'push' },
+    { id: 3, name: 'Quality', head_sha: 'abc', head_branch: 'master', event: 'push' },
+    { id: 4, name: 'Quality', head_sha: 'other', head_branch: 'master', event: 'push' }
+  ], 'abc', 'master')
+
+  assert.equal(selectedRun.id, 3)
 })
 
 test('synchronizes package and lockfile versions', () => {
