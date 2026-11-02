@@ -47,6 +47,15 @@ export const getDistributionTag = (version) => {
   return versionMatch[4] || 'latest'
 }
 
+export const getNpmPublishArguments = (version) => [
+  'publish',
+  '--ignore-scripts',
+  '--access',
+  'public',
+  '--tag',
+  getDistributionTag(version)
+]
+
 export const resolveCandidateVersion = ({ currentTagCommit, currentVersion, versionPublished }) => {
   if (!versionPublished) return currentVersion
   if (!currentTagCommit) {
@@ -434,7 +443,7 @@ const publish = async (argumentsList) => {
 
     const distributionTag = getDistributionTag(candidateVersion)
     try {
-      runCommand('npm', ['publish', '--access', 'public', '--tag', distributionTag], { cwd: repositoryRoot })
+      runCommand('npm', getNpmPublishArguments(candidateVersion), { cwd: repositoryRoot })
       packagePublished = true
     } catch (error) {
       if (!isVersionPublished(repositoryRoot, candidateVersion)) throw error
