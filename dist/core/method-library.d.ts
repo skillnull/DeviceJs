@@ -1,22 +1,22 @@
 import type { VariableLibrary } from '../data/variable-library';
-export declare function createMethodLibrary(VariableLibrary: VariableLibrary, _window: any): {
-    getGeoPostion: () => Promise<import("../types/internal").GeoPositionResult>;
+export declare function createMethodLibrary(VariableLibrary: VariableLibrary, runtimeScope: any): {
+    getGeoPosition: () => Promise<import("../types/internal").GeoPositionResult | null>;
     getColorScheme: () => "" | "dark" | "light";
-    getDevicePixelRatio: () => number;
+    getDevicePixelRatio: () => any;
     getHardwareConcurrency: () => any;
     getTouchSupport: () => boolean;
     getCookieEnabled: () => any;
     getTimezone: () => string;
-    getNetwork: () => string;
+    getNetwork: (locale?: import("../types").DeviceLocale) => string;
     getLanguage: () => any;
-    getOrientationStatu: () => string;
+    getOrientationStatus: (locale?: import("../types").DeviceLocale) => "未知" | "竖屏" | "横屏" | "Unknown" | "Portrait" | "Landscape";
     getDeviceType: () => any;
     getIsEmulator(): boolean;
     getDeviceModel(): any;
     getOS: () => any;
     getOSVersion: () => any;
     getPlatform(): any;
-    getBrowserInfo: () => string;
+    getBrowserInfo: (locale?: import("../types").DeviceLocale) => string;
     createFingerprint: (domain: any) => any;
     getMatchMap: (u: any) => {
         Trident: boolean;
@@ -90,7 +90,7 @@ export declare function createMethodLibrary(VariableLibrary: VariableLibrary, _w
     };
     matchInfoMap: (_this: any) => void;
     getDate: () => string;
-    getWeek: () => string;
+    getWeek: (locale?: import("../types").DeviceLocale) => "周日" | "周一" | "周二" | "周三" | "周四" | "周五" | "周六" | "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
     toLunarDate: (date: any) => {
         year: string;
         month: string;
@@ -98,7 +98,7 @@ export declare function createMethodLibrary(VariableLibrary: VariableLibrary, _w
         chineseZodiac: any;
     };
     createUUID: () => string;
-    createLoading: (text?: string, showTimeCount?: boolean) => void;
-    removeLoading: () => void;
+    createLoading: (text?: string, showTimeCount?: boolean) => HTMLDivElement;
+    removeLoading: (loadingElement?: HTMLElement) => void;
 };
 export type MethodLibrary = ReturnType<typeof createMethodLibrary>;

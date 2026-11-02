@@ -1,7 +1,7 @@
-export declare function createLoadingMethods(): {
-    createLoading: (text?: string, showTimeCount?: boolean) => void;
+export declare function createLoadingMethods(runtimeScope: any): {
+    createLoading: (text?: string, showTimeCount?: boolean) => HTMLDivElement;
     /**
      * 删除loading
      */
-    removeLoading: () => void;
+    removeLoading: (loadingElement?: HTMLElement) => void;
 };

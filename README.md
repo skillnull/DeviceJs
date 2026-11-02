@@ -1,70 +1,39 @@
 <div align="center">
-  <img src="http://skillnull.com/others/images/DeviceJs.png" width="300px" alt="DeviceJS">
+  <a href="https://github.com/skillnull/DeviceJs">
+    <img src="https://skillnull.com/others/images/DeviceJs.png" width="300" alt="DeviceJs logo">
+  </a>
+
+  <p>轻量级 JavaScript 与 TypeScript 设备检测和浏览器环境信息工具。</p>
+
+  <p>
+    <a href="https://www.npmjs.com/package/@skillnull/device-js"><img src="https://img.shields.io/npm/v/@skillnull/device-js?style=flat-square" alt="npm version"></a>
+    <a href="https://www.npmjs.com/package/@skillnull/device-js"><img src="https://img.shields.io/npm/dm/@skillnull/device-js?style=flat-square" alt="npm downloads"></a>
+    <a href="https://github.com/skillnull/DeviceJs/actions"><img src="https://img.shields.io/github/actions/workflow/status/skillnull/DeviceJs/quality.yml?branch=master&style=flat-square&label=build" alt="build status"></a>
+    <a href="./LICENSE"><img src="https://img.shields.io/github/license/skillnull/DeviceJs?style=flat-square" alt="license"></a>
+  </p>
+
+  <p><strong>简体中文</strong> | <a href="./README.en.md">English</a></p>
 </div>
-<br>
-<div align="center" >
-  <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
-</div>
 
-> #### CDN
+## 功能特性
 
-```html
-使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@3.0.1/dist/device.js"></script>
-# or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.1/dist/device.js"></script>
+- 检测设备、操作系统、浏览器、屏幕、网络、语言和输入能力。
+- 生成浏览器指纹和 UUID。
+- 支持公历转农历。
+- 支持浏览器、Node.js 和 SSR 环境安全调用。
+- 提供 UMD、ESM 产物和 TypeScript 类型声明。
 
-
-使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/device-js@3.0.1/dist/device.es.js" type="module"></script>
-# or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.1/dist/device.es.js" type="module"></script>
-```
-
-> #### 安装
+## 安装
 
 ```shell
-# NPM / YARN / PNPM
-
 npm install @skillnull/device-js
+# or
 yarn add @skillnull/device-js
+# or
 pnpm add @skillnull/device-js
-
 ```
 
-> #### 调用
-
-```js
-// 使用 CDN 引用时，无需 import 
-import Device from '@skillnull/device-js'
-
-/**
- * @params:{
- *  domain: <String> 生成浏览器指纹所需，不传默认使用window.location.host;
- *  transferDateToLunar: <String> 要被转化为农历的日期，需要同时开启info中的lunarDate选项才生效
- *  info: <Array> 想要获取的信息，不传默认开启全部信息显示
- * }
- *
- * @return: 返回 Promise 对象
- */
-
-Device.Info({
-  domain: 'your domain',
-  transferDateToLunar: '需要转化为农历的日期。例如： 2023/01/01。',
-  info: ['lunarDate']
-}).then(data => {
-  console.log(data)
-})
-
-// 或
-
-Device.Info().then(data => {
-  console.log(data)
-})
-```
-
-包内同时提供 UMD、ESM JavaScript 产物和 TypeScript 类型声明。JavaScript 与 TypeScript
-项目均从同一个入口导入；类型声明由 `src/device.ts` 在构建时自动生成。
+## 使用
 
 ```ts
 import Device, { type DeviceInfo, type DeviceInfoOptions } from '@skillnull/device-js'
@@ -76,33 +45,67 @@ const options: DeviceInfoOptions = {
 const data: DeviceInfo = await Device.Info(options)
 ```
 
-> #### INFO 配置项
-> - deviceType: 设备类型
-> - isEmulator: 是否模拟器
-> - deviceModel: 设备型号（iPhone 需 UA 含机型码；Pixel 以 UA Build 为准）
-> - OS: 操作系统
-> - OSVersion: 操作系统版本
-> - platform: 操作系统平台
-> - screenHeight: 屏幕高
-> - screenWidth: 屏幕宽
-> - viewportHeight: 视口高
-> - viewportWidth: 视口宽
-> - devicePixelRatio: 设备像素比
-> - hardwareConcurrency: 逻辑处理器核心数
-> - touchSupport: 是否支持触摸
-> - cookieEnabled: Cookie 是否可用
-> - colorScheme: 当前主题色彩模式
-> - timezone: 当前时区
-> - language: 当前使用的语言-国家
-> - netWork: 联网类型
-> - orientation: 横竖屏
-> - browserInfo: 浏览器信息
-> - fingerprint: 浏览器指纹
-> - userAgent: 包含 appCodeName,appName,appVersion,language,platform 等
-> - geoPosition: 地理位置
-> - date: 阳历日期时间
-> - lunarDate: 阴历日期
-> - week: 周几
-> - UUID: 通用唯一标识 Universally Unique Identifier
+不传参数调用 `Device.Info()` 时，将返回全部可用信息。
 
-> #### 在线地址: [https://skillnull.com/others/DeviceJs/index.html](https://skillnull.com/others/DeviceJs/index.html)
+### CDN
+
+UMD：
+
+```html
+<script src="https://unpkg.com/@skillnull/device-js@3.0.1/dist/device.js"></script>
+<!-- or -->
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/device-js@3.0.1/dist/device.js"></script>
+```
+
+ESM：
+
+```html
+<script type="module">
+  import Device from 'https://unpkg.com/@skillnull/device-js@3.0.1/dist/device.es.js'
+
+  const data = await Device.Info()
+</script>
+```
+
+## 配置项
+
+| 配置 | 类型 | 说明 |
+| --- | --- | --- |
+| `domain` | `string` | 生成浏览器指纹时使用的域名，默认为 `window.location.host`。 |
+| `transferDateToLunar` | `string` | 请求 `lunarDate` 时需要转换的公历日期。 |
+| `info` | `DeviceInfoKey[]` | 指定需要返回的字段，不传时返回全部字段。 |
+| `locale` | `'zh-CN' \| 'en-US'` | 文本结果使用的语言，默认为 `zh-CN`。 |
+| `showLoading` | `boolean` | 是否显示加载层，默认为 `false`。 |
+
+可用的 `info` 字段：
+
+| 分类 | 字段 |
+| --- | --- |
+| 设备 | `deviceType`, `isEmulator`, `deviceModel`, `hardwareConcurrency` |
+| 系统 | `OS`, `OSVersion`, `platform`, `language`, `timezone` |
+| 屏幕与输入 | `screenHeight`, `screenWidth`, `viewportHeight`, `viewportWidth`, `devicePixelRatio`, `orientation`, `touchSupport`, `colorScheme` |
+| 浏览器与网络 | `browserInfo`, `userAgent`, `netWork`, `cookieEnabled` |
+| 标识与位置 | `fingerprint`, `UUID`, `geoPosition` |
+| 日期 | `date`, `lunarDate`, `week` |
+
+> 部分信息依赖浏览器支持、User-Agent 数据或用户授权。其中地理位置需要用户明确授权。
+
+## 在线演示
+
+[打开 DeviceJs 在线演示](https://skillnull.com/others/DeviceJs/index.html)。
+
+## 发布
+
+```shell
+# 完整发布：同步版本、验证、推送提交与 Tag，通过 GitHub CI 后发布 npm
+npm run publish
+
+# 只验证下一版本，不提交、不推送、不发布
+npm run publish -- --dry-run
+```
+
+发布入口会同步 `package.json`、`package-lock.json` 和中英文 README 中的版本号。发布必须从与 `origin/master` 一致的干净 `master` 分支执行。
+
+## 许可证
+
+[MIT](./LICENSE) © 2019-present skillnull

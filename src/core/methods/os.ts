@@ -11,7 +11,7 @@ export function createOsMethods (VariableLibrary: VariableLibrary) {
       // 获取操作系统版本
       getOSVersion: function () {
         let _this = this
-        let u = VariableLibrary?.navigator?.userAgent || {}
+        let u = VariableLibrary?.navigator?.userAgent || ''
         _this.osVersion = ''
         // 系统版本信息
         let osVersion = {

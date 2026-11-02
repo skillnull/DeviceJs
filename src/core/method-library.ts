@@ -9,17 +9,17 @@ import { createLoadingMethods } from './methods/loading'
 import { createOsMethods } from './methods/os'
 import { createUserAgentMethods } from './methods/user-agent'
 
-export function createMethodLibrary (VariableLibrary: VariableLibrary, _window: any) {
+export function createMethodLibrary (VariableLibrary: VariableLibrary, runtimeScope: any) {
   return {
-    ...createLoadingMethods(),
+    ...createLoadingMethods(runtimeScope),
     ...createIdentityMethods(),
     ...createDateMethods(VariableLibrary),
     ...createUserAgentMethods(VariableLibrary),
-    ...createBrowserMethods(VariableLibrary, _window),
+    ...createBrowserMethods(VariableLibrary, runtimeScope),
     ...createOsMethods(VariableLibrary),
-    ...createDeviceMethods(VariableLibrary),
-    ...createEnvironmentMethods(VariableLibrary),
-    ...createGeoMethods()
+    ...createDeviceMethods(VariableLibrary, runtimeScope),
+    ...createEnvironmentMethods(VariableLibrary, runtimeScope),
+    ...createGeoMethods(VariableLibrary)
   }
 }
 

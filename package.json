@@ -3,21 +3,24 @@
   "version": "3.0.1",
   "description": "Get device information by javascript.",
   "main": "./dist/device.js",
-  "module": "./dist/device.es.js",
+  "module": "./dist/device.mjs",
   "types": "./dist/device.d.ts",
   "exports": {
     ".": {
       "types": "./dist/device.d.ts",
+      "import": "./dist/device.mjs",
       "require": "./dist/device.js",
-      "default": "./dist/device.js"
+      "default": "./dist/device.mjs"
     },
     "./dist/device.js": "./dist/device.js",
     "./dist/device.es.js": "./dist/device.es.js",
+    "./dist/device.mjs": "./dist/device.mjs",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "README.md",
+    "README.en.md",
     "LICENSE"
   ],
   "author": "skillnull",
@@ -31,7 +34,10 @@
   "scripts": {
     "build": "npm run clean && rollup --config rollup.config.js --bundleConfigAsCjs && npm run build:types",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "npm run build && node --test test/*.test.cjs scripts/*.test.mjs",
+    "check": "npm test && npm pack --dry-run",
+    "publish": "node scripts/publish-device.mjs"
   },
   "homepage": "https://github.com/skillnull/DeviceJs",
   "repository": {
@@ -43,27 +49,25 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",
     "@babel/plugin-transform-runtime": "^7.24.7",
     "@babel/preset-env": "^7.24.7",
     "@babel/runtime": "^7.24.7",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.3.1",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.2",
     "@rollup/plugin-typescript": "^12.1.4",
-    "@types/node": "^24.0.0",
     "rollup": "^4.18.0",
-    "rollup-plugin-polyfill-node": "^0.13.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3"
   },
-  "dependencies": {
-    "jsdom": "^26.1.0"
-  },
+  "browserslist": [
+    "iOS >= 10",
+    "Android >= 4.4",
+    "last 2 versions"
+  ],
   "overrides": {
-    "ws": "^8.21.0"
+    "baseline-browser-mapping": "^2.11.34",
+    "browserslist": "^4.29.5"
   }
 }

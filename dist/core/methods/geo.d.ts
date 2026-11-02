@@ -1,4 +1,5 @@
 import type { GeoPositionResult } from '../../types/internal';
-export declare function createGeoMethods(): {
-    getGeoPostion: () => Promise<GeoPositionResult>;
+import type { VariableLibrary } from '../../data/variable-library';
+export declare function createGeoMethods(VariableLibrary: VariableLibrary): {
+    getGeoPosition: () => Promise<GeoPositionResult | null>;
 };

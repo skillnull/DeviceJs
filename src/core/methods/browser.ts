@@ -1,13 +1,16 @@
 import type { VariableLibrary } from '../../data/variable-library'
+import { getLocaleMessages } from '../../data/locale'
+import type { DeviceLocale } from '../../types'
 
-export function createBrowserMethods (VariableLibrary: VariableLibrary, _window: any) {
+export function createBrowserMethods (VariableLibrary: VariableLibrary, runtimeScope: any) {
   return {
       // 浏览器信息
-      getBrowserInfo: function () {
+      getBrowserInfo: function (locale?: DeviceLocale) {
+        const messages = getLocaleMessages(locale)
         let _this = this
         this?.matchInfoMap(_this)
 
-        let u = VariableLibrary?.navigator?.userAgent || {}
+        let u = VariableLibrary?.navigator?.userAgent || ''
 
         let _mime = function (option, value) {
           let mimeTypes = VariableLibrary?.navigator?.mimeTypes
@@ -23,9 +26,9 @@ export function createBrowserMethods (VariableLibrary: VariableLibrary, _window:
 
         let is360 = false
 
-        if (_window.chrome) {
+        if (runtimeScope.chrome) {
           let chrome_version = u?.replace(/^.*Chrome\/([\d]+).*$/, '$1')
-          if (chrome_version > 36 && _window.showModalDialog) {
+          if (chrome_version > 36 && runtimeScope.showModalDialog) {
             is360 = true
           } else if (chrome_version > 45) {
             is360 = _mime("type", "application/vnd.chromium.remoting-viewer")
@@ -51,7 +54,7 @@ export function createBrowserMethods (VariableLibrary: VariableLibrary, _window:
         }
 
         if (match['IE'] || match['Edge']) {
-          let navigator_top = window?.screenTop - window?.screenY
+          let navigator_top = runtimeScope?.screenTop - runtimeScope?.screenY
           switch (navigator_top) {
             case 71: // 无收藏栏,贴边
               break
@@ -290,7 +293,11 @@ export function createBrowserMethods (VariableLibrary: VariableLibrary, _window:
           _this.engine = 'Blink';
         }
 
-        return _this.browser + '（版本: ' + _this.browserVersion + '&nbsp;&nbsp;内核: ' + _this.engine + '）'
+        if (!_this.browser) return ''
+        if (locale === 'en-US') {
+          return `${_this.browser} (${messages.version}: ${_this.browserVersion}; ${messages.engine}: ${_this.engine})`
+        }
+        return `${_this.browser}（${messages.version}: ${_this.browserVersion}  ${messages.engine}: ${_this.engine}）`
       },
       // 生成浏览器指纹
       createFingerprint: function (domain) {
@@ -306,22 +313,26 @@ export function createBrowserMethods (VariableLibrary: VariableLibrary, _window:
           return o
         }
 
-        let canvas = document?.createElement('canvas')
-        let ctx = canvas?.getContext('2d')
-        let txt = domain || window?.location?.host
-        ctx.textBaseline = "top"
-        ctx.font = "14px 'Arial'"
-        ctx.textBaseline = "tencent" as CanvasTextBaseline
-        ctx.fillStyle = "#f60"
-        ctx.fillRect(125, 1, 62, 20)
-        ctx.fillStyle = "#069"
-        ctx.fillText(txt, 2, 15)
-        ctx.fillStyle = "rgba(102, 204, 0, 0.7)"
-        ctx.fillText(txt, 4, 17)
-        let b64 = canvas?.toDataURL()?.replace("data:image/png;base64,", "")
-        let bin = atob(b64)
-        let crc = bin2hex(bin?.slice(-16, -12))
-        fingerprint = crc
+        try {
+          const canvas = runtimeScope?.document?.createElement?.('canvas')
+          const context = canvas?.getContext?.('2d')
+          const decodeBase64 = runtimeScope?.atob
+          if (!canvas || !context || !decodeBase64) return ''
+          const fingerprintText = domain || runtimeScope?.location?.host || ''
+          context.textBaseline = 'top'
+          context.font = "14px 'Arial'"
+          context.fillStyle = '#f60'
+          context.fillRect(125, 1, 62, 20)
+          context.fillStyle = '#069'
+          context.fillText(fingerprintText, 2, 15)
+          context.fillStyle = 'rgba(102, 204, 0, 0.7)'
+          context.fillText(fingerprintText, 4, 17)
+          const encodedCanvas = canvas.toDataURL()?.replace('data:image/png;base64,', '')
+          const binaryCanvas = decodeBase64.call(runtimeScope, encodedCanvas)
+          fingerprint = bin2hex(binaryCanvas?.slice(-16, -12))
+        } catch {
+          fingerprint = ''
+        }
         return fingerprint
       },
   }

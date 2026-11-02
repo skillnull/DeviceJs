@@ -1,24 +1,28 @@
 import type { VariableLibrary } from '../../data/variable-library'
+import { getLocaleMessages } from '../../data/locale'
+import type { DeviceLocale } from '../../types'
 
 export function createDateMethods (VariableLibrary: VariableLibrary) {
+  const padTwoDigits = (value: number) => value < 10 ? `0${value}` : String(value)
+
   return {
       // 获取阳历日期时间
       getDate: function () {
         let date = new Date()
         let year = date?.getFullYear()
-        let month = String(date?.getMonth() + 1).padStart(2, '0')
-        let day = String(date?.getDate()).padStart(2, '0')
-        let hour = String(date?.getHours()).padStart(2, '0')
-        let minutes = String(date?.getMinutes()).padStart(2, '0')
-        let seconds = String(date?.getSeconds()).padStart(2, '0')
+        let month = padTwoDigits(date?.getMonth() + 1)
+        let day = padTwoDigits(date?.getDate())
+        let hour = padTwoDigits(date?.getHours())
+        let minutes = padTwoDigits(date?.getMinutes())
+        let seconds = padTwoDigits(date?.getSeconds())
         return `${year}/${month}/${day} ${hour}:${minutes}:${seconds}`
       },
       // 获取当前周几
-      getWeek: function () {
-        let show_week = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六')
+      getWeek: function (locale?: DeviceLocale) {
+        const weekdays = getLocaleMessages(locale).weekdays
         let time = new Date()
         let day = time?.getDay()
-        let now_week = show_week[day]
+        let now_week = weekdays[day]
         return now_week
       },
       /* 阳历转阴历
@@ -26,7 +30,7 @@ export function createDateMethods (VariableLibrary: VariableLibrary) {
        */
       toLunarDate: function (date) {
         let now_date = new Date()
-        let date_str = date ? date?.replaceAll('-', '/') : `${now_date?.getFullYear()}/${now_date?.getMonth() + 1}/${now_date?.getDate()}`
+        let date_str = date ? date?.replace(/-/g, '/') : `${now_date?.getFullYear()}/${now_date?.getMonth() + 1}/${now_date?.getDate()}`
 
         function transferToLunar(str) {
           let lunar

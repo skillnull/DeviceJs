@@ -1,11 +1,12 @@
 import type { VariableLibrary } from '../../data/variable-library';
-export declare function createEnvironmentMethods(VariableLibrary: VariableLibrary): {
+import type { DeviceLocale } from '../../types';
+export declare function createEnvironmentMethods(VariableLibrary: VariableLibrary, runtimeScope: any): {
     getColorScheme: () => "" | "dark" | "light";
-    getDevicePixelRatio: () => number;
+    getDevicePixelRatio: () => any;
     getHardwareConcurrency: () => any;
     getTouchSupport: () => boolean;
     getCookieEnabled: () => any;
     getTimezone: () => string;
-    getNetwork: () => string;
+    getNetwork: (locale?: DeviceLocale) => string;
     getLanguage: () => any;
 };

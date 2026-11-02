@@ -1,6 +1,8 @@
-export function createLoadingMethods () {
+export function createLoadingMethods (runtimeScope: any) {
   return {
       createLoading: function (text?: string, showTimeCount?: boolean) {
+        const documentScope = runtimeScope?.document as Document | undefined
+        if (!documentScope?.body) return undefined
         let count = 1
         let timeCountStr = ''
         if (showTimeCount) {
@@ -27,7 +29,7 @@ export function createLoadingMethods () {
             '</div>'
         }
 
-        let loading = document?.createElement('div')
+        let loading = documentScope.createElement('div')
         loading.id = 'create_loading'
         loading.style = 'display: block;' +
           '    position: fixed;' +
@@ -52,10 +54,10 @@ export function createLoadingMethods () {
           '    <div></div>' +
           '</div>' +
           textStr
-        document?.body?.appendChild(loading)
+        documentScope.body.appendChild(loading)
 
         if (showTimeCount) {
-          let countBox = document?.getElementById('count_box')
+          let countBox = documentScope.getElementById('count_box')
           setInterval(function () {
             count++
             if (countBox) {
@@ -63,13 +65,17 @@ export function createLoadingMethods () {
             }
           }, 1000)
         }
+        return loading
       },
       /**
        * 删除loading
        */
-      removeLoading: function () {
-        let loading = document?.getElementById('create_loading')
-        document?.body?.removeChild(loading)
+      removeLoading: function (loadingElement?: HTMLElement) {
+        const documentScope = runtimeScope?.document as Document | undefined
+        const loading = loadingElement || documentScope?.getElementById('create_loading')
+        if (loading?.parentNode) {
+          loading.parentNode.removeChild(loading)
+        }
       },
   }
 }

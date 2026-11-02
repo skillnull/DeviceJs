@@ -1,6 +1,8 @@
-export type GeoPositionResult = GeolocationPosition | {
+export interface GeoPositionResult {
   coords: {
-    longitude: string
-    latitude: string
+    /** 经度。 */
+    longitude: number
+    /** 纬度。 */
+    latitude: number
   }
 }

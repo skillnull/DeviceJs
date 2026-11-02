@@ -81,7 +81,7 @@ export function createUserAgentMethods (VariableLibrary: VariableLibrary) {
       },
       // 在信息map和匹配库中进行匹配
       matchInfoMap: function (_this) {
-        let u = VariableLibrary?.navigator?.userAgent || {}
+        let u = VariableLibrary?.navigator?.userAgent || ''
         let match = this?.getMatchMap(u)
         for (let s in VariableLibrary?.infoMap) {
           for (let i = 0; i < VariableLibrary?.infoMap?.[s]?.length; i++) {

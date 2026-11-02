@@ -1,17 +1,18 @@
 import type { VariableLibrary } from '../../data/variable-library'
+import { getLocaleMessages } from '../../data/locale'
+import type { DeviceLocale } from '../../types'
 
-export function createDeviceMethods (VariableLibrary: VariableLibrary) {
+export function createDeviceMethods (VariableLibrary: VariableLibrary, runtimeScope: any) {
   return {
       // 获取横竖屏状态
-      getOrientationStatu: function () {
-        let orientationStatus = ''
-        let orientation = window?.matchMedia("(orientation: portrait)")
+      getOrientationStatus: function (locale?: DeviceLocale) {
+        const messages = getLocaleMessages(locale)
+        const orientation = runtimeScope?.matchMedia?.('(orientation: portrait)')
+        if (!orientation) return messages.unknown
         if (orientation?.matches) {
-          orientationStatus = "竖屏"
-        } else {
-          orientationStatus = "横屏"
+          return messages.portrait
         }
-        return orientationStatus
+        return messages.landscape
       },
       // 获取设备类型
       getDeviceType: function () {

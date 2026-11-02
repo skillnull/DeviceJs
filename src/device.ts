@@ -5,22 +5,20 @@ import { createLogicLibrary } from './logic/device-info'
 
 export type * from './types'
 
-const globalScope = globalThis as any
-
-if (typeof globalScope.window === "undefined" || globalScope.window === null) {
-  const jsdom = require("jsdom")
-  const {JSDOM} = jsdom
-  const DOM = new JSDOM(``)
-  globalScope.window = DOM?.window
-  globalScope.document = DOM?.window?.document
+function resolveGlobalScope (): any {
+  if (typeof globalThis !== 'undefined') return globalThis
+  if (typeof self !== 'undefined') return self
+  if (typeof window !== 'undefined') return window
+  return {}
 }
 
+const globalScope = resolveGlobalScope()
+
 const Device: DeviceApi = (function () {
-  const root = typeof self !== 'undefined' ? self : globalScope.window
-  const _window = root || {}
-  const VariableLibrary = createVariableLibrary(root)
-  const MethodLibrary = createMethodLibrary(VariableLibrary, _window)
-  const LogicLibrary = createLogicLibrary({ MethodLibrary, VariableLibrary, windowScope: _window })
+  const runtimeScope = globalScope.window || globalScope
+  const VariableLibrary = createVariableLibrary(runtimeScope)
+  const MethodLibrary = createMethodLibrary(VariableLibrary, runtimeScope)
+  const LogicLibrary = createLogicLibrary({ MethodLibrary, VariableLibrary, windowScope: runtimeScope })
   // 对外暴露方法
   return {
     /**
@@ -31,18 +29,28 @@ const Device: DeviceApi = (function () {
      *
      * @return: 返回 Promise 对象
      */
-    Info: function (params?: DeviceInfoOptions): Promise<DeviceInfo> {
-      MethodLibrary?.createLoading()
-      return new Promise(resolve => {
-        LogicLibrary?.DeviceInfoObj(params)?.then(res => {
-          MethodLibrary?.removeLoading()
-          resolve(res as DeviceInfo)
-        })
-      })
+    Info: function (params: DeviceInfoOptions = {}): Promise<DeviceInfo> {
+      const loadingElement = params.showLoading ? MethodLibrary.createLoading() : undefined
+      const removeLoading = () => MethodLibrary.removeLoading(loadingElement)
+
+      return Promise.resolve()
+        .then(() => LogicLibrary.DeviceInfoObj(params))
+        .then(
+          result => {
+            removeLoading()
+            return result as DeviceInfo
+          },
+          error => {
+            removeLoading()
+            throw error
+          }
+        )
     }
   }
 })()
 
-globalScope.window.Device = Device
+if (globalScope.window) {
+  globalScope.window.Device = Device
+}
 
 export default Device

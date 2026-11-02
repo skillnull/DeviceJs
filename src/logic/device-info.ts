@@ -1,6 +1,7 @@
 import type { DeviceInfoKey, DeviceInfoOptions } from '../types'
 import type { MethodLibrary } from '../core/method-library'
 import type { VariableLibrary } from '../data/variable-library'
+import { getLocaleMessages } from '../data/locale'
 
 interface CreateLogicLibraryOptions {
   MethodLibrary: MethodLibrary
@@ -27,22 +28,23 @@ export function createLogicLibrary ({ MethodLibrary, VariableLibrary, windowScop
       colorScheme: () => MethodLibrary?.getColorScheme(),
       timezone: () => MethodLibrary?.getTimezone(),
       language: () => MethodLibrary?.getLanguage(),
-      netWork: () => MethodLibrary?.getNetwork(),
-      orientation: () => MethodLibrary?.getOrientationStatu(),
-      browserInfo: () => MethodLibrary?.getBrowserInfo(),
-      fingerprint: (p) => MethodLibrary?.createFingerprint(p?.domain || ''),
+      netWork: (params) => MethodLibrary?.getNetwork(params?.locale),
+      orientation: (params) => MethodLibrary?.getOrientationStatus(params?.locale),
+      browserInfo: (params) => MethodLibrary?.getBrowserInfo(params?.locale),
+      fingerprint: (params) => MethodLibrary?.createFingerprint(params?.domain || ''),
       userAgent: () => VariableLibrary?.navigator?.userAgent,
-      geoPosition: () => true,
+      geoPosition: () => null,
       date: () => MethodLibrary?.getDate(),
-      lunarDate: (p) => MethodLibrary?.toLunarDate(p?.transferDateToLunar || ''),
-      week: () => MethodLibrary?.getWeek(),
+      lunarDate: (params) => MethodLibrary?.toLunarDate(params?.transferDateToLunar || ''),
+      week: (params) => MethodLibrary?.getWeek(params?.locale),
       UUID: () => MethodLibrary?.createUUID(),
       isEmulator: () => MethodLibrary?.getIsEmulator(),
       deviceModel: () => MethodLibrary?.getDeviceModel()
     }
     const keys = Object.keys(fields)
     return {
-      DeviceInfoObj (params) {
+      DeviceInfoObj (params: DeviceInfoOptions = {}) {
+        const messages = getLocaleMessages(params.locale)
         const need = !params?.info?.length
           ? keys
           : keys.filter(k => params.info.some(i => (i || '').toLowerCase() === k.toLowerCase()))
@@ -50,14 +52,18 @@ export function createLogicLibrary ({ MethodLibrary, VariableLibrary, windowScop
         need.forEach(k => { result[k] = fields[k](params) })
         const tasks = []
         if ('geoPosition' in result) {
-          tasks.push(MethodLibrary?.getGeoPostion?.()
-            .then(geo => { result.geoPosition = `经度:${geo?.coords?.longitude}  纬度:${geo?.coords?.latitude}` })
-            .catch(err => { result.geoPosition = err }))
+          tasks.push(MethodLibrary.getGeoPosition()
+            .then(geoPosition => {
+              result.geoPosition = geoPosition
+                ? `${messages.longitude}:${geoPosition.coords.longitude}  ${messages.latitude}:${geoPosition.coords.latitude}`
+                : messages.unavailable
+            })
+            .catch(() => { result.geoPosition = messages.unavailable }))
         }
         if ('deviceModel' in result && result.deviceModel && typeof result.deviceModel.then === 'function') {
-          tasks.push(result.deviceModel.then(v => { result.deviceModel = v || '未知' }))
+          tasks.push(result.deviceModel.then(deviceModel => { result.deviceModel = deviceModel || messages.unknown }))
         } else if ('deviceModel' in result) {
-          result.deviceModel = result.deviceModel || '未知'
+          result.deviceModel = result.deviceModel || messages.unknown
         }
         if (!tasks.length) return Promise.resolve(result)
         return Promise.all(tasks).then(() => result)
