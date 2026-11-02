@@ -87,3 +87,13 @@ test('keeps incompatible and server-only runtime dependencies out of browser bun
   assert.doesNotMatch(browserBundle, /\.replaceAll\(/)
   assert.doesNotMatch(browserBundle, /\.padStart\(/)
 })
+
+test('keeps the deployed demo bundle path valid', () => {
+  const demoHtml = readFileSync('src/index.html', 'utf8')
+
+  assert.match(
+    demoHtml,
+    /<script src="\.\/dist\/device\.es\.js\?v=[^"]+" type="module"><\/script>/u
+  )
+  assert.doesNotMatch(demoHtml, /<script\s+src="[^"]*\s+[^"]*"/u)
+})
