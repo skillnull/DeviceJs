@@ -75,7 +75,7 @@ ESM：
 | `transferDateToLunar` | `string` | 请求 `lunarDate` 时需要转换的公历日期。 |
 | `info` | `DeviceInfoKey[]` | 指定需要返回的字段，不传时返回全部字段。 |
 | `locale` | `'zh-CN' \| 'en-US'` | 文本结果使用的语言，默认为 `zh-CN`。 |
-| `showLoading` | `boolean` | 是否显示加载层，默认为 `false`。 |
+| `showLoading` | `boolean` | 是否显示加载层，默认显示；传入 `false` 时关闭。 |
 
 可用的 `info` 字段：
 

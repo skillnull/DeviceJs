@@ -43,15 +43,19 @@ test('provides a native ESM entry', async () => {
   assert.equal(typeof result.UUID, 'string')
 })
 
-test('shows and removes the optional loading overlay', () => {
+test('preserves the default loading overlay and supports explicit opt-out', () => {
   const childScript = `
     let activeElement
+    let appendCount = 0
+    let removeCount = 0
     const body = {
       appendChild(element) {
+        appendCount += 1
         activeElement = element
         element.parentNode = body
       },
       removeChild(element) {
+        removeCount += 1
         if (activeElement === element) activeElement = undefined
         element.parentNode = undefined
       }
@@ -67,9 +71,15 @@ test('shows and removes the optional loading overlay', () => {
     }
     global.window = { document: documentScope, navigator: {} }
     const Device = require('./dist/device.js')
-    Device.Info({ info: ['UUID'], showLoading: true }).then(() => {
-      process.stdout.write(JSON.stringify({ loadingRemoved: activeElement === undefined }))
-    })
+    Device.Info({ info: ['UUID'] })
+      .then(() => Device.Info({ info: ['UUID'], showLoading: false }))
+      .then(() => {
+        process.stdout.write(JSON.stringify({
+          appendCount,
+          removeCount,
+          loadingRemoved: activeElement === undefined
+        }))
+      })
   `
   const childResult = spawnSync(process.execPath, ['-e', childScript], {
     cwd: process.cwd(),
@@ -77,7 +87,11 @@ test('shows and removes the optional loading overlay', () => {
   })
 
   assert.equal(childResult.status, 0, childResult.stderr)
-  assert.deepEqual(JSON.parse(childResult.stdout), { loadingRemoved: true })
+  assert.deepEqual(JSON.parse(childResult.stdout), {
+    appendCount: 1,
+    removeCount: 1,
+    loadingRemoved: true
+  })
 })
 
 test('keeps incompatible and server-only runtime dependencies out of browser bundles', () => {

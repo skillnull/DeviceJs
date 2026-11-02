@@ -75,7 +75,7 @@ ESM:
 | `transferDateToLunar` | `string` | Gregorian date to convert when `lunarDate` is requested. |
 | `info` | `DeviceInfoKey[]` | Fields to return. All fields are returned when omitted. |
 | `locale` | `'zh-CN' \| 'en-US'` | Language used for textual results. Defaults to `zh-CN`. |
-| `showLoading` | `boolean` | Whether to display the loading overlay. Defaults to `false`. |
+| `showLoading` | `boolean` | Whether to display the loading overlay. Enabled by default; pass `false` to disable it. |
 
 Available `info` fields:
 

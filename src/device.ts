@@ -30,7 +30,7 @@ const Device: DeviceApi = (function () {
      * @return: 返回 Promise 对象
      */
     Info: function (params: DeviceInfoOptions = {}): Promise<DeviceInfo> {
-      const loadingElement = params.showLoading ? MethodLibrary.createLoading() : undefined
+      const loadingElement = params.showLoading !== false ? MethodLibrary.createLoading() : undefined
       const removeLoading = () => MethodLibrary.removeLoading(loadingElement)
 
       return Promise.resolve()

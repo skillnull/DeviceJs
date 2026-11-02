@@ -38,7 +38,7 @@ export interface DeviceInfoOptions {
   info?: DeviceInfoKey[]
   /** 文本结果使用的语言，默认为简体中文。 */
   locale?: DeviceLocale
-  /** 是否在浏览器中显示加载层，默认不显示。 */
+  /** 是否在浏览器中显示加载层，默认显示。 */
   showLoading?: boolean
 }
 
