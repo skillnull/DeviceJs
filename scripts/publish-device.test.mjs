@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import {
   getDistributionTag,
   getNextVersion,
+  getNpmPublishArguments,
   getUnexpectedChangedPaths,
   getVersionSyncProblems,
   isResumableRelease,
@@ -54,6 +55,17 @@ test('maps release versions to npm distribution tags', () => {
   assert.equal(getDistributionTag('1.3.0-alpha.1'), 'alpha')
   assert.equal(getDistributionTag('1.3.0-beta.1'), 'beta')
   assert.equal(getDistributionTag('1.3.0-rc.1'), 'rc')
+})
+
+test('publishes without recursively invoking the publish lifecycle script', () => {
+  assert.deepEqual(getNpmPublishArguments('1.2.4'), [
+    'publish',
+    '--ignore-scripts',
+    '--access',
+    'public',
+    '--tag',
+    'latest'
+  ])
 })
 
 test('selects the next version after a synchronized published release', () => {
