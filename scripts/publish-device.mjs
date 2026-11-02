@@ -20,8 +20,10 @@ const runCommand = (command, argumentsList, options = {}) =>
     ...options
   })
 
+export const normalizeCommandOutput = (output) => output.replace(/(?:\r?\n)+$/u, '')
+
 const readCommand = (command, argumentsList, options = {}) =>
-  execFileSync(command, argumentsList, { encoding: 'utf8', ...options }).trim()
+  normalizeCommandOutput(execFileSync(command, argumentsList, { encoding: 'utf8', ...options }))
 
 export const validateVersion = (version) => SEMVER_PATTERN.test(version)
 

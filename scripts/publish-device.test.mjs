@@ -9,6 +9,7 @@ import {
   getNextVersion,
   getUnexpectedChangedPaths,
   getVersionSyncProblems,
+  normalizeCommandOutput,
   resolveCandidateVersion,
   updatePackageVersion,
   updateReadmeVersion,
@@ -112,4 +113,11 @@ test('blocks unrelated changes during release preparation', () => {
   )
 
   assert.deepEqual(unexpectedPaths, ['src/device.ts'])
+})
+
+test('preserves the leading status column when command output is normalized', () => {
+  const status = normalizeCommandOutput(' M README.en.md\n')
+
+  assert.equal(status, ' M README.en.md')
+  assert.deepEqual(getUnexpectedChangedPaths(status, ['README.en.md']), [])
 })
