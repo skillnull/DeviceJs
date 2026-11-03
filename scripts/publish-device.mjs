@@ -5,7 +5,7 @@ import { createInterface } from 'node:readline/promises'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const RELEASE = Object.freeze({
-  branch: 'master',
+  branch: 'main',
   githubRepository: 'skillnull/DeviceJs',
   packageName: '@skillnull/device-js'
 })
