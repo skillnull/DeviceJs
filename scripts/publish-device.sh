@@ -10,7 +10,7 @@ for release_argument in "$@"; do
   fi
 done
 
-release_branch="master"
+release_branch="main"
 release_version=$(node -p "require('./package.json').version")
 release_commit=$(git rev-parse HEAD)
 release_tag="v${release_version}"
