@@ -8,7 +8,7 @@
   <p>
     <a href="https://www.npmjs.com/package/@skillnull/device-js"><img src="https://img.shields.io/npm/v/@skillnull/device-js?style=flat-square" alt="npm version"></a>
     <a href="https://www.npmjs.com/package/@skillnull/device-js"><img src="https://img.shields.io/npm/dm/@skillnull/device-js?style=flat-square" alt="npm downloads"></a>
-    <a href="https://github.com/skillnull/DeviceJs/actions"><img src="https://img.shields.io/github/actions/workflow/status/skillnull/DeviceJs/quality.yml?branch=master&style=flat-square&label=build" alt="build status"></a>
+    <a href="https://github.com/skillnull/DeviceJs/actions"><img src="https://img.shields.io/github/actions/workflow/status/skillnull/DeviceJs/quality.yml?branch=main&style=flat-square&label=build" alt="build status"></a>
     <a href="./LICENSE"><img src="https://img.shields.io/github/license/skillnull/DeviceJs?style=flat-square" alt="license"></a>
   </p>
 
@@ -104,7 +104,7 @@ npm run publish
 npm run publish -- --dry-run
 ```
 
-发布入口会同步 `package.json`、`package-lock.json` 和中英文 README 中的版本号。发布必须从与 `origin/master` 一致的干净 `master` 分支执行。
+发布入口会同步 `package.json`、`package-lock.json` 和中英文 README 中的版本号。发布必须从与 `origin/main` 一致的干净 `main` 分支执行。
 
 ## 许可证
 
