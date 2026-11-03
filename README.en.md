@@ -8,7 +8,7 @@
   <p>
     <a href="https://www.npmjs.com/package/@skillnull/device-js"><img src="https://img.shields.io/npm/v/@skillnull/device-js?style=flat-square" alt="npm version"></a>
     <a href="https://www.npmjs.com/package/@skillnull/device-js"><img src="https://img.shields.io/npm/dm/@skillnull/device-js?style=flat-square" alt="npm downloads"></a>
-    <a href="https://github.com/skillnull/DeviceJs/actions"><img src="https://img.shields.io/github/actions/workflow/status/skillnull/DeviceJs/quality.yml?branch=master&style=flat-square&label=build" alt="build status"></a>
+    <a href="https://github.com/skillnull/DeviceJs/actions"><img src="https://img.shields.io/github/actions/workflow/status/skillnull/DeviceJs/quality.yml?branch=main&style=flat-square&label=build" alt="build status"></a>
     <a href="./LICENSE"><img src="https://img.shields.io/github/license/skillnull/DeviceJs?style=flat-square" alt="license"></a>
   </p>
 
@@ -104,7 +104,7 @@ npm run publish
 npm run publish -- --dry-run
 ```
 
-The release command synchronizes versions in `package.json`, `package-lock.json`, and both README files. Run it only from a clean `master` branch that matches `origin/master`.
+The release command synchronizes versions in `package.json`, `package-lock.json`, and both README files. Run it only from a clean `main` branch that matches `origin/main`.
 
 ## License
 
