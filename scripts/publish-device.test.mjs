@@ -123,10 +123,10 @@ test('recognizes a local release commit that can be resumed after push failure',
 
 test('selects the newest matching Quality workflow run', () => {
   const selectedRun = selectQualityWorkflowRun([
-    { id: 1, name: 'Quality', head_sha: 'abc', head_branch: 'master', event: 'push' },
-    { id: 3, name: 'Quality', head_sha: 'abc', head_branch: 'master', event: 'push' },
-    { id: 4, name: 'Quality', head_sha: 'other', head_branch: 'master', event: 'push' }
-  ], 'abc', 'master')
+    { id: 1, name: 'Quality', head_sha: 'abc', head_branch: 'main', event: 'push' },
+    { id: 3, name: 'Quality', head_sha: 'abc', head_branch: 'main', event: 'push' },
+    { id: 4, name: 'Quality', head_sha: 'other', head_branch: 'main', event: 'push' }
+  ], 'abc', 'main')
 
   assert.equal(selectedRun.id, 3)
 })
